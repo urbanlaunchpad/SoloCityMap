@@ -15,6 +15,8 @@
   <script type="text/javascript">
     var map;
     var layer_0;
+    var kelurahan_layer;
+    var colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00'];
     function initialize() {
       var layer = "terrain"; // Kind of Stamen map to be rendered
       map = new google.maps.Map(document.getElementById('map-canvas'), {
@@ -26,17 +28,33 @@
         }
       });
       map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
+      var randomnumber = Math.floor(Math.random() * 4),
       kelurahan_layer = new google.maps.FusionTablesLayer({
         query: {
           select: "geometry",
           from: "1jdxsdPlAvCNRair4uv2pOwWTzMNtutDdhfXlp9QO"
         },
+        styles: [{
+          polygonOptions: {
+            fillColor: colors[randomnumber],
+            strokeColor: colors[randomnumber],
+            strokeWeight: 2
+          }
+        }],
         map: map,
         styleId: 2,
         templateId: 2
       }); 
+      google.maps.event.addListener(kelurahan_layer, "click", function(fEvent) {
+        this.setOptions({fillOpacity: 0.4});
+      });
+      google.maps.event.addListener(kelurahan_layer, 'mouseout', function(fEvent) {
+        this.setOptions({fillOpacity: 0.3});
+      });
     }
     google.maps.event.addDomListener(window, 'load', initialize);
+
+
   </script>
   </head>
   <body>
