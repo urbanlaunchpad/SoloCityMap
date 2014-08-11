@@ -5,7 +5,6 @@
     <title>Solo map</title>
   </head>
   <body>
-
 <style type="text/css">
       #map-canvas {
         height: 500px;
@@ -35,21 +34,6 @@
             myOptions);
         getKelurahans();
       }
-
-/*      function getKelurahans(){
-        var script = document.createElement('script');
-        var url = ['https://www.googleapis.com/fusiontables/v1/query?'];
-        url.push('sql=');
-        var query = 'SELECT KELURAHAN, geometry FROM ' +
-            '1jdxsdPlAvCNRair4uv2pOwWTzMNtutDdhfXlp9QO';
-        var encodedQuery = encodeURIComponent(query);
-        url.push(encodedQuery);
-        url.push('&callback=drawMap');
-        url.push('&key=AIzaSyAm9yWCV7JPCTHCJut8whOjARd7pwROFDQ');
-        script.src = url.join('');
-        var body = document.getElementsByTagName('body')[0];
-        body.appendChild(script);
-      }*/
 
       function getKelurahans(){
         var script = document.createElement('script');
@@ -85,8 +69,6 @@
         drawKelurahans(kelurahans);
       }
 
-
-
       function kelurahan(name, geometry, index) {
         this.name = name;
         this.geometry = geometry;
@@ -101,9 +83,21 @@
       }
 
       function drawKelurahans(kelurahans){
+        this.kelurahans = kelurahans;
+        shuffleArray = [];
         for (var i=0; i < kelurahans.length; i++){
-          drawKelurahan(kelurahans[i]);
+          shuffleArray[i] = i;
         }
+        shuffleArray = shuffle(shuffleArray);
+        i = 0;
+        var interval = setInterval(function(){
+          if (i < kelurahans.length){
+            drawKelurahan(kelurahans[shuffleArray[i]]);
+            i++;
+          } else{
+            clearInterval(interval);
+          }
+        }, 50);
       }
 
 
@@ -133,8 +127,6 @@
         kelurahanShape.setMap(map);          
       }
 
-
-
       function showProjectsOnMap(projects){
 
       }
@@ -157,6 +149,26 @@
         }
         return newCoordinates;
       }
+
+      // Fisher–Yates shuffle
+      function shuffle(array) {
+          var counter = array.length, temp, index;
+          // While there are elements in the array
+          while (counter > 0) {
+              // Pick a random index
+              index = Math.floor(Math.random() * counter);
+              // Decrease counter by 1
+              counter--;
+              // And swap the last element with it
+              temp = array[counter];
+              array[counter] = array[index];
+              array[index] = temp;
+          }
+          return array;
+      }
+
+
+
 
       google.maps.event.addDomListener(window, 'load', initialize);
     </script>
