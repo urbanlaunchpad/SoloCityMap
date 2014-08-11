@@ -20,6 +20,7 @@
       var colors = ['#04AF44', '#5012A3', '#F1DC06', '#F12F06'];
       var map;
       var kelurahans = [];
+      google.maps.event.addDomListener(window, 'load', initialize);
       function initialize() {
         var stamen_layer = "terrain"; // Kind of Stamen map to be rendered
         var myOptions = {
@@ -40,7 +41,7 @@
         var script = document.createElement('script');
         var url = ['https://www.googleapis.com/fusiontables/v1/query?'];
         url.push('sql=');
-        var query = 'SELECT KELURAHAN, geometry FROM ' + kelurahansFusionTableID;
+        var query = 'SELECT KELURAHAN, geometry, geometry_pos FROM ' + kelurahansFusionTableID;
         var encodedQuery = encodeURIComponent(query);
         url.push(encodedQuery);
         url.push('&callback=parseKelurahans');
@@ -55,7 +56,7 @@
         for (var i in rows) {
           var newCoordinates = [];
           var kelurahan_name = rows[i][0];
-          //alert(kelurahan_name);
+          var center = constructNewPointCoordinates(rows[i][2]['geometry']);
           var geometries = rows[i][1]['geometries'];
           if (geometries) {
             for (var j in geometries) {
@@ -64,15 +65,16 @@
           } else {
             newCoordinates = constructNewCoordinates(rows[i][1]['geometry']);
           }
-          kelurahans[i] = new kelurahan(kelurahan_name, newCoordinates, i);
+          kelurahans[i] = new kelurahan(kelurahan_name, newCoordinates, center, i);
         }
         drawKelurahans(kelurahans);
       }
 
-      function kelurahan(name, geometry, index) {
+      function kelurahan(name, geometry, center, index) {
         this.name = name;
         this.geometry = geometry;
         this.index = index;
+        this.center = center;
         var projects = null;
         var randomnumber = Math.floor(Math.random() * 4);
         var kelurahanShape = new google.maps.Polygon({
@@ -93,9 +95,12 @@
         }
         this.drawKelurahan = function() {
           kelurahanShape.setMap(map);
+        }
+        this.initializeShape = function(){
+          this.drawKelurahan();
           this.addListeners();
         }
-        this.addListeners = function(){
+        this.addListeners = function() {
           google.maps.event.addListener(kelurahanShape, 'mouseover', function() {
             this.setOptions({fillOpacity: 1});
             document.getElementById("kelurahan_name").innerHTML = this["kelurahan_name"];
@@ -106,11 +111,13 @@
           });
           google.maps.event.addListener(kelurahanShape, 'click', function() {
             this.setOptions({fillOpacity: 0.1});
+            map.panTo(center);
+            map.fitBounds(kelurahanShape.getBounds())
           }); 
         }
       }
 
-      function drawKelurahans(kelurahans){
+      function drawKelurahans(kelurahans) {
         this.kelurahans = kelurahans;
         shuffleArray = [];
         for (var i=0; i < kelurahans.length; i++){
@@ -120,8 +127,7 @@
         i = 0;
         var interval = setInterval(function(){
           if (i < kelurahans.length){
-            kelurahans[shuffleArray[i]].drawKelurahan();
-            //drawKelurahan(kelurahans[shuffleArray[i]]);
+            kelurahans[shuffleArray[i]].initializeShape();
             i++;
           } else{
             clearInterval(interval);
@@ -133,15 +139,11 @@
         // }
       }
 
-/*      function drawKelurahan(kelurahan){
-       
-      }*/
-
-      function showProjectsOnMap(projects){
+      function showProjectsOnMap(projects) {
 
       }
 
-      function getProjects(kelurahan_name){
+      function getProjects(kelurahan_name) {
         var projects
         return projects
       }
@@ -157,7 +159,14 @@
           newCoordinates.push(new google.maps.LatLng(coordinates[i][1], coordinates[i][0]));
         }
       return newCoordinates;
-    }
+      }
+
+      function constructNewPointCoordinates(originalPoint) {
+        var pointCoordinates;
+        var pointFromSource = originalPoint["coordinates"];
+        pointCoordinates = new google.maps.LatLng(pointFromSource[1], pointFromSource[0]);
+        return pointCoordinates;
+      }
 
       // Fisher–Yates shuffle
       function shuffle(array) {
@@ -175,7 +184,19 @@
         }
         return array;
       }
-      google.maps.event.addDomListener(window, 'load', initialize);
+      
+      google.maps.Polygon.prototype.getBounds = function() {
+          var bounds = new google.maps.LatLngBounds();
+          var paths = this.getPaths();
+          var path;        
+          for (var i = 0; i < paths.getLength(); i++) {
+              path = paths.getAt(i);
+              for (var ii = 0; ii < path.getLength(); ii++) {
+                  bounds.extend(path.getAt(ii));
+              }
+          }
+          return bounds;
+      }
     </script>
   </head>
   <body>
