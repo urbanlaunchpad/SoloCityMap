@@ -26,6 +26,8 @@
           zoom: 13,
           center: new google.maps.LatLng(-7.562951899239144, 110.82495983431636),
           mapTypeId: stamen_layer,
+          disableDefaultUI: true,
+          scaleControl: true, 
           mapTypeControlOptions: {
             mapTypeIds: [stamen_layer]
           }
@@ -97,7 +99,12 @@
           } else{
             clearInterval(interval);
           }
-        }, 50);
+        }, 50)
+
+        // for (var i=0; i < kelurahans.length; i++){
+        //   drawKelurahan(kelurahans[i]);
+        // }
+
       }
 
 
@@ -105,8 +112,8 @@
         var randomnumber = Math.floor(Math.random() * 4);
         kelurahanShape = new google.maps.Polygon({
           paths: kelurahan.geometry,
-          strokeColor: colors[randomnumber],
-          strokeOpacity: 1,
+          strokeColor: "#000000",
+          strokeOpacity: 0.6,
           strokeWeight: 2,
           fillColor: colors[randomnumber],
           fillOpacity: 0.3,
