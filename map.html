@@ -4,18 +4,31 @@
     <meta charset="UTF-8">
     <title>Solo map</title>
       <style type="text/css">
-    #map-canvas {
-      height: 500px;
-      width: 600px;
-    }
-    body {
-      font-family: 'Raleway', Helvetica, Arial, sans-serif;
-      font-weight: 300;
-      text-transform: uppercase;
-      letter-spacing: 10px;
-      font-size: 1em;
-      color: black;
-    }
+        html {height: 100%;}
+        #map-canvas {
+          height: 100%;
+          width: 100%;
+        }
+        body {
+          font-family: 'Raleway', Helvetica, Arial, sans-serif;
+          font-weight: 300;
+          text-transform: uppercase;
+          letter-spacing: 10px;
+          font-size: 1em;
+          color: black;
+          height: 100%;
+        }
+        #solo_map_container {
+          width: 100%;
+          height: 100%;
+          position: relative;
+        }
+        #info_box {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 10;
+        }
     </style>
     <script type="text/javascript"
       src="https://maps.google.com/maps/api/js?sensor=false"></script>
@@ -216,10 +229,12 @@
     </script>
   </head>
   <body>
-    <div id="map-canvas"></div>
-    <div id="info_box">
-      <h1 id="kelurahan_title">Kelurahan</h1>
-      <p id="kelurahan_name"></p>
+    <div id="solo_map_container">
+      <div id="map-canvas"></div>
+      <div id="info_box">
+        <h1 id="kelurahan_title">Kelurahan</h1>
+        <p id="kelurahan_name"></p>
+      </div>
     </div>
   </body>
 </html>
