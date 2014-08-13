@@ -2,20 +2,17 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" name="viewport">
     <title>Solo map</title>
       <style type="text/css">
-        html {height: 100%;}
+        html {height: 100%;
+        padding: 0;}
         #map-canvas {
           height: 100%;
           width: 100%;
         }
         body {
-          font-family: 'Raleway', Helvetica, Arial, sans-serif;
-          font-weight: 300;
-          text-transform: uppercase;
-          letter-spacing: 10px;
-          font-size: 1em;
-          color: black;
+          margin: 0;
           height: 100%;
         }
         #solo_map_container {
@@ -24,10 +21,34 @@
           position: relative;
         }
         #info_box {
+          pointer-events: none;
           position: absolute;
+          padding: 30px;
           top: 0;
           left: 0;
           z-index: 10;
+        }
+        #kelurahan_title{
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          font-family: 'Raleway', Helvetica, Arial, sans-serif;
+          font-weight: 500;
+          text-transform: uppercase;
+          letter-spacing: 10px;
+          font-size: 3em;
+          color: black;
+        }
+        #kelurahan_name{
+          font-family: 'Raleway', Helvetica, Arial, sans-serif;
+          font-weight: 300;
+          text-transform: uppercase;
+          letter-spacing: 10px;
+          font-size: 2em;
+          color: black;
         }
     </style>
     <script type="text/javascript"
@@ -43,6 +64,7 @@
       //var colors = ['#04AF44', '#5012A3', '#F1DC06', '#F12F06'];
       //var colors = ['#C40093', '#FF7100', '#00A7A1', '#B8F400'];
       var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
+
       //var colors = ['#594C5C', '#ED5A97', '#F2B06A', '#B0EBE0']; // Second neutral attempt
       var originalKelurahanOpacity = 0.7;
       var onHoverKelurahanOpacity = 0.3;
@@ -74,7 +96,7 @@
         var encodedQuery = encodeURIComponent(query);
         url.push(encodedQuery);
         url.push('&callback=parseKelurahans');
-        url.push('&key=AIzaSyAm9yWCV7JPCTHCJut8whOjARd7pwROFDQ');
+        url.push('&key=AIzaSyAhX7a_0uyiA8DfW-4XJ6ZN_ay8GkAGrz0');
         script.src = url.join('');
         var body = document.getElementsByTagName('body')[0];
         body.appendChild(script);
@@ -232,7 +254,7 @@
     <div id="solo_map_container">
       <div id="map-canvas"></div>
       <div id="info_box">
-        <h1 id="kelurahan_title">Kelurahan</h1>
+        <h1 id="kelurahan_title">Solo</h1>
         <p id="kelurahan_name"></p>
       </div>
     </div>
