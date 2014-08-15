@@ -102,6 +102,38 @@
         body.appendChild(script);
       }
 
+      function mapStateController(){
+        var state;
+        var possibleStates = {
+            Main: 1,
+            Kelurahan: 2,
+        };
+        this.showMain = function(){
+
+        }
+        this.showKelurahanProjects = function(kelurahanIndex){
+
+          // Zoom to the current kelurahan
+
+          // Get the info on the Projects for this Kelurahan if it doesn't exist
+
+          // Get the info for the RTs in this kelurahan if it doesn't exist
+
+          // Get the info for the RWs in this kelurahans if it doesn't exist
+
+          // Set the other kelurahans as not active
+
+          // Set this kelurahan as active
+
+          // Turn off all the other kelurahans
+
+          // Make this kelurahan dimmer
+
+          //
+
+        }
+      }
+
       function parseKelurahans(data){
         var rows = data['rows'];
         for (var i in rows) {
