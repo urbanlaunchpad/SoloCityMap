@@ -72,6 +72,7 @@
       var map;
       var kelurahans = [];
       google.maps.event.addDomListener(window, 'load', initialize);
+      var mapStateController = new mapStateController();
       function initialize() {
         var stamen_layer = "terrain"; // Kind of Stamen map to be rendered
         var myOptions = {
@@ -111,6 +112,21 @@
         this.showMain = function(){
 
         }
+
+        this.onKelurahanMouseOver = function(kelurahanIndex){
+            kelurahans[kelurahanIndex].setOpacity(onHoverKelurahanOpacity);
+            document.getElementById("kelurahan_name").innerHTML = kelurahans[kelurahanIndex].name;
+        }
+        this.onKelurahanClick = function(kelurahanIndex){
+            kelurahans[kelurahanIndex].setOpacity(activeKelurahanOpacity);
+            map.panTo(kelurahans[kelurahanIndex].center);
+            map.fitBounds(kelurahans[kelurahanIndex].bounds);
+        }
+        this.onKelurahanMouseOut = function(kelurahanIndex){
+          kelurahans[kelurahanIndex].setOpacity(originalKelurahanOpacity);
+          document.getElementById("kelurahan_name").innerHTML = "";
+        }
+        this.onKelurahan
         this.showKelurahanProjects = function(kelurahanIndex){
 
           // Zoom to the current kelurahan
@@ -129,7 +145,7 @@
 
           // Make this kelurahan dimmer
 
-          //
+          // Show the list of projects
 
         }
       }
@@ -170,12 +186,7 @@
             kelurahan_name : this.name,
             index : this.index
         });
-        this.showProjects = function() {
-          if (!projects){
-            this.projects = getProjects(name);
-          }
-          showProjectsOnMap(this.projects)
-        }
+        this.bounds = kelurahanShape.getBounds();
         this.drawKelurahan = function() {
           kelurahanShape.setMap(map);
         }
@@ -183,19 +194,18 @@
           this.drawKelurahan();
           this.addListeners();
         }
+        this.setOpacity = function(opacity) {
+          kelurahanShape.setOptions({fillOpacity: opacity});
+        }
         this.addListeners = function() {
           google.maps.event.addListener(kelurahanShape, 'mouseover', function() {
-            this.setOptions({fillOpacity: onHoverKelurahanOpacity});
-            document.getElementById("kelurahan_name").innerHTML = this["kelurahan_name"];
+            mapStateController.onKelurahanMouseOver(this["index"]);
           });
           google.maps.event.addListener(kelurahanShape, 'mouseout', function() {
-            this.setOptions({fillOpacity: originalKelurahanOpacity});
-            document.getElementById("kelurahan_name").innerHTML = "";
+            mapStateController.onKelurahanMouseOut(this["index"]);
           });
           google.maps.event.addListener(kelurahanShape, 'click', function() {
-            this.setOptions({fillOpacity: activeKelurahanOpacity});
-            map.panTo(center);
-            map.fitBounds(kelurahanShape.getBounds());
+            mapStateController.onKelurahanClick(this["index"]);
           }); 
         }
       }
@@ -220,10 +230,6 @@
         // for (var i=0; i < kelurahans.length; i++){
         //   drawKelurahan(kelurahans[i]);
         // }
-      }
-
-      function showProjectsOnMap(projects) {
-
       }
 
       function getProjects(kelurahan_name) {
