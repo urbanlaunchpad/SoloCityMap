@@ -294,14 +294,57 @@
       function parseProjects(data){
         var rows = data['rows'];
         // Creating an array with all the steps storead as objects with the information in them storead with the column names as field names.
-        projectsArray = new Array(rows.length);
-        for (var j=0; j < rows.length; j++){
+        projectsArray = [];
+        for (var j in rows){
           projectsArray[j] = {};
+          projectsArray[j]["INDEX"] = j
           for (var i=0; i < projectFields.length; i++){
             projectsArray[j][projectFields[i]] = rows[j][i];
           }
         }
+        fillProjectCards(projectsArray);
       }
+      function projectCard(project){
+        var div = document.createElement("div");
+        var category = document.createTextNode(project.CATEGORY);
+        var subcategory = document.createTextNode(project.SUBCATEGORY);
+        var name = document.createTextNode(project.PROJECT_NAME);
+        div.appendChild(category);
+        div.appendChild(subcategory);
+        div.appendChild(name);
+        this.getView = function(){
+          return div;
+        };
+      }
+      function fillProjectCards(projectsArray){
+        var swiperWrapper = document.getElementById("swiper-wrapper");
+        var projectCardArray = [];
+        for (var i=0; i < projectsArray.length; i++){
+          var swiperSlide = document.createElement('div');
+          swiperSlide.className = 'swiper-slide';
+          projectCardArray[i] = new projectCard(projectsArray[i]);
+          swiperSlide.appendChild(projectCardArray[i].getView());
+          swiperWrapper.appendChild(swiperSlide);
+        }
+        createSwiperInterface();
+      }
+      function createSwiperInterface(){
+        var mySwiper = new Swiper('.swiper-container',{
+          //Your options here:
+          mode:'vertical',
+          pagination: '.pagination',
+          paginationClickable: true,
+          loop: true,
+          grabCursor: true,
+          createPagination: true,
+          autoResize: true,
+          resizeReInit: true,
+          //etc..
+        });
+      }
+      //***********************************************************************
+      //*************Here goes the stuff related to Fusion Tables**************
+      //***********************************************************************
       function getFusionTablesData(query, callback){
         var script = document.createElement('script');
         var url = ['https://www.googleapis.com/fusiontables/v1/query?'];
@@ -326,7 +369,9 @@
   </head>
   <body>
     <div id="info_container">
-      
+      <div class="swiper-container">
+        <div class="swiper-wrapper" id="swiper-wrapper"></div>
+      </div>
     </div>
     <div id="solo_map_container">
       <div id="map-canvas"></div>
