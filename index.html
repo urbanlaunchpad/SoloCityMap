@@ -25,7 +25,7 @@
           position: absolute;
           padding: 30px;
           top: 0;
-          left: 0;
+          left: 25%;
           z-index: 10;
         }
         #kelurahan_title{
@@ -339,6 +339,7 @@
           createPagination: true,
           autoResize: true,
           resizeReInit: true,
+          slidesPerView: 10,
           //etc..
         });
       }
@@ -371,6 +372,7 @@
     <div id="info_container">
       <div class="swiper-container">
         <div class="swiper-wrapper" id="swiper-wrapper"></div>
+        <div class="pagination"></div>
       </div>
     </div>
     <div id="solo_map_container">

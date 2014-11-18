@@ -19,6 +19,7 @@ Basic Swiper Styles
 	margin:0 auto;
 	position:relative;
 	overflow:hidden;
+	height: 100%;
 	-webkit-backface-visibility:hidden;
 	-moz-backface-visibility:hidden;
 	-ms-backface-visibility:hidden;
