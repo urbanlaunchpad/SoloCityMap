@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="A layout example that shows off a responsive email layout.">
+
+	<title>Solo City Map / Structure</title>
+
+	<!-- STYLE -->
+	<link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>  
+	<link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  	<link rel="stylesheet" type="text/css" href="src/css/style.css">
+
+	<!-- [pure stylesheets] -->
+	<!--[if lte IE 8]>
+	    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+	<![endif]-->
+	<!--[if gt IE 8]><!-->
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/menus-min.css">
+		<link rel="stylesheet" href="src/css/structure.css">
+	<!--<![endif]-->
+
+	<!-- SCRIPTS -->
+	<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+	<script defer src="src/script/map.js"></script>
+	<!-- stamen maps library -->
+	<!-- <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.1.3"></script> -->
+
+</head>
+
+<body>
+
+<div id="layout" class="content pure-g">
+
+	<div id="nav" class="pure-u">
+		<a href="#" class="nav-menu-button">Menu</a>
+        <h6>Solo City Map</h6>
+        <div class="nav-inner">
+            <div class="pure-menu pure-menu-open">
+                <ul>
+                    <li><a href="#">Lorem</a></li>
+                    <li><a href="#">Ipsum</a></li>
+                    <li><a href="#">Dolor</a></li>
+                </ul>
+            </div>
+        </div>
+	</div>
+
+	<div id="main">
+		<div id="map-canvas"></div>
+		<div id="info_box">
+			<h1 id="kelurahan_title">Solo</h1>
+			<h3 id="kelurahan_name"></h3>
+		</div>
+	</div>	
+
+	<div id="list" style="padding: 0 1em;">
+		<h3>This is a project</h3>
+		<h6 class="caps">This is a project subtitle</h6>
+		<hr>
+		<h3>This is a project</h3>
+		<h6 class="caps">This is a project subtitle</h6>
+		<hr>
+		<h3>This is a project</h3>
+		<h6 class="caps">This is a project subtitle</h6>			
+	</div>	
+
+</div>
+
+<script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
+
+<script>
+	YUI().use('node-base', 'node-event-delegate', function (Y) {
+
+		var menuButton = Y.one('.nav-menu-button'),
+			nav		= Y.one('#nav');
+
+		// Setting the active class name expands the menu vertically on small screens.
+		menuButton.on('click', function (e) {
+			nav.toggleClass('active');
+		});
+
+		// Your application code goes here...
+
+	});
+</script>
+
+
+</body>
+
+</html>
