@@ -13,11 +13,11 @@ body {
 	height: 100%;
 }
 
-/*#solo_map_container {
-	width: 100%;
+#solo_map_container {
+	width: 75%;
 	height: 100%;
 	float: left;
-}*/
+}
 
 #info_box {
 	pointer-events: none;
