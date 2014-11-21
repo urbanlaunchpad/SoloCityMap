@@ -1,0 +1,128 @@
+html {
+	height: 100%;
+	padding: 0;
+}
+
+#map-canvas {
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	margin: 0;
+	height: 100%;
+}
+
+/*#solo_map_container {
+	width: 100%;
+	height: 100%;
+	float: left;
+}*/
+
+#info_box {
+	pointer-events: none;
+	position: absolute;
+	padding: 30px;
+	top: 0;
+	left: 25%;
+	z-index: 10;
+}
+
+/*#kelurahan_title{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	font-family: 'Raleway', Helvetica, Arial, sans-serif;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 10px;
+	font-size: 3em;
+	color: black;
+}*/
+
+/*#kelurahan_name{
+	font-family: 'Raleway', Helvetica, Arial, sans-serif;
+	font-weight: 300;
+	text-transform: uppercase;
+	letter-spacing: 10px;
+	font-size: 2em;
+	color: black;
+}*/
+
+#info_container{
+	height: 100%;
+	width: 25%;
+	float: left;
+}
+
+
+/*============TYPOGRAPHY============*/
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Raleway', Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4 {
+	font-weight: 400;
+}
+
+h5, h6 {
+	font-weight: 500;
+}
+
+h1.caps, h2.caps, h3.caps, h4.caps, h5.caps, h6.caps {
+	text-transform: uppercase;
+	letter-spacing: 5px;	
+}
+
+h1 {
+	font-size: 2.5000em; /* 40px */
+	line-height: 1.0500em; /* 42px */
+	margin-top: 0.5250em;
+	/*margin-bottom: 0.5250em;*/
+}
+h2 {
+	font-size: 2.0000em; /* 32px */
+  	line-height: 1.3125em; /* 42px */
+  	margin-top: 0.6563em;  
+  	/*margin-bottom: 0.6563em;*/
+}
+h3 {
+  	font-size: 1.7500em; /* 28px */
+  	line-height: 1.5000em; /* 42px */
+  	margin-top: 0.7500em;  
+  	/*margin-bottom: 0.7500em;*/
+}
+h4 {
+  	font-size: 1.5000em; /* 24px */
+  	line-height: 1.7500em; /* 42px */
+  	margin-top: 0.8750em;  
+  	/*margin-bottom: 0.8750em;*/
+}
+h5 {
+ 	font-size: 1.1250em; /* 18px */
+ 	line-height: 1.5em; /* 21px */
+ 	margin-top: 1.1667em;  
+ 	/*margin-bottom: 1.1667em;*/
+}
+h6 {
+  	font-size: 1.0000em; /* 16px */
+  	line-height: 1.3125em; /* 21px */
+  	margin-top: 1.3125em;  
+  	/*margin-bottom: 1.3125em;*/
+}
+
+h1.serif, h2.serif, h3.serif, h4.serif, h5.serif, h6.serif {
+	font-family: 'Lora', Georgia, serif;
+}
+
+p {
+	font-family: 'Lora', Georgia, serif;
+	font-weight: 400;
+	font-size: 1em;
+	line-height: 1.5em;
+	color: #808080;
+}
