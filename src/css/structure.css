@@ -50,6 +50,7 @@
 #list {
     top: 29em;
     height: 100%;
+    border-top: 1px solid #bdbdbd;
 }
 
 /* Make the navigation 100% width on phones */
