@@ -5,18 +5,20 @@
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="A layout example that shows off a responsive email layout.">
+	<meta name="description" content="Basic site structure buildout.">
 
 	<title>Solo City Map / Structure</title>
 
 	<!-- STYLE -->
 	<link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>  
 	<link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="src/css/normalize.css">
   	<link rel="stylesheet" type="text/css" href="src/css/style.css">
 
 	<!-- [pure stylesheets] -->
 	<!--[if lte IE 8]>
-	    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
 	<![endif]-->
 	<!--[if gt IE 8]><!-->
 		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
@@ -38,35 +40,89 @@
 
 	<div id="nav" class="pure-u">
 		<a href="#" class="nav-menu-button">Menu</a>
-        <h6 style="margin-top:0; padding-top:0.5em">Solo City Map</h6>
-        <div class="nav-inner">
-            <div class="pure-menu pure-menu-open">
-                <ul>
-                    <li><a href="#">Lorem</a></li>
-                    <li><a href="#">Ipsum</a></li>
-                    <li><a href="#">Dolor</a></li>
-                </ul>
-            </div>
-        </div>
+		<h6 style="margin-top:0; padding-top:0.5em">Solo City Map</h6>
+		<div class="nav-inner">
+			<div class="pure-menu pure-menu-open">
+				<ul>
+					<li><a href="#">Lorem</a></li>
+					<li><a href="#">Ipsum</a></li>
+					<li><a href="#">Dolor</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="list-header" class="pure-u">
+		<h4 id="kelurahan_name"></h4>
 	</div>
 
 	<div id="main">
 		<div id="map-canvas"></div>
-		<div id="info_box">
-			<h1 id="kelurahan_title">Solo</h1>
-			<h3 id="kelurahan_name"></h3>
-		</div>
 	</div>	
 
-	<div id="list" style="padding: 0 1em;">
-		<h3>This is a project</h3>
-		<h6 class="caps">This is a project subtitle</h6>
-		<hr>
-		<h3>This is a project</h3>
-		<h6 class="caps">This is a project subtitle</h6>
-		<hr>
-		<h3>This is a project</h3>
-		<h6 class="caps">This is a project subtitle</h6>			
+	<div id="list" class="pure-u">
+		<ul>
+			<li>
+				<input id="TIMURAN-2011-IN-DR-VO-10" name="accordion-1" type="radio" />
+				<label for="TIMURAN-2011-IN-DR-VO-10">
+					<div class="icon-block"></div>
+					<div class="text-block">
+						<h6>Pembuatan tempat pertemuan warga</h6>
+					</div>
+				</label>
+				<article class="ac-small">
+					<p>This is where project details go!</p>
+				</article>
+			</li>
+			<li>
+				<input id="TIMURAN-2011-IN-JA-VO-10" name="accordion-1" type="radio" />
+				<label for="TIMURAN-2011-IN-JA-VO-10">
+					<div class="icon-block"></div>
+					<div class="text-block">
+						<h6>Perbaikan saluran / drainase</h6>
+					</div>
+				</label>
+				<article class="ac-small">
+					<p>This is where project details go!</p>
+				</article>
+			</li>
+			<li>
+				<input id="TIMURAN-2011-IN-DR-XX-10" name="accordion-1" type="radio" />
+				<label for="TIMURAN-2011-IN-DR-XX-10">
+					<div class="icon-block"></div>
+					<div class="text-block">
+						<h6>Perbaikan gorong-gorong</h6>
+					</div>
+				</label>
+				<article class="ac-small">
+					<p>This is where project details go!</p>
+				</article>
+			</li>
+			<li>
+				<input id="TIMURAN-2011-IN-DR-LL-10" name="accordion-1" type="radio" />
+				<label for="TIMURAN-2011-IN-DR-LL-10">
+					<div class="icon-block"></div>
+					<div class="text-block">
+						<h6>Rehap saluran</h6>
+					</div>
+				</label>
+				<article class="ac-small">
+					<p>This is where project details go!</p>
+				</article>
+			</li>
+			<li>
+				<input id="TIMURAN-2011-IN-DR-YY-10" name="accordion-1" type="radio" />
+				<label for="TIMURAN-2011-IN-DR-YY-10">
+					<div class="icon-block"></div>
+					<div class="text-block">
+						<h6>Pembuatan tempat pertemuan warga</h6>
+					</div>
+				</label>
+				<article class="ac-small">
+					<p>This is where project details go!</p>
+				</article>
+			</li>
+		</ul>		
 	</div>	
 
 </div>
