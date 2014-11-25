@@ -230,3 +230,28 @@ p {
 #list ul li input:checked ~ article.ac-small{
 	height: 140px;
 }
+
+#list .icon-block.i-air {
+	background: transparent url(../img/svg/solo_air.svg) no-repeat center center;	
+}
+#list .icon-block.i-drainasi {
+	background: transparent url(../img/svg/solo_drainasi.svg) no-repeat center center;	
+}
+#list .icon-block.i-informasi {
+	background: transparent url(../img/svg/solo_informasi.svg) no-repeat center center;	
+}
+#list .icon-block.i-jalan {
+	background: transparent url(../img/svg/solo_jalan.svg) no-repeat center center;	
+}
+#list .icon-block.i-listrik {
+	background: transparent url(../img/svg/solo_listrik.svg) no-repeat center center;	
+}
+#list .icon-block.i-sampah {
+	background: transparent url(../img/svg/solo_sampah.svg) no-repeat center center;	
+}
+#list .icon-block.i-sanitasi {
+	background: transparent url(../img/svg/solo_sanitasi.svg) no-repeat center center;	
+}
+#list .icon-block.i-liannyn {
+	background: transparent url(../img/svg/solo_lainnyn.svg) no-repeat center center;	
+}
