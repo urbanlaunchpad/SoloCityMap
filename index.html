@@ -22,6 +22,7 @@
       var kelurahansFusionTableID = "1jdxsdPlAvCNRair4uv2pOwWTzMNtutDdhfXlp9QO";
       var musrenbangFusionTableID = "1yHXZ3Z5yQXl8eEewPUgYSzOvd458RhW9pQ2smFIf";
       var projectFields = ["KELURAHAN", "YEAR", "VOTED", "CATEGORY", "SUBCATEGORY", "UNIQUE_NUMBER", "LEVEL", "PRIORITY", "PROJECT_NAME", "LOCATION", "AGENCY", "PLANNED_BUDGET", "EXECUTED_BUDGET", "IS_IT_EXECUTED", "NOTES"];
+      var projectDatabase =  TAFFY();
       //var colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00']; // Kiddie pallette
       //var colors = ['#FE0055', '#0E7AFC', '#FF9C00', '#7CFE00']; // Chosen for now
       //var colors = ['#04AF44', '#5012A3', '#F1DC06', '#F12F06'];
@@ -241,23 +242,9 @@
         var query = 'SELECT ' + columnNames + '  FROM ' + musrenbangFusionTableID;
         getFusionTablesData(query, "parseProjects");
       }
-/*      function parseProjects(data){
-        var rows = data['rows'];
-        // Creating an array with all the steps storead as objects with the information in them storead with the column names as field names.
-        projectsArray = [];
-        for (var j in rows){
-          projectsArray[j] = {};
-          projectsArray[j]["INDEX"] = j
-          for (var i=0; i < projectFields.length; i++){
-            projectsArray[j][projectFields[i]] = rows[j][i];
-          }
-        }
-        fillProjectCards(projectsArray);
-      }*/
 
       function parseProjects(data){
-                var rows = data['rows'];
-        var projectDatabase =  TAFFY();
+        var rows = data['rows'];
         // Filling a TaffyDB with the information of the projects.
         for (var j in rows){
           var tempObj = {};
@@ -267,9 +254,7 @@
           }
           projectDatabase.insert(tempObj);
         }
-        //window.alert("ima finished");
-        //window.alert(projectDatabase({KELURAHAN:"SUMBER"}).count());
-        window.alert(projectDatabase().count());
+        fillProjectCards("SUMBER","2012",2014);
       }
 
 
@@ -285,13 +270,15 @@
           return div;
         };
       }
-      function fillProjectCards(projectsArray){
+      function fillProjectCards(kelurahan, startYear, endYear){
         var swiperWrapper = document.getElementById("swiper-wrapper");
         var projectCardArray = [];
-        for (var i=0; i < projectsArray.length; i++){
+        var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : startYear}).get();
+        alert(JSON.stringify(projectsToShow));
+        for (var i=0; i < projectsToShow.length; i++){
           var swiperSlide = document.createElement('div');
           swiperSlide.className = 'swiper-slide';
-          projectCardArray[i] = new projectCard(projectsArray[i]);
+          projectCardArray[i] = new projectCard(projectsToShow[i]);
           swiperSlide.appendChild(projectCardArray[i].getView());
           swiperWrapper.appendChild(swiperSlide);
         }
