@@ -62,6 +62,13 @@ h1, h2, h3, h4, h5, h6, ul, li, a {
     margin: 0;
 }
 
+/*============SROLLBAR============*/
+.swiper-scrollbar {
+  height:100%;
+  margin:20px auto;
+  width: 10px;
+}
+
 /*============TYPOGRAPHY============*/
 
 h1, h2, h3, h4, h5, h6 {

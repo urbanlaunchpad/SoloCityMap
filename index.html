@@ -7,9 +7,11 @@
   	<link rel="stylesheet" type="text/css" href="src/css/style.css">
     <script type="text/javascript"
       src="https://maps.google.com/maps/api/js?sensor=false"></script>
-    <!-- Swipper and slider -->
+    <!-- Swiper and swiper slider -->
     <link rel="stylesheet" href="src/css/idangerous.swiper.css">
     <script defer src="src/script/idangerous.swiper.js"></script>
+    <link rel="stylesheet" href="src/css/idangerous.swiper.scrollbar.css">
+    <script defer src="src/script/idangerous.swiper.scrollbar.js"></script>
     <!-- FONTS -->
     <link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -286,6 +288,12 @@
           resizeReInit: true,
           slidesPerView: 10,
           //etc..
+          scrollbar: {
+          container : '.swiper-scrollbar',
+          draggable : true,
+          hide: false,
+          snapOnRelease: true
+          }
         });
       }
       //***********************************************************************
@@ -319,6 +327,7 @@
         <div class="swiper-wrapper" id="swiper-wrapper"></div>
         <div class="pagination"></div>
       </div>
+      <div class="swiper-scrollbar"></div>    
     </div>
     <div id="solo_map_container">
       <div id="map-canvas"></div>
