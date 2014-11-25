@@ -58,9 +58,6 @@ body {
 	float: left;
 }
 
-h1, h2, h3, h4, h5, h6, ul, li, a {
-	margin: 0;
-}
 
 /*============TYPOGRAPHY============*/
 
@@ -84,26 +81,38 @@ h1.caps, h2.caps, h3.caps, h4.caps, h5.caps, h6.caps {
 h1 {
 	font-size: 2.5000em; /* 40px */
 	line-height: 1.0500em; /* 42px */
+	margin-top: 0.5250em;
+	/*margin-bottom: 0.5250em;*/
 }
 h2 {
 	font-size: 2.0000em; /* 32px */
   	line-height: 1.3125em; /* 42px */
+  	margin-top: 0.6563em;  
+  	/*margin-bottom: 0.6563em;*/
 }
 h3 {
   	font-size: 1.7500em; /* 28px */
   	line-height: 1.5000em; /* 42px */
+  	margin-top: 0.7500em;  
+  	/*margin-bottom: 0.7500em;*/
 }
 h4 {
   	font-size: 1.5000em; /* 24px */
   	line-height: 1.7500em; /* 42px */
+  	margin-top: 0.8750em;  
+  	/*margin-bottom: 0.8750em;*/
 }
 h5 {
  	font-size: 1.1250em; /* 18px */
  	line-height: 1.5em; /* 21px */
+ 	margin-top: 1.1667em;  
+ 	/*margin-bottom: 1.1667em;*/
 }
 h6 {
   	font-size: 1.0000em; /* 16px */
   	line-height: 1.3125em; /* 21px */
+  	margin-top: 1.3125em;  
+  	/*margin-bottom: 1.3125em;*/
 }
 
 h1.serif, h2.serif, h3.serif, h4.serif, h5.serif, h6.serif {
@@ -116,117 +125,4 @@ p {
 	font-size: 1em;
 	line-height: 1.5em;
 	color: #808080;
-}
-
-
-/*============PROJECT LIST ACCORDION============*/
-
-#list-header h4 {
-	margin: 0 1em;
-	padding: auto 0;
-}
-
-#list ul {
-	list-style-type: none;
-	display: block;
-	position: relative;
-	width: 100%;
-	padding: 0;
-	margin: 0;
-}
-
-#list ul li {
-	display: block;
-	position: relative;
-	clear: both;
-	border-bottom: 1px solid #bdbdbd;
-	background-color: #e0e0e0;
-}
-
-#list ul li label {
-	display: block;
-	position: relative;
-	/*float: left;*/
-	width: 100%;
-	z-index: 20;
-	cursor: pointer;
-}
-
-#list ul li label:hover{
-	background: #dbdbdb;
-}
-
-#list ul li label .icon-block {
-	display: inline-block;
-	width: 60px;
-	height: 60px;
-	float: left;
-	background-color: #d3d3d3;
-}
-
-#list ul li label .text-block {
-	display: inline-block;
-	max-width: 260px;
-	height: 60px;
-	padding-left: 0.5em;
-}
-
-#list ul li label .text-block h6 {
-	margin-top: 0.675em;
-	color: black;
-	font-weight: 500;
-}
-
-#list ul li input:checked + label,
-#list ul li input:checked + label:hover{
-	background: #d7d7d7;
-	color: #3d7489;
-}
-
-#list ul li label:hover:after,
-#list ul li input:checked + label:hover:after{
-	content: '';
-	position: absolute;
-	width: 24px;
-	height: 24px;
-	right: 13px;
-	top: 7px;
-	background: transparent url(../img/arrow_down.png) no-repeat center center;	
-}
-
-#list ul li input:checked + label:hover:after{
-	background-image: url(../img/arrow_up.png);
-}
-
-#list ul li input{
-	display: none;
-}
-
-#list ul li article{
-	/*margin-top: -1px;*/
-	overflow: hidden;
-	height: 0px;
-	position: relative;
-	z-index: 10;
-	-webkit-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-	-moz-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-	-o-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-	-ms-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-	transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-}
-
-#list ul li article p{
-	padding: 20px;
-}
-
-#list ul li input:checked ~ article{
-	-webkit-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
-	-moz-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
-	-o-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
-	-ms-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
-	transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
-}
-
-#list ul li input:checked ~ article.ac-small{
-	height: 140px;
 }

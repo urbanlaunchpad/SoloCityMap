@@ -4,16 +4,11 @@
 }
 
 #nav {
-	background-color: #bdbdbd;
+	background-color: #333;
 }
 
 #list {
-	background-color: #e9e9e9;
-}
-
-#list-header {
-    background-color: #dbdbdb;
-    z-index: 2;
+	background-color: #222;
 }
 
 #main {
@@ -28,7 +23,6 @@
 #layout,
 #nav,
 #list,
-#list-header,
 #main {
     margin: 0;
     padding: 0;
@@ -38,26 +32,14 @@
     width: 100%;
     height: 24em;
     position: relative;
-}
-
-#list-header {
-    width: 100%;
-    height: 2.5em;
-    position: relative;
-    border-bottom: 2px solid #bdbdbd;
-}
-
-#list {
-    top: 29em;
-    height: 100%;
-    border-top: 1px solid #bdbdbd;
+    margin-bottom: -1.25em;
 }
 
 /* Make the navigation 100% width on phones */
 
 #nav {
     width: 100%;
-    height: 2.5em;
+    height: 40px;
     position: relative;
     text-align: center;
 }
@@ -131,7 +113,7 @@
     }
 
     /* These are position:fixed; elements that will be in the left 500px of the screen */
-    #nav, #list, #list-header {
+    #nav, #list {
         position: fixed;
         top: 0;
         bottom: 0;
@@ -154,31 +136,23 @@
         display: none;
     }
 
-    #list, #list-header {
+    #list {
         margin-left: -350px;
         width: 100%;
-    }
-
-    #list {
-        height: 160px;
-        top: 4em;
-        border-bottom: 1px solid #bdbdbd;
-    }
-
-    #list-header {
-        height: 4em;
+        height: 33%;
+        border-bottom: 1px solid #ddd;
     }
 
     #main {
         position: fixed;
-        top: 30%;
+        top: 33%;
         right: 0;
         bottom: 0;
         margin-bottom: 0;
         left: 150px;
         overflow: auto;
         width: auto; /* so that it's not 100% */
-        height: 70%;
+        height: 77%;
     }
 
 }
@@ -191,19 +165,11 @@
 @media (min-width: 60em) {
 
     /* This will take up the entire height, and be a little thinner */
-    #list, #list-header {
+    #list {
         margin-left: -350px;
         width:350px;
-    }
-
-    #list {
-        top: 10em;
-        height: 100%;        
-    }
-
-    #list-header {
-        height: 8em;
-        padding-top: 2em;
+        height: 100%;
+        border-right: 1px solid #ddd;
     }
 
     /* This will now take up it's own column, so don't need position: fixed; */
