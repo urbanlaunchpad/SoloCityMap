@@ -241,7 +241,7 @@
         var query = 'SELECT ' + columnNames + '  FROM ' + musrenbangFusionTableID;
         getFusionTablesData(query, "parseProjects");
       }
-      function parseProjects(data){
+/*      function parseProjects(data){
         var rows = data['rows'];
         // Creating an array with all the steps storead as objects with the information in them storead with the column names as field names.
         projectsArray = [];
@@ -253,7 +253,32 @@
           }
         }
         fillProjectCards(projectsArray);
+      }*/
+
+      function parseProjects(data){
+                var rows = data['rows'];
+        var projectDatabase =  TAFFY();
+        // Creating an array with all the steps storead as objects with the information in them storead with the column names as field names.
+        //projectsArray = [];
+        for (var j in rows){
+          //projectsArray[j] = {};
+          var indexObj = {}
+          indexObj["INDEX"] = j;
+          //projectsArray[j]["INDEX"] = j
+          projectDatabase.insert(indexObj);
+          for (var i=0; i < projectFields.length; i++){
+            var tempObj = {};
+            tempObj[projectFields[i]] = rows[j][i];
+            projectDatabase.insert(tempObj);
+            //projectsArray[j][projectFields[i]] = rows[j][i];
+          }
+        }
+        window.alert("ima finished");
+        window.alert(projectDatabase({KELURAHAN:"SUMBER"}).count());
+        //fillProjectCards(projectsArray);
       }
+
+
       function projectCard(project){
         var div = document.createElement("div");
         var category = document.createTextNode(project.CATEGORY);
