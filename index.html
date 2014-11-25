@@ -258,24 +258,18 @@
       function parseProjects(data){
                 var rows = data['rows'];
         var projectDatabase =  TAFFY();
-        // Creating an array with all the steps storead as objects with the information in them storead with the column names as field names.
-        //projectsArray = [];
+        // Filling a TaffyDB with the information of the projects.
         for (var j in rows){
-          //projectsArray[j] = {};
-          var indexObj = {}
-          indexObj["INDEX"] = j;
-          //projectsArray[j]["INDEX"] = j
-          projectDatabase.insert(indexObj);
+          var tempObj = {};
+          tempObj["INDEX"] = j;
           for (var i=0; i < projectFields.length; i++){
-            var tempObj = {};
             tempObj[projectFields[i]] = rows[j][i];
-            projectDatabase.insert(tempObj);
-            //projectsArray[j][projectFields[i]] = rows[j][i];
           }
+          projectDatabase.insert(tempObj);
         }
-        window.alert("ima finished");
-        window.alert(projectDatabase({KELURAHAN:"SUMBER"}).count());
-        //fillProjectCards(projectsArray);
+        //window.alert("ima finished");
+        //window.alert(projectDatabase({KELURAHAN:"SUMBER"}).count());
+        window.alert(projectDatabase().count());
       }
 
 
