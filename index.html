@@ -41,7 +41,7 @@
       var mapStateController = new mapStateController();*/
       function initialize() {
         L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
-        var map = L.mapbox.map("map-canvas", 'stephenkennedy.ad4e43ac')
+          map = L.mapbox.map("map-canvas", 'stephenkennedy.ad4e43ac')
         .setView([-7.566667, 110.816667], 13);
 
 /*        var myOptions = {
@@ -50,8 +50,8 @@
           disableDefaultUI: true,
           scaleControl: true
         };
-        map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
-        getKelurahans();*/
+        map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);*/
+        getKelurahans();
         getProjects();
       }
 
@@ -133,8 +133,7 @@
         this.center = center;
         var projects = null;
         var randomnumber = Math.floor(Math.random() * 4);
-        var kelurahanShape = new google.maps.Polygon({
-            paths: this.geometry,
+        this.shapeOptions = {
             strokeColor: "#000000",
             strokeOpacity: 0.7,
             strokeWeight: 1,
@@ -142,14 +141,16 @@
             fillOpacity: originalKelurahanOpacity,
             kelurahan_name : this.name,
             index : this.index
-        });
-        this.bounds = kelurahanShape.getBounds();
+        };
+        this.kelurahanShape = new L.polygon(this.geometry, this.shapeOptions);
+        //this.bounds = kelurahanShape.getBounds();
         this.drawKelurahan = function() {
-          kelurahanShape.setMap(map);
+          map.addLayer(this.kelurahanShape);
+          //this.kelurahanShape.setMap(map);
         }
         this.initializeShape = function(){
           this.drawKelurahan();
-          this.addListeners();
+          //this.addListeners();
         }
         this.setOpacity = function(opacity) {
           kelurahanShape.setOptions({fillOpacity: opacity});
@@ -193,7 +194,7 @@
         var newCoordinates = [];
         var coordinates = polygon['coordinates'][0];
         for (var i in coordinates) {
-          newCoordinates.push(new google.maps.LatLng(coordinates[i][1], coordinates[i][0]));
+          newCoordinates.push(new L.LatLng(coordinates[i][1], coordinates[i][0]));
         }
         return newCoordinates;
       }
@@ -201,7 +202,7 @@
       function constructNewPointCoordinates(originalPoint) {
         var pointCoordinates;
         var pointFromSource = originalPoint["coordinates"];
-        pointCoordinates = new google.maps.LatLng(pointFromSource[1], pointFromSource[0]);
+        pointCoordinates = new L.LatLng(pointFromSource[1], pointFromSource[0]);
         return pointCoordinates;
       }
 
