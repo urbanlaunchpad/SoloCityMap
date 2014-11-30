@@ -3,7 +3,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 60 60" enable-background="new 0 0 60 60" xml:space="preserve">
-<g id="base" display="none">
+<g id="V1_x5F_base" display="none">
 	<g display="inline">
 		<g>
 			<line fill="none" stroke="#808080" stroke-width="2" stroke-miterlimit="10" x1="10" y1="30" x2="13" y2="30"/>
@@ -43,8 +43,8 @@
 	<polyline display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" points="50,35 35,35 35,50 	"/>
 	<polyline display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" points="25,50 25,35 10,35 	"/>
 </g>
-<g id="export">
-	<g>
+<g id="V1_x5F_export" display="none">
+	<g display="inline">
 		<path fill="#808080" d="M10,29h3v2h-3V29z M15.25,31h4.5v-2h-4.5V31z M24,26v3h-2v2h2v3h2v-8H24z M47,29v2h3v-2H47z M40.25,31h4.5
 			v-2h-4.5V31z M36,26h-2v8h2v-3h2v-2h-2V26z M29,50h2v-3h-2V50z M29,44.75h2v-4.5h-2V44.75z M26,34v2h3v2h2v-2h3v-2H26z M31,15.25
 			h-2v4.5h2V15.25z M31,10h-2v3h2V10z M31,24v-2h-2v2h-3v2h8v-2H31z"/>
@@ -55,6 +55,27 @@
 			<polygon points="10,34 10,36 24,36 24,50 26,50 26,36 26,34 24,34 			"/>
 		</g>
 	</g>
+</g>
+<g id="V2_x5F_base" display="none">
+	<g display="inline">
+		<g>
+			<g>
+				<line fill="none" stroke="#808080" stroke-width="3.266" stroke-miterlimit="10" x1="50" y1="30" x2="45.101" y2="30"/>
+				
+					<line fill="none" stroke="#808080" stroke-width="3.266" stroke-miterlimit="10" stroke-dasharray="8.6292,4.3146" x1="40.786" y1="30" x2="17.056" y2="30"/>
+				<line fill="none" stroke="#808080" stroke-width="3.266" stroke-miterlimit="10" x1="14.899" y1="30" x2="10" y2="30"/>
+			</g>
+		</g>
+		<line fill="none" stroke="#000000" stroke-width="3.266" stroke-miterlimit="10" x1="10" y1="20" x2="50" y2="20"/>
+		<line fill="none" stroke="#000000" stroke-width="3.266" stroke-miterlimit="10" x1="10" y1="40" x2="50" y2="40"/>
+	</g>
+</g>
+<g id="V2_x5F_export">
+	<path fill="#808080" d="M50,31.633h-4.899v-3.266H50V31.633z M40.786,28.367h-8.629v3.266h8.629V28.367z M27.843,28.367h-8.63
+		v3.266h8.63V28.367z M14.899,28.367H10v3.266h4.899V28.367z"/>
+	<path d="M50,21.633H10v-3.266h40V21.633z M50,38.367H10v3.266h40V38.367z"/>
+</g>
+<g id="labels">
 </g>
 <g id="Layer_2" display="none">
 </g>

@@ -3,7 +3,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 60 60" enable-background="new 0 0 60 60" xml:space="preserve">
-<g id="base" display="none">
+<g id="V1_x5F_base" display="none">
 	
 		<rect x="26" y="13" display="inline" fill="none" stroke="#808080" stroke-width="2" stroke-miterlimit="10" width="7" height="14"/>
 	<polyline display="inline" fill="none" stroke="#808080" stroke-width="2" stroke-miterlimit="10" points="36,27 36,13 43,13 
@@ -22,8 +22,8 @@
 	<line display="inline" fill="none" stroke="#808080" stroke-width="2" stroke-miterlimit="10" x1="35" y1="39" x2="35" y2="44"/>
 	<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="10" y1="47" x2="50" y2="47"/>
 </g>
-<g id="export">
-	<g>
+<g id="V1_x5F_export" display="none">
+	<g display="inline">
 		<polygon fill="none" points="37,14 37,26 40,26 40,46 42,46 42,14 		"/>
 		<rect x="27" y="14" fill="none" width="5" height="12"/>
 		<path fill="none" d="M34,28h-9h-9v18h22V28H34z M20,44h-2v-5h2V44z M20,36h-2v-5h2V36z M24,44h-2v-5h2V44z M24,36h-2v-5h2V36z
@@ -33,6 +33,30 @@
 			v-5h-2V36z M34,44h2v-5h-2V44z"/>
 		<path d="M44,46h-2h-2V26h-3h-2h-1h-2h-5h-2H14v20h-4v2h40v-2H44z M16,28h9h9h4v18H16V28z"/>
 	</g>
+</g>
+<g id="V2_x5F_base" display="none">
+	<g display="inline">
+		<rect x="25.5" y="13" fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" width="7" height="14"/>
+		<polyline fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" points="38.5,27 38.5,13 45.5,13 45.5,47 		"/>
+		<polyline fill="none" stroke="#000000" stroke-width="4" stroke-miterlimit="10" points="38.5,47 38.5,27 31.5,27 21.5,27 
+			14.5,27 14.5,47 		"/>
+		<line fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" x1="20.5" y1="31" x2="20.5" y2="36"/>
+		<line fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" x1="26.5" y1="31" x2="26.5" y2="36"/>
+		<line fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" x1="32.5" y1="31" x2="32.5" y2="36"/>
+		<line fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" x1="20.5" y1="37.75" x2="20.5" y2="42.75"/>
+		<line fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" x1="26.5" y1="37.75" x2="26.5" y2="42.75"/>
+		<line fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" x1="32.5" y1="37.75" x2="32.5" y2="42.75"/>
+		<line fill="none" stroke="#000000" stroke-width="4" stroke-miterlimit="10" x1="10" y1="47" x2="50" y2="47"/>
+	</g>
+</g>
+<g id="V2_x5F_export">
+	<g>
+		<path fill="#808080" d="M27.5,25h-4V11h11v14h-4V15h-3V25z M40.5,15h3v30h4V11h-11v14h4V15z M18.5,36h4v-5h-4V36z M24.5,36h4v-5
+			h-4V36z M30.5,36h4v-5h-4V36z M18.5,42.75h4v-5h-4V42.75z M24.5,42.75h4v-5h-4V42.75z M30.5,42.75h4v-5h-4V42.75z"/>
+		<path d="M47.5,45h-4h-3V27v-2h-4h-2h-4h-3h-4h-11v20H9.438v4H50v-4H47.5z M16.5,29h7h11h2v16h-20V29z"/>
+	</g>
+</g>
+<g id="labels">
 </g>
 <g id="Layer_2" display="none">
 </g>

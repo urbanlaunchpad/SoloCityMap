@@ -3,7 +3,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 60 60" enable-background="new 0 0 60 60" xml:space="preserve">
-<g id="base" display="none">
+<g id="V1_x5F_base" display="none">
 	<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="27" y1="27" x2="27" y2="17"/>
 	<g display="inline">
 		<path fill="none" stroke="#808080" stroke-width="2" stroke-miterlimit="10" d="M60,20l-5.757,5.757
@@ -33,8 +33,8 @@
 	<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="30" y1="14" x2="30" y2="11"/>
 	<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="27" y1="11" x2="33" y2="11"/>
 </g>
-<g id="export">
-	<g>
+<g id="V1_x5F_export" display="none">
+	<g display="inline">
 		<path fill="#808080" d="M32,24.319v-0.125c0-0.552,0.448-1,1-1s1,0.448,1,1v0.125c0,0.552-0.448,1-1,1S32,24.872,32,24.319z"/>
 		<path fill="#808080" d="M33,21.806c0.552,0,1-0.448,1-1v-0.125c0-0.552-0.448-1-1-1s-1,0.448-1,1v0.125
 			C32,21.358,32.448,21.806,33,21.806z"/>
@@ -56,6 +56,38 @@
 		<path d="M31,13.532v-1.043h2v-2h-6v2h2v1.043c-1.343,0.147-3,0.823-3,3.957v8.586l0.464,0.464c0.448,0.447,0.97,0.791,1.536,1.037
 			V17.489c0-1.923,0.577-2,2-2s2,0.077,2,2v1h2v-1C34,14.354,32.343,13.679,31,13.532z"/>
 	</g>
+</g>
+<g id="V2_x5F_base" display="none">
+	<g display="inline">
+		<line fill="none" stroke="#000000" stroke-width="4" stroke-miterlimit="10" x1="24" y1="46" x2="24" y2="26"/>
+		<g>
+			<g>
+				
+					<line fill="none" stroke="#808080" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="36" y1="32" x2="36" y2="32.25"/>
+				
+					<line fill="none" stroke="#808080" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" stroke-dasharray="0.54,6.48" x1="36" y1="38.73" x2="36" y2="42.51"/>
+				
+					<line fill="none" stroke="#808080" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="36" y1="45.75" x2="36" y2="46"/>
+			</g>
+		</g>
+		<path fill="none" stroke="#000000" stroke-width="4" stroke-miterlimit="10" d="M24,26c0-5.523,2.686-6,6-6s6,0.477,6,6v2"/>
+		<line fill="none" stroke="#000000" stroke-width="4" stroke-miterlimit="10" x1="30" y1="20" x2="30" y2="14"/>
+		<line fill="none" stroke="#000000" stroke-width="4" stroke-miterlimit="10" x1="24" y1="14" x2="36" y2="14"/>
+	</g>
+</g>
+<g id="V2_x5F_export">
+	<g>
+		<path fill="#808080" d="M33.98,38.835v-0.249c0-1.099,0.891-1.99,1.99-1.99s1.99,0.891,1.99,1.99v0.249
+			c0,1.099-0.891,1.99-1.99,1.99S33.98,39.934,33.98,38.835z"/>
+		<path fill="#808080" d="M33.98,44.748v-0.249c0-1.099,0.891-1.99,1.99-1.99s1.99,0.891,1.99,1.99v0.249
+			c0,1.099-0.891,1.99-1.99,1.99S33.98,45.847,33.98,44.748z"/>
+		<path fill="#808080" d="M35.969,34.913c1.099,0,1.99-0.891,1.99-1.99v-0.249c0-1.099-0.891-1.99-1.99-1.99s-1.99,0.891-1.99,1.99
+			v0.249C33.98,34.022,34.87,34.913,35.969,34.913z"/>
+		<path d="M31.99,19.055V16.98h3.98V13H24.031v3.98h3.98v2.076c-2.671,0.292-5.969,1.637-5.969,7.873v17.084L26.02,47V26.928
+			c0-3.827,1.148-3.98,3.98-3.98s3.98,0.153,3.98,3.98v1.99h3.98v-1.99C37.959,20.692,34.661,19.347,31.99,19.055z"/>
+	</g>
+</g>
+<g id="labels">
 </g>
 <g id="Layer_2" display="none">
 	<path display="inline" fill="#FFFFFF" d="M61,60H50V0h11V60z M10,0H-1v60h11V0z"/>

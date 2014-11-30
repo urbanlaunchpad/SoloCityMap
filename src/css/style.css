@@ -245,8 +245,13 @@ p {
     height: 140px;
 }
 
+#list .icon-block {
+    width: 60px;
+    height: 60px;
+    fill: #111;
+}
+
 #list .icon-block.i-air {
-    background: transparent url(../img/svg/solo_air.svg) no-repeat center center;   
 }
 #list .icon-block.i-drainasi {
     background: transparent url(../img/svg/solo_drainasi.svg) no-repeat center center;  
