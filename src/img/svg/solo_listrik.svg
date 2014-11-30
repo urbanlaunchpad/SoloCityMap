@@ -3,61 +3,10 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 60 60" enable-background="new 0 0 60 60" xml:space="preserve">
-<g id="V1_x5F_base" display="none">
-	<path display="inline" fill="none" stroke="#808080" stroke-width="2" stroke-miterlimit="10" d="M10,32.493c0,0,10,0,10-8"/>
-	<path display="inline" fill="none" stroke="#808080" stroke-width="2" stroke-miterlimit="10" d="M30,32.493c0,0-10,0-10-8"/>
-	<path display="inline" fill="none" stroke="#808080" stroke-width="2" stroke-miterlimit="10" d="M30,32.493c0,0,10,0,10-8"/>
-	<path display="inline" fill="none" stroke="#808080" stroke-width="2" stroke-miterlimit="10" d="M50,32.493c0,0-10,0-10-8"/>
-	<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="10" y1="50" x2="50" y2="50"/>
-	<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="40" y1="50" x2="40" y2="19"/>
-	
-		<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="36" y1="26.493" x2="44" y2="26.493"/>
-	<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="36" y1="22" x2="44" y2="22"/>
-	<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="20" y1="50" x2="20" y2="19"/>
-	
-		<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="16" y1="26.493" x2="24" y2="26.493"/>
-	<line display="inline" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="16" y1="22" x2="24" y2="22"/>
-	<g display="inline">
-		<polygon fill="#808080" points="27.5,21 29.5,17 27.5,14.082 32.5,10 30.5,14 32.5,16.918 		"/>
-	</g>
-</g>
-<g id="V1_x5F_export" display="none">
-	<g display="inline">
-		<path fill="#808080" d="M41,24.493v1h0.066H44v2h-2.307H41v2.47V49h-2V29.963v-2.47h-0.704H36v-2h2.92H39v-1V23h-3v-2h3v-2h2v2h3
-			v2h-3V24.493z M21,19h-2v2h-3v2h3v1.493v1h-0.08H16v2h2.296H19v2.47V49h2V29.963v-2.47h0.693H24v-2h-2.934H21v-1V23h3v-2h-3V19z"
-			/>
-		<path d="M10,33.493l-0.001-2c0.303-0.001,6.241-0.083,8.297-4H19v2.47C16.588,32.643,12.542,33.493,10,33.493z M19,24.493
-			c0,0.355-0.036,0.68-0.08,1H19V24.493z M21,24.493v1h0.066C21.024,25.171,21,24.839,21,24.493z M39,24.493
-			c0,0.355-0.036,0.68-0.08,1H39V24.493z M39,29.963v-2.47h-0.704c-2.055,3.916-7.991,3.999-8.297,4
-			c-0.026,0-2.335-0.011-4.628-0.929c-1.756-0.703-2.98-1.734-3.678-3.071H21v2.47c2.412,2.68,6.458,3.53,9,3.53
-			S36.588,32.643,39,29.963z M41,24.493v1h0.066C41.024,25.171,41,24.839,41,24.493z M45.371,30.564
-			c-1.756-0.703-2.98-1.734-3.678-3.071H41v2.47c2.412,2.68,6.458,3.53,9,3.53v-2C49.977,31.493,47.666,31.482,45.371,30.564z
-			 M32.5,16.918L30.5,14l2-4l-5,4.082l2,2.918l-2,4L32.5,16.918z M39,49H21h-2h-9v2h40v-2h-9H39z"/>
-	</g>
-</g>
-<g id="V2_x5F_base" display="none">
-	<polygon display="inline" points="35.021,32.213 30.662,27.055 33.693,19.073 24.979,27.787 29.338,32.945 26.307,40.927 	"/>
-	
-		<line display="inline" fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" x1="22.929" y1="22.929" x2="17.272" y2="17.272"/>
-	<line display="inline" fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" x1="20" y1="30" x2="12" y2="30"/>
-	
-		<line display="inline" fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" x1="22.929" y1="37.071" x2="17.272" y2="42.728"/>
-	
-		<line display="inline" fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" x1="37.071" y1="22.929" x2="42.728" y2="17.272"/>
-	<line display="inline" fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" x1="40" y1="30" x2="48" y2="30"/>
-	
-		<line display="inline" fill="none" stroke="#808080" stroke-width="4" stroke-miterlimit="10" x1="37.071" y1="37.071" x2="42.728" y2="42.728"/>
-</g>
 <g id="V2_x5F_export">
 	<polygon points="35.021,32.213 30.662,27.055 33.693,19.073 24.979,27.787 29.338,32.945 26.307,40.927 	"/>
 	<path fill="#808080" d="M21.515,24.343l-5.656-5.657l2.828-2.828l5.656,5.657L21.515,24.343z M20,28h-8v4h8V28z M24.343,38.485
 		l-2.828-2.828l-5.656,5.657l2.828,2.828L24.343,38.485z M44.142,18.686l-2.828-2.828l-5.656,5.657l2.828,2.828L44.142,18.686z
 		 M48,28h-8v4h8V28z M44.142,41.314l-5.656-5.657l-2.828,2.828l5.656,5.657L44.142,41.314z"/>
-</g>
-<g id="labels">
-</g>
-<g id="Layer_2" display="none">
-	<rect x="50" display="inline" fill="#FFFFFF" width="16" height="60"/>
-	<rect x="-6" display="inline" fill="#FFFFFF" width="16" height="60"/>
 </g>
 </svg>
