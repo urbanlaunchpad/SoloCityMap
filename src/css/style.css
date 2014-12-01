@@ -188,6 +188,7 @@ p {
     width: 100%;
     z-index: 20;
     cursor: pointer;
+    opacity: 0.85;
 }
 
 #list ul li label:hover{
@@ -216,12 +217,13 @@ p {
 
 #list ul li input:checked + label,
 #list ul li input:checked + label:hover{
-    background: #d7d7d7;
-    color: #3d7489;
+    /*background: #d7d7d7;
+    color: #3d7489;*/
+    opacity: 1;
 }
 
 #list ul li input:not(:checked) + label:hover{
-    opacity: 0.7;
+    opacity: 0.65;
 }
 
 #list ul li label:hover:after,
