@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 18.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<?xml-stylesheet type="text/css" href="svg.css" ?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 60 60" enable-background="new 0 0 60 60" xml:space="preserve">
-<g id="V2_x5F_export">
+<g id="i-drainasi">
 	<g>
-		<path d="M10,17v-4h17v8.072c-0.984,0.396-1.886,0.986-2.656,1.756L23,24.171V17H10z M37,24.171V17h13v-4H33v8.072
+		<path class="primary" d="M10,17v-4h17v8.072c-0.984,0.396-1.886,0.986-2.656,1.756L23,24.171V17H10z M37,24.171V17h13v-4H33v8.072
 			c0.984,0.396,1.886,0.986,2.656,1.757L37,24.171z"/>
-		<path fill="#808080" d="M44.344,39.828c1.56-1.56,3.608-2.339,5.656-2.339v4.003c-1.073,0-2.077,0.414-2.828,1.164l-1.516,1.516
+		<path class="secondary" d="M44.344,39.828c1.56-1.56,3.608-2.339,5.656-2.339v4.003c-1.073,0-2.077,0.414-2.828,1.164l-1.516,1.516
 			c-3.119,3.119-8.193,3.119-11.312,0l-1.516-1.516c-1.561-1.559-4.096-1.559-5.656,0l-1.516,1.516
 			c-3.119,3.119-8.193,3.119-11.312,0l-1.516-1.516c-0.751-0.75-1.755-1.164-2.828-1.164v-4.003c2.048,0,4.097,0.78,5.656,2.339
 			l1.516,1.516c1.561,1.559,4.096,1.559,5.656,0l1.516-1.516c3.119-3.119,8.193-3.119,11.312,0l1.516,1.516
