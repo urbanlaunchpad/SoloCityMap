@@ -132,6 +132,31 @@ p {
     color: #808080;
 }
 
+/*===============COLORS=================*/
+.c-air {
+    color: #EF4135;
+ }
+.c-drainasi {
+    color: #009DDC;
+}
+.c-informasi {
+    color: #FFD200;
+}
+.c-jalan {
+    color: #8CD2F4;
+}
+.c-listrik { 
+    color: #F47735;
+}
+.c-sampa {
+    color: #808080;
+}
+.c-sanitasi {
+    color: #69D2E7;
+}
+.c-liannyn {
+    color: #A7DBD8;
+}
 
 /*============PROJECT LIST ACCORDION============*/
 
@@ -248,13 +273,13 @@ p {
 #list .icon-block {
     width: 60px;
     height: 60px;
-    fill: #111;
 }
 
 #list .icon-block.i-air {
+    background-color: #EF4135;
 }
 #list .icon-block.i-drainasi {
-    background: transparent url(../img/svg/solo_drainasi.svg) no-repeat center center;  
+    background-color: #009DDC;
 }
 #list .icon-block.i-informasi {
     background: transparent url(../img/svg/solo_informasi.svg) no-repeat center center; 

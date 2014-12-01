@@ -77,9 +77,8 @@
 			<li>
 				<input id="TIMURAN-2011-IN-JA-AR-01" name="accordion-1" type="radio" />
 				<label for="TIMURAN-2011-IN-JA-AR-01">
-					<svg class="icon-block i-air" viewBox="0 0 60 60">
-						<a xlink:href="src/img/svg/solo_air.svg"></a>
-					</svg>
+					<object class="icon-block i-air" type="image/svg+xml" data="src/img/svg/solo_air.svg" > Air Biseh
+					</object>
 					<div class="text-block">
 						<h6>Air Bersih</h6>
 					</div>
@@ -91,9 +90,11 @@
 			<li>
 				<input id="TIMURAN-2011-IN-JA-AR-02" name="accordion-1" type="radio" />
 				<label for="TIMURAN-2011-IN-JA-AR-02">
-					<svg class="icon-block i-air" viewBox="0 0 60 60">
-						<a xlink:href="src/svg/solo_air.svg"></a>
-					</svg>
+					<div class="icon-block i-air iconmelon">
+  						<svg viewBox="0 0 32 32">
+    						<use xlink:href="#twitter"></use>
+  						</svg>
+					</div>
 					<div class="text-block">
 						<h6>Air Bersih</h6>
 					</div>
@@ -129,7 +130,7 @@
 			<li>
 				<input id="TIMURAN-2011-IN-JA-VO-10" name="accordion-1" type="radio" />
 				<label for="TIMURAN-2011-IN-JA-VO-10">
-					<div class="icon-block i-drainasi"></div>
+					<img class="icon-block i-drainasi" src="src/img/svg/solo_drainasi.svg" alt="Kiwi standing on oval" />
 					<div class="text-block">
 						<h6>Perbaikan saluran / drainase</h6>
 					</div>
@@ -177,7 +178,7 @@
 			<li>
 				<input id="TIMURAN-2011-IN-DR-YY-10" name="accordion-1" type="radio" />
 				<label for="TIMURAN-2011-IN-DR-YY-10">
-					<div class="icon-block i-drainasi"></div>
+					<img class="icon-block i-drainasi" src="src/img/svg/solo_drainasi.svg" alt="Kiwi standing on oval" />
 					<div class="text-block">
 						<h6>Pembuatan tempat pertemuan warga</h6>
 					</div>
@@ -221,6 +222,11 @@
 	});
 </script>
 
+<script>
+    var url ='/src/img/social_icons.svg';
+    var c=new XMLHttpRequest(); c.open('GET', url, false); c.setRequestHeader('Content-Type', 'text/xml'); c.send();
+    document.body.insertBefore(c.responseXML.firstChild, document.body.firstChild)
+</script>
 
 </body>
 
