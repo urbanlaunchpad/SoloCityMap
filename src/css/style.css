@@ -90,7 +90,7 @@ h5, h6 {
     font-weight: 500;
 }
 
-h1.caps, h2.caps, h3.caps, h4.caps, h5.caps, h6.caps {
+h1.pcaps, h2.pcaps, h3.pcaps, h4.pcaps, h5.pcaps, h6.pcaps {
     text-transform: uppercase;
     letter-spacing: 5px;    
 }
@@ -133,29 +133,29 @@ p {
 }
 
 /*===============COLORS=================*/
-.c-air {
-    color: #EF4135;
+.pc-air {
+    background-color: #003951;
  }
-.c-drainasi {
-    color: #009DDC;
+.pc-drainase {
+    background-color: #7FA6B2;
 }
-.c-informasi {
-    color: #FFD200;
+.pc-informasi {
+    background-color: #B65B46;
 }
-.c-jalan {
-    color: #8CD2F4;
+.pc-jalan {
+    background-color: #4C4320;
 }
-.c-listrik { 
-    color: #F47735;
+.pc-listrik { 
+    background-color: #E7922A;
 }
-.c-sampa {
-    color: #808080;
+.pc-sampah {
+    background-color: #601D00;
 }
-.c-sanitasi {
-    color: #69D2E7;
+.pc-sanitasi {
+    background-color: #573649;
 }
-.c-liannyn {
-    color: #A7DBD8;
+.pc-liannyn {
+    background-color: #C0B58F;
 }
 
 /*============PROJECT LIST ACCORDION============*/
@@ -178,8 +178,7 @@ p {
     display: block;
     position: relative;
     clear: both;
-    border-bottom: 1px solid #bdbdbd;
-    background-color: #e0e0e0;
+    /*border-bottom: 1px solid #D4D2CB;*/
 }
 
 #list ul li label {
@@ -192,7 +191,7 @@ p {
 }
 
 #list ul li label:hover{
-    background: #dbdbdb;
+    /*background: #dbdbdb;*/
 }
 
 #list ul li label .icon-block {
@@ -200,7 +199,6 @@ p {
     width: 60px;
     height: 60px;
     float: left;
-    background-color: #d3d3d3;
 }
 
 #list ul li label .text-block {
@@ -212,14 +210,18 @@ p {
 
 #list ul li label .text-block h6 {
     margin-top: 0.675em;
-    color: black;
-    font-weight: 500;
+    color: white;
+    font-weight: 400;
 }
 
 #list ul li input:checked + label,
 #list ul li input:checked + label:hover{
     background: #d7d7d7;
     color: #3d7489;
+}
+
+#list ul li input:not(:checked) + label:hover{
+    opacity: 0.7;
 }
 
 #list ul li label:hover:after,
@@ -270,32 +272,6 @@ p {
     height: 140px;
 }
 
-#list .icon-block {
-    width: 60px;
-    height: 60px;
-}
-
-#list .icon-block.i-air {
-    background-color: #EF4135;
-}
-#list .icon-block.i-drainasi {
-    background-color: #009DDC;
-}
-#list .icon-block.i-informasi {
-    background: transparent url(../img/svg/solo_informasi.svg) no-repeat center center; 
-}
-#list .icon-block.i-jalan {
-    background: transparent url(../img/svg/solo_jalan.svg) no-repeat center center; 
-}
-#list .icon-block.i-listrik {
-    background: transparent url(../img/svg/solo_listrik.svg) no-repeat center center;   
-}
-#list .icon-block.i-sampah {
-    background: transparent url(../img/svg/solo_sampah.svg) no-repeat center center;    
-}
-#list .icon-block.i-sanitasi {
-    background: transparent url(../img/svg/solo_sanitasi.svg) no-repeat center center;  
-}
-#list .icon-block.i-liannyn {
-    background: transparent url(../img/svg/solo_lainnyn.svg) no-repeat center center;   
+.icon-block {
+    background: rgba(0,0,0,0.1);
 }
