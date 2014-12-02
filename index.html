@@ -151,16 +151,19 @@
           this.addListeners();
         }
         this.setOpacity = function(opacity) {
-          this.kelurahanShape.setStyle({fillOpacity: 1});
+          this.kelurahanShape.setStyle({fillOpacity: opacity});
         }
         this.addListeners = function() {
           var that = this;
           this.kelurahanShape.on("click", function(){
-              window.alert(that.index);
-              //that.setOpacity(onHoverKelurahanOpacity);
-              //window.alert(JSON.stringify(this)); 
               mapStateController.onKelurahanClick(that.index);
           });
+          this.kelurahanShape.on('mouseover', function(){
+            mapStateController.onKelurahanMouseOver(that.index);
+          });
+          this.kelurahanShape.on('mouseout', function(){
+            mapStateController.onKelurahanMouseOut(that.index);
+          });          
 /*          google.maps.event.addListener(kelurahanShape, 'mouseover', function() {
             mapStateController.onKelurahanMouseOver(this["index"]);
           });
