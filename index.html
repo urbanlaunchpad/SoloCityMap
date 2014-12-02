@@ -37,20 +37,11 @@
       var kelurahans = [];
       var projectsArray = [];
       document.addEventListener("DOMContentLoaded", initialize);
-/*      google.maps.event.addDomListener(window, 'load', initialize);*/
       var mapStateController = new mapStateController();
       function initialize() {
         L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
           map = L.mapbox.map("map-canvas", 'stephenkennedy.ad4e43ac')
         .setView([-7.566667, 110.816667], 13);
-
-/*        var myOptions = {
-          zoom: 13,
-          center: new google.maps.LatLng(-7.555974952021982, 110.818951686123),
-          disableDefaultUI: true,
-          scaleControl: true
-        };
-        map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);*/
         getKelurahans();
         getProjects();
       }
@@ -75,8 +66,6 @@
             document.getElementById("kelurahan_name").innerHTML = kelurahans[kelurahanIndex].name;
         }
         this.onKelurahanClick = function(kelurahanIndex){
-            //map.panTo(kelurahans[kelurahanIndex].center);
-            //map.fitBounds(kelurahans[kelurahanIndex].bounds);
             kelurahans[kelurahanIndex].setOpacity(activeKelurahanOpacity);
             map.fitBounds(kelurahans[kelurahanIndex].kelurahanShape.getBounds());
         }
@@ -143,7 +132,6 @@
             index : this.index
         };
         this.kelurahanShape = new L.polygon(this.geometry, this.shapeOptions);
-        //this.bounds = kelurahanShape.getBounds();
         this.drawKelurahan = function() {
           map.addLayer(this.kelurahanShape);
         }
@@ -165,15 +153,6 @@
           this.kelurahanShape.on('mouseout', function(){
             mapStateController.onKelurahanMouseOut(that.index);
           });          
-/*          google.maps.event.addListener(kelurahanShape, 'mouseover', function() {
-            mapStateController.onKelurahanMouseOver(this["index"]);
-          });
-          google.maps.event.addListener(kelurahanShape, 'mouseout', function() {
-            mapStateController.onKelurahanMouseOut(this["index"]);
-          });
-          google.maps.event.addListener(kelurahanShape, 'click', function() {
-            mapStateController.onKelurahanClick(this["index"]);
-          }); */
         }
       }
 
@@ -232,18 +211,6 @@
         return array;
       }
       
-    /*  google.maps.Polygon.prototype.getBounds = function() {
-          var bounds = new google.maps.LatLngBounds();
-          var paths = this.getPaths();
-          var path;        
-          for (var i = 0; i < paths.getLength(); i++) {
-              path = paths.getAt(i);
-              for (var ii = 0; ii < path.getLength(); ii++) {
-                  bounds.extend(path.getAt(ii));
-              }
-          }
-          return bounds;
-      }*/
       //***********************************************************************
       //***************Here goes the stuff for the swipe and info**************
       //***********************************************************************
