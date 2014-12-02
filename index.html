@@ -78,6 +78,7 @@
             //map.panTo(kelurahans[kelurahanIndex].center);
             //map.fitBounds(kelurahans[kelurahanIndex].bounds);
             kelurahans[kelurahanIndex].setOpacity(activeKelurahanOpacity);
+            map.fitBounds(kelurahans[kelurahanIndex].kelurahanShape.getBounds());
         }
         this.onKelurahanMouseOut = function(kelurahanIndex){
           kelurahans[kelurahanIndex].setOpacity(originalKelurahanOpacity);
