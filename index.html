@@ -5,11 +5,6 @@
     <meta content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" name="viewport">
     <title>Solo map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <!-- Swiper and swiper slider -->
-    <link rel="stylesheet" href="src/css/idangerous.swiper.css">
-    <script defer src="src/script/idangerous.swiper.js"></script>
-    <link rel="stylesheet" href="src/css/idangerous.swiper.scrollbar.css">
-    <script defer src="src/script/idangerous.swiper.scrollbar.js"></script>
     <!-- FONTS -->
     <link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>  
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>    
@@ -206,9 +201,8 @@
         }
         return array;
       }
-      
       //***********************************************************************
-      //***************Here goes the stuff for the swipe and info**************
+      //***************Here goes the stuff for the  info***********************
       //***********************************************************************
       function getProjects() {
         columnNames = getWhatToGet(projectFields);
@@ -230,17 +224,7 @@
         }
         fillProjectCards("SUMBER","2012",2014);
       }
-
-
       function projectCard(project){
-/*        var div = document.createElement("div");
-        var category = document.createTextNode(project.CATEGORY);
-        var subcategory = document.createTextNode(project.SUBCATEGORY);
-        var name = document.createTextNode(project.PROJECT_NAME);
-        div.appendChild(category);
-        div.appendChild(subcategory);
-        div.appendChild(name);*/
-
         var li = document.createElement('li');
         var input = document.createElement("input");
         input.id = project.ID;
@@ -264,12 +248,7 @@
         var p = document.createElement("p");
         p.innerHTML = "Planned budget: " + project.PLANNED_BUDGET + " IDR";
         article.appendChild(p);
-        li.appendChild(article);
-        //window.alert(input.id);
-        //li.appendChild();
-
-
-
+        li.appendChild(article);  
         this.getView = function(){
           return li;
         };
@@ -284,28 +263,6 @@
           ul.appendChild(projectCardArray[i].getView());
         }
         list.appendChild(ul);
-        //createSwiperInterface();
-      }
-      function createSwiperInterface(){
-        var mySwiper = new Swiper('.swiper-container',{
-          //Your options here:
-          mode:'vertical',
-          pagination: '.pagination',
-          paginationClickable: true,
-          loop: true,
-          grabCursor: true,
-          createPagination: true,
-          autoResize: true,
-          resizeReInit: true,
-          slidesPerView: 10,
-          //etc..
-          scrollbar: {
-          container : '.swiper-scrollbar',
-          draggable : true,
-          hide: false,
-          snapOnRelease: true
-          }
-        });
       }
       //***********************************************************************
       //*************Here goes the stuff related to Fusion Tables**************
