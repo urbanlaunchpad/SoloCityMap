@@ -68,6 +68,8 @@
         this.onKelurahanClick = function(kelurahanIndex){
             kelurahans[kelurahanIndex].setOpacity(activeKelurahanOpacity);
             map.fitBounds(kelurahans[kelurahanIndex].kelurahanShape.getBounds());
+            emptyProjectCards();
+            fillProjectCards(kelurahans[kelurahanIndex].name,"2012",2014);
         }
         this.onKelurahanMouseOut = function(kelurahanIndex){
           kelurahans[kelurahanIndex].setOpacity(originalKelurahanOpacity);
@@ -222,7 +224,7 @@
           tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
           projectDatabase.insert(tempObj);
         }
-        fillProjectCards("SUMBER","2012",2014);
+        //fillProjectCards("SUMBER","2012",2014);
       }
       function projectCard(project){
         var li = document.createElement('li');
@@ -263,6 +265,10 @@
           ul.appendChild(projectCardArray[i].getView());
         }
         list.appendChild(ul);
+      }
+      function emptyProjectCards(){
+        var list = document.getElementById("list");
+        list.innerHTML = "";
       }
       //***********************************************************************
       //*************Here goes the stuff related to Fusion Tables**************
