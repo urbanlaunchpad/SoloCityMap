@@ -31,7 +31,6 @@
     <link rel="stylesheet" href="src/css/structure.css">
     <!--<![endif]-->
     <script type="text/javascript">
-
       //***********************************************************************
       //***********************Here goes the stuff for the map*****************
       //***********************************************************************
@@ -55,12 +54,10 @@
         getKelurahans();
         getProjects();
       }
-
       function getKelurahans(){
         var query = 'SELECT KELURAHAN, geometry, geometry_pos FROM ' + kelurahansFusionTableID;
         getFusionTablesData(query, "parseKelurahans");
       }
-
       function mapStateController(){
         var state;
         var possibleStates = {
@@ -68,9 +65,7 @@
             Kelurahan: 2,
         };
         this.showMain = function(){
-
         }
-
         this.onKelurahanMouseOver = function(kelurahanIndex){
             kelurahans[kelurahanIndex].setOpacity(onHoverKelurahanOpacity);
             document.getElementById("kelurahan_name").innerHTML = kelurahans[kelurahanIndex].name;
@@ -102,10 +97,8 @@
           // Make this kelurahan dimmer
 
           // Show the list of projects
-
         }
       }
-
       function parseKelurahans(data){
         var rows = data['rows'];
         for (var i in rows) {
@@ -124,7 +117,6 @@
         }
         drawKelurahans(kelurahans);
       }
-
       function kelurahan(name, geometry, center, index) {
         this.name = name;
         this.geometry = geometry;
@@ -165,7 +157,6 @@
           });          
         }
       }
-
       function drawKelurahans(kelurahans) {
         this.kelurahans = kelurahans;
         shuffleArray = [];
@@ -183,11 +174,8 @@
           }
         }, 50)
       }
-
       function drawMap(data) {
-
       }
-
       function constructNewCoordinates(polygon) {
         var newCoordinates = [];
         var coordinates = polygon['coordinates'][0];
@@ -196,14 +184,12 @@
         }
         return newCoordinates;
       }
-
       function constructNewPointCoordinates(originalPoint) {
         var pointCoordinates;
         var pointFromSource = originalPoint["coordinates"];
         pointCoordinates = new L.LatLng(pointFromSource[1], pointFromSource[0]);
         return pointCoordinates;
       }
-
       // Fisher–Yates shuffle
       function shuffle(array) {
         var counter = array.length, temp, index;
@@ -258,17 +244,20 @@
         };
       }
       function fillProjectCards(kelurahan, startYear, endYear){
-        var swiperWrapper = document.getElementById("swiper-wrapper");
+        var list = document.getElementById("list");
+        var ul = document.createElement("ul");
+
         var projectCardArray = [];
         var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : startYear}).get();
         for (var i=0; i < projectsToShow.length; i++){
-          var swiperSlide = document.createElement('div');
-          swiperSlide.className = 'swiper-slide';
+          var li = document.createElement('li');
+
           projectCardArray[i] = new projectCard(projectsToShow[i]);
-          swiperSlide.appendChild(projectCardArray[i].getView());
-          swiperWrapper.appendChild(swiperSlide);
+          li.appendChild(projectCardArray[i].getView());
+          ul.appendChild(li);
         }
-        createSwiperInterface();
+        list.appendChild(ul);
+        //createSwiperInterface();
       }
       function createSwiperInterface(){
         var mySwiper = new Swiper('.swiper-container',{
@@ -318,7 +307,6 @@
   </head>
   <body>
     <div id="layout" class="content pure-g">
-
       <div id="nav" class="pure-u">
         <a href="#" class="nav-menu-button">Menu</a>
         <h6 style="margin-top:0; padding-top:0.5em">Solo City Map</h6>
@@ -332,169 +320,25 @@
           </div>
         </div>
       </div>
-
       <div id="list-header" class="pure-u">
         <h4 id="kelurahan_name"></h4>
       </div>
-
       <div id="main">
         <div id="map-canvas"></div>
       </div>  
-
-      <div id="list" class="pure-u">
-        <ul>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-VO-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-VO-10">
-              <div class="icon-block i-jalan"></div>
-              <div class="text-block">
-                <h6>Pembuatan tempat pertemuan warga</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-JA-AR-01" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-JA-AR-01">
-              <div class="icon-block i-air"></div>
-              <div class="text-block">
-                <h6>Air Bersih</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-JA-AR-02" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-JA-AR-02">
-              <div class="icon-block i-air"></div>
-              <div class="text-block">
-                <h6>Air Bersih</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-SM-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-SM-10">
-              <div class="icon-block i-sampah"></div>
-              <div class="text-block">
-                <h6>Mannakemen Sampah</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-SA-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-SA-10">
-              <div class="icon-block i-sanitasi"></div>
-              <div class="text-block">
-                <h6>Sanitasi</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-JA-VO-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-JA-VO-10">
-              <div class="icon-block i-drainasi"></div>
-              <div class="text-block">
-                <h6>Perbaikan saluran / drainase</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-XX-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-XX-10">
-              <div class="icon-block i-jalan"></div>
-              <div class="text-block">
-                <h6>Perbaikan gorong-gorong</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-LS-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-LS-10">
-              <div class="icon-block i-listrik"></div>
-              <div class="text-block">
-                <h6>Listrik</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-LL-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-LL-10">
-              <div class="icon-block i-informasi"></div>
-              <div class="text-block">
-                <h6>Rehap saluran</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-YY-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-YY-10">
-              <div class="icon-block i-drainasi"></div>
-              <div class="text-block">
-                <h6>Pembuatan tempat pertemuan warga</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-SR-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-SR-10">
-              <div class="icon-block i-liannyn"></div>
-              <div class="text-block">
-                <h6>Saran liannyn</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-        </ul>   
+      <div id="list" class="pure-u"> 
       </div>  
-
     </div>
-
     <script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
-
     <script>
       YUI().use('node-base', 'node-event-delegate', function (Y) {
-
         var menuButton = Y.one('.nav-menu-button'),
           nav   = Y.one('#nav');
-
         // Setting the active class name expands the menu vertically on small screens.
         menuButton.on('click', function (e) {
           nav.toggleClass('active');
         });
-
         // Your application code goes here...
-
       });
     </script>
   </body>
