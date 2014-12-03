@@ -225,6 +225,7 @@
           for (var i=0; i < projectFields.length; i++){
             tempObj[projectFields[i]] = rows[j][i];
           }
+          tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
           projectDatabase.insert(tempObj);
         }
         fillProjectCards("SUMBER","2012",2014);
@@ -232,29 +233,58 @@
 
 
       function projectCard(project){
-        var div = document.createElement("div");
+/*        var div = document.createElement("div");
         var category = document.createTextNode(project.CATEGORY);
         var subcategory = document.createTextNode(project.SUBCATEGORY);
         var name = document.createTextNode(project.PROJECT_NAME);
         div.appendChild(category);
         div.appendChild(subcategory);
-        div.appendChild(name);
+        div.appendChild(name);*/
+
+        var li = document.createElement('li');
+        var input = document.createElement("input");
+        input.id = project.ID;
+        input.name = "accordion-1";
+        input.type = "radio"
+        li.appendChild(input);
+        var label = document.createElement("label");
+        label.htmlFor = project.ID;
+        var div1 = document.createElement("div");
+        div1.className = "icon-block i-jalan";
+        label.appendChild(div1);
+        var div2 = document.createElement("div");
+        div2.className = "text-block";
+        var h6 = document.createElement("h6");
+        h6.innerHTML = project.PROJECT_NAME;
+        div2.appendChild(h6);
+        label.appendChild(div2);
+        li.appendChild(label);
+        var article = document.createElement("article");
+        article.className = "ac-small";
+        var p = document.createElement("p");
+        p.innerHTML = "Planned budget: " + project.PLANNED_BUDGET + " IDR";
+        article.appendChild(p);
+        li.appendChild(article);
+
+
+        window.alert(JSON.stringify(project));
+        //window.alert(input.id);
+        //li.appendChild();
+
+
+
         this.getView = function(){
-          return div;
+          return li;
         };
       }
       function fillProjectCards(kelurahan, startYear, endYear){
         var list = document.getElementById("list");
         var ul = document.createElement("ul");
-
         var projectCardArray = [];
         var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : startYear}).get();
         for (var i=0; i < projectsToShow.length; i++){
-          var li = document.createElement('li');
-
           projectCardArray[i] = new projectCard(projectsToShow[i]);
-          li.appendChild(projectCardArray[i].getView());
-          ul.appendChild(li);
+          ul.appendChild(projectCardArray[i].getView());
         }
         list.appendChild(ul);
         //createSwiperInterface();
