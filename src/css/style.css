@@ -245,27 +245,27 @@ p {
     height: 140px;
 }
 
-#list .icon-block.i-air {
+#list .icon-block.i-AR {
     background: transparent url(../img/svg/solo_air.svg) no-repeat center center;   
 }
-#list .icon-block.i-drainasi {
+#list .icon-block.i-DR {
     background: transparent url(../img/svg/solo_drainasi.svg) no-repeat center center;  
 }
-#list .icon-block.i-informasi {
+#list .icon-block.i-IC {
     background: transparent url(../img/svg/solo_informasi.svg) no-repeat center center; 
 }
-#list .icon-block.i-jalan {
+#list .icon-block.i-JA {
     background: transparent url(../img/svg/solo_jalan.svg) no-repeat center center; 
 }
-#list .icon-block.i-listrik {
+#list .icon-block.i-LS {
     background: transparent url(../img/svg/solo_listrik.svg) no-repeat center center;   
 }
-#list .icon-block.i-sampah {
+#list .icon-block.i-SM {
     background: transparent url(../img/svg/solo_sampah.svg) no-repeat center center;    
 }
-#list .icon-block.i-sanitasi {
+#list .icon-block.i-SA {
     background: transparent url(../img/svg/solo_sanitasi.svg) no-repeat center center;  
 }
-#list .icon-block.i-liannyn {
+#list .icon-block.i-SR {
     background: transparent url(../img/svg/solo_lainnyn.svg) no-repeat center center;   
 }

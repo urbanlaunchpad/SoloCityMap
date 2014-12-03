@@ -236,7 +236,7 @@
         var label = document.createElement("label");
         label.htmlFor = project.ID;
         var div1 = document.createElement("div");
-        div1.className = "icon-block i-jalan";
+        div1.className = "icon-block i-" + project.SUBCATEGORY;
         label.appendChild(div1);
         var div2 = document.createElement("div");
         div2.className = "text-block";
