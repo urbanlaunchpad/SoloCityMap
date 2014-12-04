@@ -222,9 +222,9 @@
             tempObj[projectFields[i]] = rows[j][i];
           }
           tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
+          tempObj["SUBCATEGORY_TEXT"] = parseSubcategories(tempObj.SUBCATEGORY);
           projectDatabase.insert(tempObj);
         }
-        //fillProjectCards("SUMBER","2012",2014);
       }
       function projectCard(project){
         var li = document.createElement('li');
@@ -235,15 +235,19 @@
         li.appendChild(input);
         var label = document.createElement("label");
         label.htmlFor = project.ID;
-        var div1 = document.createElement("div");
-        div1.className = "icon-block i-" + project.SUBCATEGORY;
-        label.appendChild(div1);
-        var div2 = document.createElement("div");
-        div2.className = "text-block";
+        label.className = "pc-" + project.SUBCATEGORY;
+        var obj = document.createElement("object");
+        obj.className = "icon-block";
+        obj.type = "image/svg+xml";
+        obj.data = "src/img/svg/solo_" + project.SUBCATEGORY +".svg";
+        obj.innerHTML = project.SUBCATEGORY_TEXT;
+        label.appendChild(obj);
+        var div = document.createElement("div");
+        div.className = "text-block";
         var h6 = document.createElement("h6");
         h6.innerHTML = project.PROJECT_NAME;
-        div2.appendChild(h6);
-        label.appendChild(div2);
+        div.appendChild(h6);
+        label.appendChild(div);
         li.appendChild(label);
         var article = document.createElement("article");
         article.className = "ac-small";
@@ -292,7 +296,37 @@
         }
         whatToGet = whatToGet.substring(0, whatToGet.length - 2);
         return whatToGet;
-      }    
+      }
+      function parseSubcategories(abbreviation){
+        var subcategory = null;
+        switch(abbreviation) {
+          case "JA":
+            subcategory = "Jalan";
+            break;
+          case "SA":
+            subcategory = "Sanitasi";
+            break;
+          case "SM":
+            subcategory = "Mannakemen sampah";
+            break;
+          case "LS":
+            subcategory = "Listrik";
+            break;
+          case "AR":
+            subcategory = "Air Bersih";
+            break;
+          case "IC":
+            subcategory = "Informasi dan komunicasi";
+            break;
+          case "DR":
+            subcategory = "Drainase";
+            break;
+          case "SR":
+            subcategory = "Saran lainnyn";
+            break;                  
+        }
+        return subcategory
+      }
     </script>
   </head>
   <body>
