@@ -5,11 +5,6 @@
     <meta content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" name="viewport">
     <title>Solo map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <!-- Swiper and swiper slider -->
-    <link rel="stylesheet" href="src/css/idangerous.swiper.css">
-    <script defer src="src/script/idangerous.swiper.js"></script>
-    <link rel="stylesheet" href="src/css/idangerous.swiper.scrollbar.css">
-    <script defer src="src/script/idangerous.swiper.scrollbar.js"></script>
     <!-- FONTS -->
     <link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>  
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>    
@@ -31,7 +26,6 @@
     <link rel="stylesheet" href="src/css/structure.css">
     <!--<![endif]-->
     <script type="text/javascript">
-
       //***********************************************************************
       //***********************Here goes the stuff for the map*****************
       //***********************************************************************
@@ -55,12 +49,10 @@
         getKelurahans();
         getProjects();
       }
-
       function getKelurahans(){
         var query = 'SELECT KELURAHAN, geometry, geometry_pos FROM ' + kelurahansFusionTableID;
         getFusionTablesData(query, "parseKelurahans");
       }
-
       function mapStateController(){
         var state;
         var possibleStates = {
@@ -68,9 +60,7 @@
             Kelurahan: 2,
         };
         this.showMain = function(){
-
         }
-
         this.onKelurahanMouseOver = function(kelurahanIndex){
             kelurahans[kelurahanIndex].setOpacity(onHoverKelurahanOpacity);
             document.getElementById("kelurahan_name").innerHTML = kelurahans[kelurahanIndex].name;
@@ -78,6 +68,8 @@
         this.onKelurahanClick = function(kelurahanIndex){
             kelurahans[kelurahanIndex].setOpacity(activeKelurahanOpacity);
             map.fitBounds(kelurahans[kelurahanIndex].kelurahanShape.getBounds());
+            emptyProjectCards();
+            fillProjectCards(kelurahans[kelurahanIndex].name,"2012",2014);
         }
         this.onKelurahanMouseOut = function(kelurahanIndex){
           kelurahans[kelurahanIndex].setOpacity(originalKelurahanOpacity);
@@ -102,10 +94,8 @@
           // Make this kelurahan dimmer
 
           // Show the list of projects
-
         }
       }
-
       function parseKelurahans(data){
         var rows = data['rows'];
         for (var i in rows) {
@@ -124,7 +114,6 @@
         }
         drawKelurahans(kelurahans);
       }
-
       function kelurahan(name, geometry, center, index) {
         this.name = name;
         this.geometry = geometry;
@@ -165,7 +154,6 @@
           });          
         }
       }
-
       function drawKelurahans(kelurahans) {
         this.kelurahans = kelurahans;
         shuffleArray = [];
@@ -183,11 +171,8 @@
           }
         }, 50)
       }
-
       function drawMap(data) {
-
       }
-
       function constructNewCoordinates(polygon) {
         var newCoordinates = [];
         var coordinates = polygon['coordinates'][0];
@@ -196,14 +181,12 @@
         }
         return newCoordinates;
       }
-
       function constructNewPointCoordinates(originalPoint) {
         var pointCoordinates;
         var pointFromSource = originalPoint["coordinates"];
         pointCoordinates = new L.LatLng(pointFromSource[1], pointFromSource[0]);
         return pointCoordinates;
       }
-
       // Fisher–Yates shuffle
       function shuffle(array) {
         var counter = array.length, temp, index;
@@ -220,9 +203,8 @@
         }
         return array;
       }
-      
       //***********************************************************************
-      //***************Here goes the stuff for the swipe and info**************
+      //***************Here goes the stuff for the  info***********************
       //***********************************************************************
       function getProjects() {
         columnNames = getWhatToGet(projectFields);
@@ -239,57 +221,59 @@
           for (var i=0; i < projectFields.length; i++){
             tempObj[projectFields[i]] = rows[j][i];
           }
+          tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
+          tempObj["SUBCATEGORY_TEXT"] = parseSubcategories(tempObj.SUBCATEGORY);
           projectDatabase.insert(tempObj);
         }
-        fillProjectCards("SUMBER","2012",2014);
       }
-
-
       function projectCard(project){
+        var li = document.createElement('li');
+        var input = document.createElement("input");
+        input.id = project.ID;
+        input.name = "accordion-1";
+        input.type = "radio"
+        li.appendChild(input);
+        var label = document.createElement("label");
+        label.htmlFor = project.ID;
+        label.className = "pc-" + project.SUBCATEGORY;
+        var obj = document.createElement("object");
+        obj.className = "icon-block";
+        obj.type = "image/svg+xml";
+        obj.data = "src/img/svg/solo_" + project.SUBCATEGORY +".svg";
+        obj.innerHTML = project.SUBCATEGORY_TEXT;
+        label.appendChild(obj);
         var div = document.createElement("div");
-        var category = document.createTextNode(project.CATEGORY);
-        var subcategory = document.createTextNode(project.SUBCATEGORY);
-        var name = document.createTextNode(project.PROJECT_NAME);
-        div.appendChild(category);
-        div.appendChild(subcategory);
-        div.appendChild(name);
+        div.className = "text-block";
+        var h6 = document.createElement("h6");
+        h6.innerHTML = project.PROJECT_NAME;
+        div.appendChild(h6);
+        label.appendChild(div);
+        li.appendChild(label);
+        var article = document.createElement("article");
+        article.className = "ac-small";
+        var p = document.createElement("p");
+        p.innerHTML = "Planned budget: " + project.PLANNED_BUDGET + " IDR";
+        article.appendChild(p);
+        li.appendChild(article);  
+        window.alert(li.innerHTML);
         this.getView = function(){
-          return div;
+          return li;
         };
       }
       function fillProjectCards(kelurahan, startYear, endYear){
-        var swiperWrapper = document.getElementById("swiper-wrapper");
+        var list = document.getElementById("list");
+        var ul = document.createElement("ul");
         var projectCardArray = [];
         var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : startYear}).get();
         for (var i=0; i < projectsToShow.length; i++){
-          var swiperSlide = document.createElement('div');
-          swiperSlide.className = 'swiper-slide';
           projectCardArray[i] = new projectCard(projectsToShow[i]);
-          swiperSlide.appendChild(projectCardArray[i].getView());
-          swiperWrapper.appendChild(swiperSlide);
+          ul.appendChild(projectCardArray[i].getView());
         }
-        createSwiperInterface();
+        list.appendChild(ul);
       }
-      function createSwiperInterface(){
-        var mySwiper = new Swiper('.swiper-container',{
-          //Your options here:
-          mode:'vertical',
-          pagination: '.pagination',
-          paginationClickable: true,
-          loop: true,
-          grabCursor: true,
-          createPagination: true,
-          autoResize: true,
-          resizeReInit: true,
-          slidesPerView: 10,
-          //etc..
-          scrollbar: {
-          container : '.swiper-scrollbar',
-          draggable : true,
-          hide: false,
-          snapOnRelease: true
-          }
-        });
+      function emptyProjectCards(){
+        var list = document.getElementById("list");
+        list.innerHTML = "";
       }
       //***********************************************************************
       //*************Here goes the stuff related to Fusion Tables**************
@@ -313,12 +297,41 @@
         }
         whatToGet = whatToGet.substring(0, whatToGet.length - 2);
         return whatToGet;
-      }    
+      }
+      function parseSubcategories(abbreviation){
+        var subcategory = null;
+        switch(abbreviation) {
+          case "JA":
+            subcategory = "Jalan";
+            break;
+          case "SA":
+            subcategory = "Sanitasi";
+            break;
+          case "SM":
+            subcategory = "Mannakemen sampah";
+            break;
+          case "LS":
+            subcategory = "Listrik";
+            break;
+          case "AR":
+            subcategory = "Air Bersih";
+            break;
+          case "IC":
+            subcategory = "Informasi dan komunicasi";
+            break;
+          case "DR":
+            subcategory = "Drainase";
+            break;
+          case "SR":
+            subcategory = "Saran lainnyn";
+            break;                  
+        }
+        return subcategory
+      }
     </script>
   </head>
   <body>
     <div id="layout" class="content pure-g">
-
       <div id="nav" class="pure-u">
         <a href="#" class="nav-menu-button">Menu</a>
         <h6 style="margin-top:0; padding-top:0.5em">Solo City Map</h6>
@@ -332,169 +345,25 @@
           </div>
         </div>
       </div>
-
       <div id="list-header" class="pure-u">
         <h4 id="kelurahan_name"></h4>
       </div>
-
       <div id="main">
         <div id="map-canvas"></div>
       </div>  
-
-      <div id="list" class="pure-u">
-        <ul>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-VO-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-VO-10">
-              <div class="icon-block i-jalan"></div>
-              <div class="text-block">
-                <h6>Pembuatan tempat pertemuan warga</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-JA-AR-01" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-JA-AR-01">
-              <div class="icon-block i-air"></div>
-              <div class="text-block">
-                <h6>Air Bersih</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-JA-AR-02" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-JA-AR-02">
-              <div class="icon-block i-air"></div>
-              <div class="text-block">
-                <h6>Air Bersih</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-SM-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-SM-10">
-              <div class="icon-block i-sampah"></div>
-              <div class="text-block">
-                <h6>Mannakemen Sampah</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-SA-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-SA-10">
-              <div class="icon-block i-sanitasi"></div>
-              <div class="text-block">
-                <h6>Sanitasi</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-JA-VO-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-JA-VO-10">
-              <div class="icon-block i-drainasi"></div>
-              <div class="text-block">
-                <h6>Perbaikan saluran / drainase</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-XX-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-XX-10">
-              <div class="icon-block i-jalan"></div>
-              <div class="text-block">
-                <h6>Perbaikan gorong-gorong</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-LS-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-LS-10">
-              <div class="icon-block i-listrik"></div>
-              <div class="text-block">
-                <h6>Listrik</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-LL-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-LL-10">
-              <div class="icon-block i-informasi"></div>
-              <div class="text-block">
-                <h6>Rehap saluran</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-YY-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-YY-10">
-              <div class="icon-block i-drainasi"></div>
-              <div class="text-block">
-                <h6>Pembuatan tempat pertemuan warga</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-          <li>
-            <input id="TIMURAN-2011-IN-DR-SR-10" name="accordion-1" type="radio" />
-            <label for="TIMURAN-2011-IN-DR-SR-10">
-              <div class="icon-block i-liannyn"></div>
-              <div class="text-block">
-                <h6>Saran liannyn</h6>
-              </div>
-            </label>
-            <article class="ac-small">
-              <p>This is where project details go!</p>
-            </article>
-          </li>
-        </ul>   
+      <div id="list" class="pure-u"> 
       </div>  
-
     </div>
-
     <script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
-
     <script>
       YUI().use('node-base', 'node-event-delegate', function (Y) {
-
         var menuButton = Y.one('.nav-menu-button'),
           nav   = Y.one('#nav');
-
         // Setting the active class name expands the menu vertically on small screens.
         menuButton.on('click', function (e) {
           nav.toggleClass('active');
         });
-
         // Your application code goes here...
-
       });
     </script>
   </body>

@@ -133,28 +133,28 @@ p {
 }
 
 /*===============COLORS=================*/
-.pc-air {
+.pc-AR {
     background-color: #003951;
  }
-.pc-drainase {
+.pc-DR {
     background-color: #7FA6B2;
 }
-.pc-informasi {
+.pc-IC {
     background-color: #B65B46;
 }
-.pc-jalan {
+.pc-JA {
     background-color: #4C4320;
 }
-.pc-listrik { 
+.pc-LS { 
     background-color: #E7922A;
 }
-.pc-sampah {
+.pc-SM {
     background-color: #601D00;
 }
-.pc-sanitasi {
+.pc-SA {
     background-color: #573649;
 }
-.pc-liannyn {
+.pc-SR {
     background-color: #C0B58F;
 }
 
@@ -273,7 +273,6 @@ p {
 #list ul li input:checked ~ article.ac-small{
     height: 140px;
 }
-
 .icon-block {
     background: rgba(0,0,0,0.1);
 }
