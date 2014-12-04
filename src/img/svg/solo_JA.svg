@@ -1,0 +1,9 @@
+<?xml-stylesheet type="text/css" href="svg.css" ?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 60 60" enable-background="new 0 0 60 60" xml:space="preserve">
+<g id="i-jalan">
+	<path class="secondary" d="M50,31.633h-4.899v-3.266H50V31.633z M40.786,28.367h-8.629v3.266h8.629V28.367z M27.843,28.367h-8.63
+		v3.266h8.63V28.367z M14.899,28.367H10v3.266h4.899V28.367z"/>
+	<path class="primary" d="M50,21.633H10v-3.266h40V21.633z M50,38.367H10v3.266h40V38.367z"/>
+</g>
+</svg>

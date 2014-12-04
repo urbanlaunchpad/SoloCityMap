@@ -1,0 +1,10 @@
+<?xml-stylesheet type="text/css" href="svg.css" ?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 60 60" enable-background="new 0 0 60 60" xml:space="preserve">
+<g id="V2_x5F_export">
+	<polygon class="primary" points="35.021,32.213 30.662,27.055 33.693,19.073 24.979,27.787 29.338,32.945 26.307,40.927 	"/>
+	<path class="secondary" d="M21.515,24.343l-5.656-5.657l2.828-2.828l5.656,5.657L21.515,24.343z M20,28h-8v4h8V28z M24.343,38.485
+		l-2.828-2.828l-5.656,5.657l2.828,2.828L24.343,38.485z M44.142,18.686l-2.828-2.828l-5.656,5.657l2.828,2.828L44.142,18.686z
+		 M48,28h-8v4h8V28z M44.142,41.314l-5.656-5.657l-2.828,2.828l5.656,5.657L44.142,41.314z"/>
+</g>
+</svg>
