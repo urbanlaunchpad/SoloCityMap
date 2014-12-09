@@ -11,7 +11,7 @@
     background-color: #e9e9e9;
 }
 
-#list-header {
+#list-header, #year-selector {
     background-color: #dbdbdb;
     z-index: 2;
 }
@@ -29,6 +29,7 @@
 #nav,
 #list,
 #list-header,
+#year-selector,
 #main {
     margin: 0;
     padding: 0;
@@ -51,6 +52,22 @@
     top: 29em;
     height: 100%;
     border-top: 1px solid #bdbdbd;
+}
+
+#year-selector {
+    height: auto;
+    position: relative;
+    float: right;
+    margin: 1em;
+    border: 1px solid #bdbdbd;
+}
+
+#year-selector .year-header {
+    height: 100%;
+    display: block;
+    position: relative;
+    float: left;
+    padding: 8px 16px;
 }
 
 /* Make the navigation 100% width on phones */
