@@ -40,12 +40,14 @@
       var map;
       var kelurahans = [];
       var projectsArray = [];
+      var subcategoryIcons;
       document.addEventListener("DOMContentLoaded", initialize);
       var mapStateController = new mapStateController();
       function initialize() {
         L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
           map = L.mapbox.map("map-canvas", 'stephenkennedy.ad4e43ac')
         .setView([-7.566667, 110.816667], 13);
+        //subcategoryIcons = new getSubcategoryIcons();
         getKelurahans();
         getProjects();
       }
@@ -171,19 +173,22 @@
           }
         }, 50)
       }
-      function getSubcategoryIcons(){
+/*      function getSubcategoryIcons(){
         //var icon = document.createElement('img');
         //icon.src = "src/img/svg/solo_JA.svg"
-        this.obj = document.createElement("object");
+        this.obj = new Image();
         this.obj.className = "icon-block";
         this.obj.type = "image/svg+xml";
         this.obj.data = "src/img/svg/solo_JA.svg";
         this.obj.innerHTML = "seeeee" // project.SUBCATEGORY_TEXT;
+        //Image1= new Image();
+        //Image1.src = "src/img/svg/solo_JA.svg"
+
         this.getIcon = function(code){
           //window.alert(JSON.stringify(this.obj));
           return this.obj.cloneNode();
         }
-      }
+      }*/
       function drawMap(data) {
       }
       function constructNewCoordinates(polygon) {
@@ -249,14 +254,14 @@
         var label = document.createElement("label");
         label.htmlFor = project.ID;
         label.className = "pc-" + project.SUBCATEGORY;
-/*        var obj = document.createElement("object");
+        var obj = document.createElement("object");
         obj.className = "icon-block";
         obj.type = "image/svg+xml";
         obj.data = "src/img/svg/solo_" + project.SUBCATEGORY +".svg";
         obj.innerHTML = project.SUBCATEGORY_TEXT;
-        label.appendChild(obj);*/
-        var icon = parent.icons.getIcon();
-        label.appendChild(icon);
+        label.appendChild(obj);
+        //var icon = subcategoryIcons.getIcon();
+        label.appendChild(obj);
         var div = document.createElement("div");
         div.className = "text-block";
         var h6 = document.createElement("h6");
@@ -279,7 +284,6 @@
         var ul = document.createElement("ul");
         var projectCardArray = [];
         var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : startYear}).get();
-        this.icons = new getSubcategoryIcons();
         for (var i=0; i < projectsToShow.length; i++){
           that = this;
           projectCardArray[i] = new projectCard(projectsToShow[i], that);
