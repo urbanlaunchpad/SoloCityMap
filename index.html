@@ -171,6 +171,19 @@
           }
         }, 50)
       }
+      function getSubcategoryIcons(){
+        //var icon = document.createElement('img');
+        //icon.src = "src/img/svg/solo_JA.svg"
+        this.obj = document.createElement("object");
+        this.obj.className = "icon-block";
+        this.obj.type = "image/svg+xml";
+        this.obj.data = "src/img/svg/solo_JA.svg";
+        this.obj.innerHTML = "seeeee" // project.SUBCATEGORY_TEXT;
+        this.getIcon = function(code){
+          //window.alert(JSON.stringify(this.obj));
+          return this.obj.cloneNode();
+        }
+      }
       function drawMap(data) {
       }
       function constructNewCoordinates(polygon) {
@@ -226,7 +239,7 @@
           projectDatabase.insert(tempObj);
         }
       }
-      function projectCard(project){
+      function projectCard(project, parent){
         var li = document.createElement('li');
         var input = document.createElement("input");
         input.id = project.ID;
@@ -236,12 +249,14 @@
         var label = document.createElement("label");
         label.htmlFor = project.ID;
         label.className = "pc-" + project.SUBCATEGORY;
-        var obj = document.createElement("object");
+/*        var obj = document.createElement("object");
         obj.className = "icon-block";
         obj.type = "image/svg+xml";
         obj.data = "src/img/svg/solo_" + project.SUBCATEGORY +".svg";
         obj.innerHTML = project.SUBCATEGORY_TEXT;
-        label.appendChild(obj);
+        label.appendChild(obj);*/
+        var icon = parent.icons.getIcon();
+        label.appendChild(icon);
         var div = document.createElement("div");
         div.className = "text-block";
         var h6 = document.createElement("h6");
@@ -264,8 +279,10 @@
         var ul = document.createElement("ul");
         var projectCardArray = [];
         var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : startYear}).get();
+        this.icons = new getSubcategoryIcons();
         for (var i=0; i < projectsToShow.length; i++){
-          projectCardArray[i] = new projectCard(projectsToShow[i]);
+          that = this;
+          projectCardArray[i] = new projectCard(projectsToShow[i], that);
           ul.appendChild(projectCardArray[i].getView());
         }
         list.appendChild(ul);
