@@ -287,7 +287,7 @@ p {
     margin: 1px auto 0;
 }
 
-#year-selector a.year-button {
+#year-selector label.year-button {
     width: auto;
     height: 100%;
     position: relative;
@@ -300,11 +300,22 @@ p {
     border-left: 1px solid rgba(255,255,255,0.25);
 }
 
-#year-selector a.year-button:hover {
+#year-selector label.year-button:hover {
     background-color: #444;
     color: #fff;
 }
 
-#year-selector a.year-button:active {
+#year-selector label.year-button:active {
     background-color: #111;
+}
+
+.ui-helper-hidden-accessible {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
 }
