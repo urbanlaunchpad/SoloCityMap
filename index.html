@@ -5,9 +5,13 @@
     <meta content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" name="viewport">
     <title>Solo map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <!-- jquery and jquery UI -->
+    <<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <!-- FONTS -->
     <link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>  
-    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>    
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'> 
     <!-- Mapbox -->
     <script type="text/javascript" src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' type='text/css'/>    
@@ -33,19 +37,53 @@
       var musrenbangFusionTableID = "1yHXZ3Z5yQXl8eEewPUgYSzOvd458RhW9pQ2smFIf";
       var projectFields = ["KELURAHAN", "YEAR", "VOTED", "CATEGORY", "SUBCATEGORY", "UNIQUE_NUMBER", "LEVEL", "PRIORITY", "PROJECT_NAME", "LOCATION", "AGENCY", "PLANNED_BUDGET", "EXECUTED_BUDGET", "IS_IT_EXECUTED", "NOTES"];
       var projectDatabase =  TAFFY();
-      var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
+      //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
+      var colors = ['#BEC1C4']; // More neutral, similar to Kota Kita site
+      var originalKelurahanShapeOptions = {
+        color: "#000000",
+        opacity: 1,
+        weight: 1,
+        fillColor: "#FFFFFF",
+        fillOpacity: 0,
+      };
+      var onHoverKelurahanShapeOptions = {
+        color: "#000000",
+        opacity: 1,
+        weight: 2,
+        fillColor: "#FFFFFF",
+        fillOpacity: 0,
+      };
+      var activeKelurahanShapeOptions = {
+        color: "#FFFF00",
+        opacity: 1,
+        weight: 4,
+        fillColor: "#FFFFFF",
+        fillOpacity: 0,        
+      };      
       var originalKelurahanOpacity = 0.7;
       var onHoverKelurahanOpacity = 0.3;
       var activeKelurahanOpacity = 0.1;
       var map;
       var kelurahans = [];
       var projectsArray = [];
+      var subcategoryIcons;
       document.addEventListener("DOMContentLoaded", initialize);
+      var subcategories = {
+        JA : "Jalan",
+        SA : "Sanitasi",
+        SM : "Mannakemen sampah",
+        LS : "Listrik",
+        AR : "Air Bersih",
+        IC : "Informasi dan komunicasi",
+        DR : "Drainase",
+        SR : "Saran lainnyn"
+      };
       var mapStateController = new mapStateController();
       function initialize() {
         L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
           map = L.mapbox.map("map-canvas", 'stephenkennedy.ad4e43ac')
         .setView([-7.566667, 110.816667], 13);
+        subcategoryIcons = new getSubcategoryIcons();
         getKelurahans();
         getProjects();
       }
@@ -56,24 +94,104 @@
       function mapStateController(){
         var state;
         var possibleStates = {
+            Default: 0,
             Main: 1,
             Kelurahan: 2,
         };
+        state = possibleStates.Default;
+        var yearCheckboxes = [];
+        var selectedKelurahan = "";
+        var selectedKelurahanIndex;
+        var scFilters = new subcategoryFilters(this);
+        //this.addFiltersUI();
         this.showMain = function(){
         }
         this.onKelurahanMouseOver = function(kelurahanIndex){
-            kelurahans[kelurahanIndex].setOpacity(onHoverKelurahanOpacity);
+          if(selectedKelurahan != kelurahans[kelurahanIndex].name){
+            kelurahans[kelurahanIndex].setStyle(onHoverKelurahanShapeOptions);
             document.getElementById("kelurahan_name").innerHTML = kelurahans[kelurahanIndex].name;
+          }
         }
         this.onKelurahanClick = function(kelurahanIndex){
-            kelurahans[kelurahanIndex].setOpacity(activeKelurahanOpacity);
+            state = possibleStates.Kelurahan;
+            kelurahans[kelurahanIndex].setStyle(activeKelurahanShapeOptions);
             map.fitBounds(kelurahans[kelurahanIndex].kelurahanShape.getBounds());
+            kelurahans[kelurahanIndex].kelurahanShape.bringToFront();
+            if(selectedKelurahan != ""){
+              kelurahans[selectedKelurahanIndex].setStyle(originalKelurahanShapeOptions);
+            }
+            selectedKelurahan = kelurahans[kelurahanIndex].name;
+            selectedKelurahanIndex = kelurahanIndex;
+            this.addFiltersUI();
             emptyProjectCards();
-            fillProjectCards(kelurahans[kelurahanIndex].name,"2012",2014);
+            this.filteringChanged();
         }
         this.onKelurahanMouseOut = function(kelurahanIndex){
-          kelurahans[kelurahanIndex].setOpacity(originalKelurahanOpacity);
-          document.getElementById("kelurahan_name").innerHTML = "";
+          if(selectedKelurahan != kelurahans[kelurahanIndex].name){
+            kelurahans[kelurahanIndex].setStyle(originalKelurahanShapeOptions);
+            document.getElementById("kelurahan_name").innerHTML = selectedKelurahan;
+          }
+        }
+        this.onProjectsParsed = function(){
+          this.initializeYearSelector();
+        }
+        this.initializeYearSelector = function(){
+          var minYear = projectDatabase().min("YEAR");
+          var maxYear = projectDatabase().max("YEAR");
+          var yearSelector = document.getElementById("year_selector");
+          yearCheckboxes = [];
+          for (var i = minYear; i <= maxYear; i++){
+            var input = document.createElement("input");
+            input.type = "checkbox";
+            input.id = "year_" + i;
+            input.year = i;
+            var label = document.createElement("label");
+            label.htmlFor = "year_" + i;
+            label.textContent = i;
+            var that = this;
+            input.onchange = function(){
+              that.filteringChanged();
+            }
+            yearSelector.appendChild(input);
+            yearSelector.appendChild(label);
+            yearCheckboxes.push(input);
+          }
+          document.getElementById("year_" + maxYear).checked = true; // Selecting the last year by default.
+          $("#year_selector").buttonset();
+        }
+        this.filteringChanged = function(){
+          switch(state){
+            case possibleStates.Default :
+              break;
+            case possibleStates.Main :
+              break;
+            case possibleStates.Kelurahan :
+              var years = [];
+              for (var i = 0; i < yearCheckboxes.length; i++){
+                if(yearCheckboxes[i].checked){
+                  years.push(yearCheckboxes[i].year);
+                }
+              }
+              var scSelected = scFilters.getSelected();
+              emptyProjectCards();
+              fillProjectCards(selectedKelurahan, years, scSelected);
+              break;
+          }
+        }
+        this.addFiltersUI = function(){
+          switch(state){
+            case possibleStates.Default :
+              break;
+            case possibleStates.Main :
+              break;
+            case possibleStates.Kelurahan :
+              if(!document.getElementById("subcategory_filter")){
+                var fc = document.getElementById("filter_conditions");
+                fc.innerHTML = "";
+                scFilters.addTo(fc);
+              }
+              break;
+          }
         }
         this.showKelurahanProjects = function(kelurahanIndex){
 
@@ -94,6 +212,43 @@
           // Make this kelurahan dimmer
 
           // Show the list of projects
+        }
+      }
+
+      function subcategoryFilters(parent) {
+        this.parent = parent;
+        this.scFilters = document.createElement("div");
+        this.scFilters.id = "subcategory_filter";
+        this.scCheckboxes =[];
+        for (var key in subcategories){
+            var input = document.createElement("input");
+            input.type = "checkbox";
+            input.id = "filter_" + key;
+            input.subcategory = key;
+            input.checked = true;
+            var label = document.createElement("label");
+            label.htmlFor = "filter_" + key;
+            label.textContent = subcategories[key];
+            var that = this;
+            input.onchange = function(){
+              that.parent.filteringChanged();
+            }
+            this.scFilters.appendChild(input);
+            this.scFilters.appendChild(label);
+            this.scCheckboxes.push(input);
+        }
+        this.addTo = function(div){
+          div.appendChild(this.scFilters)
+          $("#subcategory_filter").buttonset();
+        }
+        this.getSelected = function(){
+          var selectedSubcategories = [];
+          for (var i = 0; i < this.scCheckboxes.length; i++){
+            if (this.scCheckboxes[i].checked){
+              selectedSubcategories.push(this.scCheckboxes[i].id.slice(7,this.scCheckboxes[i].length));
+            }
+          }
+          return selectedSubcategories;
         }
       }
       function parseKelurahans(data){
@@ -120,16 +275,10 @@
         this.index = index;
         this.center = center;
         var projects = null;
-        var randomnumber = Math.floor(Math.random() * 4);
-        this.shapeOptions = {
-            color: "#000000",
-            opacity: 0.7,
-            weight: 1,
-            fillColor: colors[randomnumber],
-            fillOpacity: originalKelurahanOpacity,
-            kelurahan_name : this.name,
-            index : this.index
-        };
+        var randomnumber = Math.floor(Math.random() * colors.length);
+        this.shapeOptions = originalKelurahanShapeOptions;
+        this.shapeOptions.index = this.index;
+        this.shapeOptions.kelurahan_name = this.name;
         this.kelurahanShape = new L.polygon(this.geometry, this.shapeOptions);
         this.drawKelurahan = function() {
           map.addLayer(this.kelurahanShape);
@@ -138,8 +287,8 @@
           this.drawKelurahan();
           this.addListeners();
         }
-        this.setOpacity = function(opacity) {
-          this.kelurahanShape.setStyle({fillOpacity: opacity});
+        this.setStyle = function(style) {
+          this.kelurahanShape.setStyle(style);
         }
         this.addListeners = function() {
           var that = this;
@@ -170,6 +319,19 @@
             clearInterval(interval);
           }
         }, 50)
+      }
+      function getSubcategoryIcons(){
+        this.icons = {};
+        for(var name in subcategories) {
+          var tempIcon = new Image();
+          tempIcon.className = "icon-block";
+          tempIcon.src = "src/img/png/solo_" + name + ".png";
+          tempIcon.innerHTML = subcategories[name];
+          this.icons[name] = tempIcon;
+        }
+        this.getIcon = function(code){
+          return this.icons[code].cloneNode();
+        }
       }
       function drawMap(data) {
       }
@@ -222,9 +384,10 @@
             tempObj[projectFields[i]] = rows[j][i];
           }
           tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
-          tempObj["SUBCATEGORY_TEXT"] = parseSubcategories(tempObj.SUBCATEGORY);
+          tempObj["SUBCATEGORY_TEXT"] = subcategories[tempObj.SUBCATEGORY];
           projectDatabase.insert(tempObj);
         }
+        mapStateController.onProjectsParsed();
       }
       function projectCard(project){
         var li = document.createElement('li');
@@ -236,12 +399,8 @@
         var label = document.createElement("label");
         label.htmlFor = project.ID;
         label.className = "pc-" + project.SUBCATEGORY;
-        var obj = document.createElement("object");
-        obj.className = "icon-block";
-        obj.type = "image/svg+xml";
-        obj.data = "src/img/svg/solo_" + project.SUBCATEGORY +".svg";
-        obj.innerHTML = project.SUBCATEGORY_TEXT;
-        label.appendChild(obj);
+        var icon = subcategoryIcons.getIcon(project.SUBCATEGORY);
+        label.appendChild(icon);
         var div = document.createElement("div");
         div.className = "text-block";
         var h6 = document.createElement("h6");
@@ -251,24 +410,31 @@
         li.appendChild(label);
         var article = document.createElement("article");
         article.className = "ac-small";
-        var p = document.createElement("p");
-        p.innerHTML = "Planned budget: " + project.PLANNED_BUDGET + " IDR";
-        article.appendChild(p);
+        var year = document.createElement("p");
+        year.innerHTML = "Year: " + project.YEAR;
+        article.appendChild(year);
+        var plannedBudget = document.createElement("p");
+        plannedBudget.innerHTML = "Planned budget: " + project.PLANNED_BUDGET + " IDR";
+        article.appendChild(plannedBudget);
         li.appendChild(article);  
         this.getView = function(){
           return li;
         };
       }
-      function fillProjectCards(kelurahan, startYear, endYear){
+      function fillProjectCards(kelurahan, years, subcategories){
         var list = document.getElementById("list");
         var ul = document.createElement("ul");
         var projectCardArray = [];
-        var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : startYear}).get();
-        for (var i=0; i < projectsToShow.length; i++){
-          projectCardArray[i] = new projectCard(projectsToShow[i]);
-          ul.appendChild(projectCardArray[i].getView());
+        for (var j=0; j < years.length; j++){
+          for (var k=0; k < subcategories.length; k++){
+            var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : subcategories[k]}).get();
+            for (var i=0; i < projectsToShow.length; i++){
+              projectCardArray[i] = new projectCard(projectsToShow[i]);
+              ul.appendChild(projectCardArray[i].getView());
+            }
+            list.appendChild(ul);
+          }
         }
-        list.appendChild(ul);
       }
       function emptyProjectCards(){
         var list = document.getElementById("list");
@@ -297,36 +463,6 @@
         whatToGet = whatToGet.substring(0, whatToGet.length - 2);
         return whatToGet;
       }
-      function parseSubcategories(abbreviation){
-        var subcategory = null;
-        switch(abbreviation) {
-          case "JA":
-            subcategory = "Jalan";
-            break;
-          case "SA":
-            subcategory = "Sanitasi";
-            break;
-          case "SM":
-            subcategory = "Mannakemen sampah";
-            break;
-          case "LS":
-            subcategory = "Listrik";
-            break;
-          case "AR":
-            subcategory = "Air Bersih";
-            break;
-          case "IC":
-            subcategory = "Informasi dan komunicasi";
-            break;
-          case "DR":
-            subcategory = "Drainase";
-            break;
-          case "SR":
-            subcategory = "Saran lainnyn";
-            break;                  
-        }
-        return subcategory
-      }
     </script>
   </head>
   <body>
@@ -346,9 +482,12 @@
       </div>
       <div id="list-header" class="pure-u">
         <h4 id="kelurahan_name"></h4>
+        <div id="filter_conditions"></div>
       </div>
       <div id="main">
         <div id="map-canvas"></div>
+        <div id="year_selector">
+        </div>
       </div>  
       <div id="list" class="pure-u"> 
       </div>  
