@@ -6,7 +6,7 @@
     <title>Solo map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <!-- jquery and jquery UI -->
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <!-- FONTS -->
@@ -30,9 +30,6 @@
     <link rel="stylesheet" href="src/css/structure.css">
     <!--<![endif]-->
     <script type="text/javascript">
-      $(function() {
-    $( "#year_selector" ).buttonset();
-  });
       //***********************************************************************
       //***********************Here goes the stuff for the map*****************
       //***********************************************************************
@@ -116,6 +113,26 @@
         this.onKelurahanMouseOut = function(kelurahanIndex){
           kelurahans[kelurahanIndex].setStyle(originalKelurahanShapeOptions);
           document.getElementById("kelurahan_name").innerHTML = "";
+        }
+        this.onProjectsParsed = function(){
+          this.initializeYearSelector();
+        }
+        this.initializeYearSelector = function(){
+          var minYear = projectDatabase().min("YEAR");
+          var maxYear = projectDatabase().max("YEAR");
+          var yearSelector = document.getElementById("year_selector");
+          for (var i = minYear; i <= maxYear; i++){
+            var input = document.createElement("input");
+            input.type = "checkbox";
+            input.id = "year_" + i;
+            var label = document.createElement("label");
+            label.htmlFor = "year_" + i;
+            label.textContent = i;
+            yearSelector.appendChild(input);
+            yearSelector.appendChild(label);
+          }
+          document.getElementById("year_" + maxYear).checked = true;
+          $("#year_selector").buttonset();
         }
         this.showKelurahanProjects = function(kelurahanIndex){
 
@@ -274,6 +291,7 @@
           tempObj["SUBCATEGORY_TEXT"] = subcategories[tempObj.SUBCATEGORY];
           projectDatabase.insert(tempObj);
         }
+        mapStateController.onProjectsParsed();
       }
       function projectCard(project, parent){
         var li = document.createElement('li');
@@ -366,10 +384,7 @@
       <div id="main">
         <div id="map-canvas"></div>
         <div id="year_selector">
-  <input type="checkbox" id="check1"><label for="check1">B</label>
-  <input type="checkbox" id="check2"><label for="check2">I</label>
-  <input type="checkbox" id="check3"><label for="check3">U</label>
-</div>
+        </div>
       </div>  
       <div id="list" class="pure-u"> 
       </div>  
