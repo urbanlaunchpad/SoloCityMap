@@ -94,9 +94,13 @@
       function mapStateController(){
         var state;
         var possibleStates = {
+            Default: 0,
             Main: 1,
             Kelurahan: 2,
         };
+        state = possibleStates.Default;
+        var yearCheckboxes = [];
+        var selectedKelurahan;
         this.showMain = function(){
         }
         this.onKelurahanMouseOver = function(kelurahanIndex){
@@ -107,8 +111,9 @@
             state = possibleStates.Kelurahan;
             kelurahans[kelurahanIndex].setStyle(activeKelurahanShapeOptions);
             map.fitBounds(kelurahans[kelurahanIndex].kelurahanShape.getBounds());
+            selectedKelurahan = kelurahans[kelurahanIndex].name;
             emptyProjectCards();
-            fillProjectCards(kelurahans[kelurahanIndex].name,"2012",2014);
+            this.filteringChanged();
         }
         this.onKelurahanMouseOut = function(kelurahanIndex){
           kelurahans[kelurahanIndex].setStyle(originalKelurahanShapeOptions);
@@ -121,18 +126,43 @@
           var minYear = projectDatabase().min("YEAR");
           var maxYear = projectDatabase().max("YEAR");
           var yearSelector = document.getElementById("year_selector");
+          yearCheckboxes = [];
           for (var i = minYear; i <= maxYear; i++){
             var input = document.createElement("input");
             input.type = "checkbox";
             input.id = "year_" + i;
+            input.year = i;
             var label = document.createElement("label");
             label.htmlFor = "year_" + i;
             label.textContent = i;
+            var that = this;
+            input.onchange = function(){
+              that.filteringChanged();
+            }
             yearSelector.appendChild(input);
             yearSelector.appendChild(label);
+            yearCheckboxes.push(input);
           }
-          document.getElementById("year_" + maxYear).checked = true;
+          document.getElementById("year_" + maxYear).checked = true; // Selecting the last year by default.
           $("#year_selector").buttonset();
+        }
+        this.filteringChanged = function(){
+          switch(state){
+            case possibleStates.Default :
+              break;
+            case possibleStates.Main :
+              break;
+            case possibleStates.Kelurahan :
+              var years = [];
+              for (var i = 0; i < yearCheckboxes.length; i++){
+                if(yearCheckboxes[i].checked){
+                  years.push(yearCheckboxes[i].year);
+                }
+              }
+              emptyProjectCards();
+              fillProjectCards(selectedKelurahan, years);
+              break;
+          }
         }
         this.showKelurahanProjects = function(kelurahanIndex){
 
@@ -293,7 +323,7 @@
         }
         mapStateController.onProjectsParsed();
       }
-      function projectCard(project, parent){
+      function projectCard(project){
         var li = document.createElement('li');
         var input = document.createElement("input");
         input.id = project.ID;
@@ -314,25 +344,29 @@
         li.appendChild(label);
         var article = document.createElement("article");
         article.className = "ac-small";
-        var p = document.createElement("p");
-        p.innerHTML = "Planned budget: " + project.PLANNED_BUDGET + " IDR";
-        article.appendChild(p);
+        var year = document.createElement("p");
+        year.innerHTML = "Year: " + project.YEAR;
+        article.appendChild(year);
+        var plannedBudget = document.createElement("p");
+        plannedBudget.innerHTML = "Planned budget: " + project.PLANNED_BUDGET + " IDR";
+        article.appendChild(plannedBudget);
         li.appendChild(article);  
         this.getView = function(){
           return li;
         };
       }
-      function fillProjectCards(kelurahan, startYear, endYear){
+      function fillProjectCards(kelurahan, years){
         var list = document.getElementById("list");
         var ul = document.createElement("ul");
         var projectCardArray = [];
-        var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : startYear}).get();
-        for (var i=0; i < projectsToShow.length; i++){
-          that = this;
-          projectCardArray[i] = new projectCard(projectsToShow[i], that);
-          ul.appendChild(projectCardArray[i].getView());
+        for (var j=0; j < years.length; j++){
+          var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j])}).get();
+          for (var i=0; i < projectsToShow.length; i++){
+            projectCardArray[i] = new projectCard(projectsToShow[i]);
+            ul.appendChild(projectCardArray[i].getView());
+          }
+          list.appendChild(ul);
         }
-        list.appendChild(ul);
       }
       function emptyProjectCards(){
         var list = document.getElementById("list");
