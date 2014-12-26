@@ -35,6 +35,27 @@
       var projectDatabase =  TAFFY();
       //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
       var colors = ['#BEC1C4']; // More neutral, similar to Kota Kita site
+      var originalKelurahanShapeOptions = {
+        color: "#000000",
+        opacity: 1,
+        weight: 1,
+        fillColor: "#FFFFFF",
+        fillOpacity: 0,
+      };
+      var onHoverKelurahanShapeOptions = {
+        color: "#000000",
+        opacity: 1,
+        weight: 2,
+        fillColor: "#FFFFFF",
+        fillOpacity: 0,
+      };
+      var activeKelurahanShapeOptions = {
+        color: "#FFFF00",
+        opacity: 1,
+        weight: 2,
+        fillColor: "#FFFFFF",
+        fillOpacity: 0,        
+      };      
       var originalKelurahanOpacity = 0.7;
       var onHoverKelurahanOpacity = 0.3;
       var activeKelurahanOpacity = 0.1;
@@ -75,18 +96,18 @@
         this.showMain = function(){
         }
         this.onKelurahanMouseOver = function(kelurahanIndex){
-            kelurahans[kelurahanIndex].setOpacity(onHoverKelurahanOpacity);
+            kelurahans[kelurahanIndex].setStyle(onHoverKelurahanShapeOptions);
             document.getElementById("kelurahan_name").innerHTML = kelurahans[kelurahanIndex].name;
         }
         this.onKelurahanClick = function(kelurahanIndex){
             state = possibleStates.Kelurahan;
-            kelurahans[kelurahanIndex].setOpacity(activeKelurahanOpacity);
+            kelurahans[kelurahanIndex].setStyle(activeKelurahanShapeOptions);
             map.fitBounds(kelurahans[kelurahanIndex].kelurahanShape.getBounds());
             emptyProjectCards();
             fillProjectCards(kelurahans[kelurahanIndex].name,"2012",2014);
         }
         this.onKelurahanMouseOut = function(kelurahanIndex){
-          kelurahans[kelurahanIndex].setOpacity(originalKelurahanOpacity);
+          kelurahans[kelurahanIndex].setStyle(originalKelurahanShapeOptions);
           document.getElementById("kelurahan_name").innerHTML = "";
         }
         this.showKelurahanProjects = function(kelurahanIndex){
@@ -135,15 +156,9 @@
         this.center = center;
         var projects = null;
         var randomnumber = Math.floor(Math.random() * colors.length);
-        this.shapeOptions = {
-            color: "#000000",
-            opacity: 0.7,
-            weight: 1,
-            fillColor: colors[randomnumber],
-            fillOpacity: originalKelurahanOpacity,
-            kelurahan_name : this.name,
-            index : this.index
-        };
+        this.shapeOptions = originalKelurahanShapeOptions;
+        this.shapeOptions.index = this.index;
+        this.shapeOptions.kelurahan_name = this.name;
         this.kelurahanShape = new L.polygon(this.geometry, this.shapeOptions);
         this.drawKelurahan = function() {
           map.addLayer(this.kelurahanShape);
@@ -152,8 +167,8 @@
           this.drawKelurahan();
           this.addListeners();
         }
-        this.setOpacity = function(opacity) {
-          this.kelurahanShape.setStyle({fillOpacity: opacity});
+        this.setStyle = function(style) {
+          this.kelurahanShape.setStyle(style);
         }
         this.addListeners = function() {
           var that = this;
@@ -263,12 +278,6 @@
         var label = document.createElement("label");
         label.htmlFor = project.ID;
         label.className = "pc-" + project.SUBCATEGORY;
-/*        var obj = document.createElement("object");
-        obj.className = "icon-block";
-        obj.type = "image/svg+xml";
-        obj.data = "src/img/svg/solo_" + project.SUBCATEGORY +".svg";
-        obj.innerHTML = project.SUBCATEGORY_TEXT;
-        label.appendChild(obj);*/
         var icon = subcategoryIcons.getIcon(project.SUBCATEGORY);
         label.appendChild(icon);
         var div = document.createElement("div");
