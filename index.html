@@ -33,7 +33,8 @@
       var musrenbangFusionTableID = "1yHXZ3Z5yQXl8eEewPUgYSzOvd458RhW9pQ2smFIf";
       var projectFields = ["KELURAHAN", "YEAR", "VOTED", "CATEGORY", "SUBCATEGORY", "UNIQUE_NUMBER", "LEVEL", "PRIORITY", "PROJECT_NAME", "LOCATION", "AGENCY", "PLANNED_BUDGET", "EXECUTED_BUDGET", "IS_IT_EXECUTED", "NOTES"];
       var projectDatabase =  TAFFY();
-      var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
+      //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
+      var colors = ['#BEC1C4']; // More neutral, similar to Kota Kita site
       var originalKelurahanOpacity = 0.7;
       var onHoverKelurahanOpacity = 0.3;
       var activeKelurahanOpacity = 0.1;
@@ -47,7 +48,7 @@
         L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
           map = L.mapbox.map("map-canvas", 'stephenkennedy.ad4e43ac')
         .setView([-7.566667, 110.816667], 13);
-        //subcategoryIcons = new getSubcategoryIcons();
+        subcategoryIcons = new getSubcategoryIcons();
         getKelurahans();
         getProjects();
       }
@@ -68,6 +69,7 @@
             document.getElementById("kelurahan_name").innerHTML = kelurahans[kelurahanIndex].name;
         }
         this.onKelurahanClick = function(kelurahanIndex){
+            state = possibleStates.Kelurahan;
             kelurahans[kelurahanIndex].setOpacity(activeKelurahanOpacity);
             map.fitBounds(kelurahans[kelurahanIndex].kelurahanShape.getBounds());
             emptyProjectCards();
@@ -122,7 +124,7 @@
         this.index = index;
         this.center = center;
         var projects = null;
-        var randomnumber = Math.floor(Math.random() * 4);
+        var randomnumber = Math.floor(Math.random() * colors.length);
         this.shapeOptions = {
             color: "#000000",
             opacity: 0.7,
@@ -173,22 +175,20 @@
           }
         }, 50)
       }
-/*      function getSubcategoryIcons(){
-        //var icon = document.createElement('img');
-        //icon.src = "src/img/svg/solo_JA.svg"
-        this.obj = new Image();
-        this.obj.className = "icon-block";
-        this.obj.type = "image/svg+xml";
-        this.obj.data = "src/img/svg/solo_JA.svg";
-        this.obj.innerHTML = "seeeee" // project.SUBCATEGORY_TEXT;
+      function getSubcategoryIcons(){
+        this.img = new Image();
+        this.img.className = "icon-block";
+        //this.img.type = "image/svg+xml";
+        this.img.src = "src/img/png/solo_JA.png";
+        this.img.innerHTML = "seeeee" // project.SUBCATEGORY_TEXT;
         //Image1= new Image();
         //Image1.src = "src/img/svg/solo_JA.svg"
 
         this.getIcon = function(code){
           //window.alert(JSON.stringify(this.obj));
-          return this.obj.cloneNode();
+          return this.img.cloneNode();
         }
-      }*/
+      }
       function drawMap(data) {
       }
       function constructNewCoordinates(polygon) {
@@ -254,14 +254,14 @@
         var label = document.createElement("label");
         label.htmlFor = project.ID;
         label.className = "pc-" + project.SUBCATEGORY;
-        var obj = document.createElement("object");
+/*        var obj = document.createElement("object");
         obj.className = "icon-block";
         obj.type = "image/svg+xml";
         obj.data = "src/img/svg/solo_" + project.SUBCATEGORY +".svg";
         obj.innerHTML = project.SUBCATEGORY_TEXT;
-        label.appendChild(obj);
-        //var icon = subcategoryIcons.getIcon();
-        label.appendChild(obj);
+        label.appendChild(obj);*/
+        var icon = subcategoryIcons.getIcon();
+        label.appendChild(icon);
         var div = document.createElement("div");
         div.className = "text-block";
         var h6 = document.createElement("h6");
