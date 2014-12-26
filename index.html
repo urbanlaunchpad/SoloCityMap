@@ -5,9 +5,13 @@
     <meta content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" name="viewport">
     <title>Solo map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <!-- jquery and jquery UI -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <!-- FONTS -->
     <link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>  
-    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>    
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'> 
     <!-- Mapbox -->
     <script type="text/javascript" src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' type='text/css'/>    
@@ -26,6 +30,9 @@
     <link rel="stylesheet" href="src/css/structure.css">
     <!--<![endif]-->
     <script type="text/javascript">
+      $(function() {
+    $( "#year_selector" ).buttonset();
+  });
       //***********************************************************************
       //***********************Here goes the stuff for the map*****************
       //***********************************************************************
@@ -358,6 +365,11 @@
       </div>
       <div id="main">
         <div id="map-canvas"></div>
+        <div id="year_selector">
+  <input type="checkbox" id="check1"><label for="check1">B</label>
+  <input type="checkbox" id="check2"><label for="check2">I</label>
+  <input type="checkbox" id="check3"><label for="check3">U</label>
+</div>
       </div>  
       <div id="list" class="pure-u"> 
       </div>  

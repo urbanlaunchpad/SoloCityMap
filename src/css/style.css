@@ -3,6 +3,12 @@ html {
     padding: 0;
 }
 
+#year_selector{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
 #map-canvas {
     height: 100%;
     width: 100%;
