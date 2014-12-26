@@ -43,6 +43,16 @@
       var projectsArray = [];
       var subcategoryIcons;
       document.addEventListener("DOMContentLoaded", initialize);
+      var subcategories = {
+        JA : "Jalan",
+        SA : "Sanitasi",
+        SM : "Mannakemen sampah",
+        LS : "Listrik",
+        AR : "Air Bersih",
+        IC : "Informasi dan komunicasi",
+        DR : "Drainase",
+        SR : "Saran lainnyn"
+      };
       var mapStateController = new mapStateController();
       function initialize() {
         L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
@@ -178,11 +188,8 @@
       function getSubcategoryIcons(){
         this.img = new Image();
         this.img.className = "icon-block";
-        //this.img.type = "image/svg+xml";
         this.img.src = "src/img/png/solo_JA.png";
         this.img.innerHTML = "seeeee" // project.SUBCATEGORY_TEXT;
-        //Image1= new Image();
-        //Image1.src = "src/img/svg/solo_JA.svg"
 
         this.getIcon = function(code){
           //window.alert(JSON.stringify(this.obj));
@@ -240,7 +247,7 @@
             tempObj[projectFields[i]] = rows[j][i];
           }
           tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
-          tempObj["SUBCATEGORY_TEXT"] = parseSubcategories(tempObj.SUBCATEGORY);
+          tempObj["SUBCATEGORY_TEXT"] = subcategories[tempObj.SUBCATEGORY];
           projectDatabase.insert(tempObj);
         }
       }
@@ -317,36 +324,6 @@
         }
         whatToGet = whatToGet.substring(0, whatToGet.length - 2);
         return whatToGet;
-      }
-      function parseSubcategories(abbreviation){
-        var subcategory = null;
-        switch(abbreviation) {
-          case "JA":
-            subcategory = "Jalan";
-            break;
-          case "SA":
-            subcategory = "Sanitasi";
-            break;
-          case "SM":
-            subcategory = "Mannakemen sampah";
-            break;
-          case "LS":
-            subcategory = "Listrik";
-            break;
-          case "AR":
-            subcategory = "Air Bersih";
-            break;
-          case "IC":
-            subcategory = "Informasi dan komunicasi";
-            break;
-          case "DR":
-            subcategory = "Drainase";
-            break;
-          case "SR":
-            subcategory = "Saran lainnyn";
-            break;                  
-        }
-        return subcategory
       }
     </script>
   </head>
