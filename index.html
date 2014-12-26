@@ -186,14 +186,16 @@
         }, 50)
       }
       function getSubcategoryIcons(){
-        this.img = new Image();
-        this.img.className = "icon-block";
-        this.img.src = "src/img/png/solo_JA.png";
-        this.img.innerHTML = "seeeee" // project.SUBCATEGORY_TEXT;
-
+        this.icons = {};
+        for(var name in subcategories) {
+          var tempIcon = new Image();
+          tempIcon.className = "icon-block";
+          tempIcon.src = "src/img/png/solo_" + name + ".png";
+          tempIcon.innerHTML = subcategories[name];
+          this.icons[name] = tempIcon;
+        }
         this.getIcon = function(code){
-          //window.alert(JSON.stringify(this.obj));
-          return this.img.cloneNode();
+          return this.icons[code].cloneNode();
         }
       }
       function drawMap(data) {
@@ -267,7 +269,7 @@
         obj.data = "src/img/svg/solo_" + project.SUBCATEGORY +".svg";
         obj.innerHTML = project.SUBCATEGORY_TEXT;
         label.appendChild(obj);*/
-        var icon = subcategoryIcons.getIcon();
+        var icon = subcategoryIcons.getIcon(project.SUBCATEGORY);
         label.appendChild(icon);
         var div = document.createElement("div");
         div.className = "text-block";
