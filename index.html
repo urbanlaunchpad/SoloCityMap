@@ -66,6 +66,7 @@
       var activeKelurahanOpacity = 0.1;
       var map;
       var kelurahans = [];
+      var subdivisions = {};
       var projectsArray = [];
       var subcategoryIcons;
       document.addEventListener("DOMContentLoaded", initialize);
@@ -94,7 +95,7 @@
         getFusionTablesData(query, "parseKelurahans");
       }
       function getSubdivisions(){
-        var query = 'SELECT KELURAHAN, geometry, geometry_pos, RT, RW FROM ' + kelurahansFusionTableID;
+        var query = 'SELECT KELURAHAN, geometry, geometry_pos, RW, RT FROM ' + kelurahansFusionTableID;
         getFusionTablesData(query, "parseSubdivisions");
       }
       function mapStateController(){
@@ -276,7 +277,24 @@
         drawKelurahans(kelurahans);
       }
       function parseSubdivisions(data){
-        window.alert("ima here");
+        var rows = data['rows'];
+        for (var i in rows) {
+          var newCoordinates = [];
+          var kelurahan_name = rows[i][0];
+          var center = constructNewPointCoordinates(rows[i][2]['geometry']);
+          var geometries = rows[i][1]['geometries'];
+          var rw_name = rows[i][3];
+          var rt_name = rows[i][4];
+          if (geometries) {
+            for (var j in geometries) {
+              newCoordinates.push(constructNewCoordinates(geometries[j]));
+            }
+          } else {
+            newCoordinates = constructNewCoordinates(rows[i][1]['geometry']);
+          }
+/*          subdivisions[kelurahan_name] = ;
+          kelurahans[i] = new kelurahan(kelurahan_name, newCoordinates, center, i);*/
+        }
       }
       function kelurahan(name, geometry, center, index) {
         this.name = name;
