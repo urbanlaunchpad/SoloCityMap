@@ -34,6 +34,7 @@
       //***********************Here goes the stuff for the map*****************
       //***********************************************************************
       var kelurahansFusionTableID = "1jdxsdPlAvCNRair4uv2pOwWTzMNtutDdhfXlp9QO";
+      var subdivisionsFusionTableID = "158fKZygrAlgGKaYDkT4alniT5ZEeTqPdwtFtEoc-";
       var musrenbangFusionTableID = "1yHXZ3Z5yQXl8eEewPUgYSzOvd458RhW9pQ2smFIf";
       var projectFields = ["KELURAHAN", "YEAR", "VOTED", "CATEGORY", "SUBCATEGORY", "UNIQUE_NUMBER", "LEVEL", "PRIORITY", "PROJECT_NAME", "LOCATION", "AGENCY", "PLANNED_BUDGET", "EXECUTED_BUDGET", "IS_IT_EXECUTED", "NOTES"];
       var projectDatabase =  TAFFY();
@@ -90,6 +91,10 @@
       function getKelurahans(){
         var query = 'SELECT KELURAHAN, geometry, geometry_pos FROM ' + kelurahansFusionTableID;
         getFusionTablesData(query, "parseKelurahans");
+      }
+      function getSubdivisions(){
+        var query = 'SELECT KELURAHAN, geometry, geometry_pos, RT, RW FROM ' + kelurahansFusionTableID;
+        getFusionTablesData(query, "parseSubdivisions");
       }
       function mapStateController(){
         var state;
@@ -268,6 +273,9 @@
           kelurahans[i] = new kelurahan(kelurahan_name, newCoordinates, center, i);
         }
         drawKelurahans(kelurahans);
+      }
+      function parseSubdivisions(data){
+        window.alert("ima here");
       }
       function kelurahan(name, geometry, center, index) {
         this.name = name;
