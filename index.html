@@ -61,6 +61,13 @@
         fillColor: "#FFFFFF",
         fillOpacity: 0,        
       };      
+      var originalLocationShapeOptions = {
+        color: "#000000",
+        opacity: 1,
+        weight: 1,
+        fillColor: "#BEC1C4",
+        fillOpacity: 0.5,
+      };
       var originalKelurahanOpacity = 0.7;
       var onHoverKelurahanOpacity = 0.3;
       var activeKelurahanOpacity = 0.1;
@@ -71,6 +78,7 @@
       var subcategoryIcons;
       var mapSC;
       var kelurahanLayer;
+      var projectLocationLayer;
       document.addEventListener("DOMContentLoaded", initialize);
       var subcategories = {
         JA : "Jalan",
@@ -101,7 +109,8 @@
         L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
         map = L.mapbox.map("map-canvas", 'stephenkennedy.ad4e43ac')
         .setView([-7.566667, 110.816667], 13);
-        kelurahanLayer =  L.mapbox.featureLayer("kelurahan_shapes").addTo(map)
+        kelurahanLayer =  L.mapbox.featureLayer("kelurahan_shapes").addTo(map);
+        projectLocationLayer = L.mapbox.featureLayer("project_location").addTo(map);
         var state;
         var possibleStates = {
             Default: 0,
@@ -112,7 +121,7 @@
         var yearCheckboxes = [];
         var selectedKelurahan = "";
         var selectedKelurahanIndex;
-        var selectedProjectID;
+        var selectedProjectID = null;
         var scFilters = new subcategoryFilters(this);
         //this.addFiltersUI();
         this.showMain = function(){
@@ -192,12 +201,26 @@
         this.setSelectedProject = function(projectID){
           selectedProjectID = projectID;
           //window.alert(selectedProjectID);
-          var location = projectDatabase({ID: selectedProjectID}).get()[0].LOCATION.split(',');
-          this.showLocationShapes(location);
+          var project = projectDatabase({ID: selectedProjectID}).get()[0];
+          var location = project.LOCATION.split(',');
+          var kelurahan = project.KELURAHAN;
+          this.showLocationShapes(kelurahan, location);
         }
-        this.showLocationShapes = function(locations){
+        this.showLocationShapes = function(kelurahan, locations){
           for (var i=0; i<locations.length; i++){
-            window.alert(locations[i]);
+            if(locations[i].contains("-")){
+              var tempLoc = locations[i].split("-");
+              var geometry = subdivisions[kelurahan][tempLoc[0].substring(2, tempLoc[0].length)][tempLoc[1].substring(2, tempLoc[1].length)].GEOMETRIES;
+              var shape = L.polygon(geometry, originalLocationShapeOptions);
+              shape.addTo(projectLocationLayer);
+            } else if(locations[i].contains("RW")){
+              var locationsToShow = subdivisions[kelurahan][locations[i].substring(2,locations[i].length)];
+              for(var key in locationsToShow){
+                var geometry = locationsToShow[key].GEOMETRIES;
+                var shape = L.polygon(geometry, originalLocationShapeOptions);
+                shape.addTo(projectLocationLayer);
+              }
+            }
           }
         }
         this.addFiltersUI = function(){
@@ -318,8 +341,8 @@
             subdivisions[kelurahan_name][rw_name][rt_name] = {};
           }          
           subdivisions[kelurahan_name][rw_name][rt_name] = {
-            center : center,
-            geometries : newCoordinates
+            CENTER : center,
+            GEOMETRIES : newCoordinates
           }
         }
       }
@@ -336,7 +359,6 @@
         this.kelurahanShape = new L.polygon(this.geometry, this.shapeOptions);
         this.drawKelurahan = function() {
           this.kelurahanShape.addTo(kelurahanLayer);
-          //map.addLayer(this.kelurahanShape);
         }
         this.initializeShape = function(){
           this.drawKelurahan();
