@@ -109,7 +109,7 @@
         var yearCheckboxes = [];
         var selectedKelurahan = "";
         var selectedKelurahanIndex;
-        var selectedProject;
+        var selectedProjectID;
         var scFilters = new subcategoryFilters(this);
         //this.addFiltersUI();
         this.showMain = function(){
@@ -186,8 +186,10 @@
               break;
           }
         }
-        this.setSelectedProject = function(){
-
+        this.setSelectedProject = function(projectID){
+          selectedProjectID = projectID;
+          //window.alert(selectedProjectID);
+          projectDatabase({ID: selectedProjectID})
         }
         this.addFiltersUI = function(){
           switch(state){
@@ -460,7 +462,11 @@
         plannedBudget.innerHTML = "Planned budget: " + project.PLANNED_BUDGET + " IDR";
         article.appendChild(plannedBudget);
         li.appendChild(article);  
-        li.onclick = function(){
+        var i = 0;
+
+        label.onclick = function(){
+          i = i +1
+          window.alert(i);
           parent.setSelectedProject(project.ID);
         };
         this.getView = function(){
