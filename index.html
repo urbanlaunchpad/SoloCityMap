@@ -95,7 +95,7 @@
         getFusionTablesData(query, "parseKelurahans");
       }
       function getSubdivisions(){
-        var query = 'SELECT KELURAHAN, geometry, geometry_pos, RW, RT FROM ' + kelurahansFusionTableID;
+        var query = 'SELECT KELURAHAN, geometry, geometry_pos, RW, RT FROM ' + subdivisionsFusionTableID;
         getFusionTablesData(query, "parseSubdivisions");
       }
       function mapStateController(){
@@ -109,6 +109,7 @@
         var yearCheckboxes = [];
         var selectedKelurahan = "";
         var selectedKelurahanIndex;
+        var selectedProject;
         var scFilters = new subcategoryFilters(this);
         //this.addFiltersUI();
         this.showMain = function(){
@@ -181,9 +182,12 @@
               }
               var scSelected = scFilters.getSelected();
               emptyProjectCards();
-              fillProjectCards(selectedKelurahan, years, scSelected);
+              fillProjectCards(selectedKelurahan, years, scSelected, this);
               break;
           }
+        }
+        this.setSelectedProject = function(){
+
         }
         this.addFiltersUI = function(){
           switch(state){
@@ -278,6 +282,7 @@
       }
       function parseSubdivisions(data){
         var rows = data['rows'];
+        subdivisions = {};
         for (var i in rows) {
           var newCoordinates = [];
           var kelurahan_name = rows[i][0];
@@ -292,8 +297,19 @@
           } else {
             newCoordinates = constructNewCoordinates(rows[i][1]['geometry']);
           }
-/*          subdivisions[kelurahan_name] = ;
-          kelurahans[i] = new kelurahan(kelurahan_name, newCoordinates, center, i);*/
+          if(!subdivisions.hasOwnProperty(kelurahan_name)){
+            subdivisions[kelurahan_name] = {};
+          }
+          if(!subdivisions[kelurahan_name].hasOwnProperty(rw_name)){
+            subdivisions[kelurahan_name][rw_name] = {};
+          }
+          if(!subdivisions[kelurahan_name][rw_name].hasOwnProperty(rt_name)){
+            subdivisions[kelurahan_name][rw_name][rt_name] = {};
+          }          
+          subdivisions[kelurahan_name][rw_name][rt_name] = {
+            center : center,
+            geometries : newCoordinates
+          }
         }
       }
       function kelurahan(name, geometry, center, index) {
@@ -416,7 +432,7 @@
         }
         mapStateController.onProjectsParsed();
       }
-      function projectCard(project){
+      function projectCard(project, parent){
         var li = document.createElement('li');
         var input = document.createElement("input");
         input.id = project.ID;
@@ -444,11 +460,14 @@
         plannedBudget.innerHTML = "Planned budget: " + project.PLANNED_BUDGET + " IDR";
         article.appendChild(plannedBudget);
         li.appendChild(article);  
+        li.onclick = function(){
+          parent.setSelectedProject(project.ID);
+        };
         this.getView = function(){
           return li;
         };
       }
-      function fillProjectCards(kelurahan, years, subcategories){
+      function fillProjectCards(kelurahan, years, subcategories, parent){
         var list = document.getElementById("list");
         var ul = document.createElement("ul");
         var projectCardArray = [];
@@ -456,7 +475,7 @@
           for (var k=0; k < subcategories.length; k++){
             var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : subcategories[k]}).get();
             for (var i=0; i < projectsToShow.length; i++){
-              projectCardArray[i] = new projectCard(projectsToShow[i]);
+              projectCardArray[i] = new projectCard(projectsToShow[i], parent);
               ul.appendChild(projectCardArray[i].getView());
             }
             list.appendChild(ul);
