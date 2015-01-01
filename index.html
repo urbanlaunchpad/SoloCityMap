@@ -215,14 +215,14 @@
           projectLocationLayer = L.mapbox.featureLayer().addTo(map);
           selectedProjectID = null;
         }
-        this.showLocationShapes = function(kelurahan, locations){
+        this.showLocationShapes = function(kelurahan, locations){  
           for (var i=0; i<locations.length; i++){
-            if(locations[i].contains("-")){
+            if(locations[i].indexOf("-") !=-1){
               var tempLoc = locations[i].split("-");
               var geometry = subdivisions[kelurahan][tempLoc[0].substring(2, tempLoc[0].length)][tempLoc[1].substring(2, tempLoc[1].length)].GEOMETRIES;
               var shape = L.polygon(geometry, originalLocationShapeOptions);
               shape.addTo(projectLocationLayer);
-            } else if(locations[i].contains("RW")){
+            } else if(locations[i].indexOf("RW") !=-1){
               var locationsToShow = subdivisions[kelurahan][locations[i].substring(2,locations[i].length)];
               for(var key in locationsToShow){
                 var geometry = locationsToShow[key].GEOMETRIES;
