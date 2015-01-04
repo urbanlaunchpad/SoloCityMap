@@ -265,7 +265,7 @@ p {
 }
 
 #list ul li article p{
-    padding: 20px;
+    padding: 0px 20px;
 }
 
 #list ul li input:checked ~ article{
@@ -285,15 +285,17 @@ p {
 
 /*============YEAR SELECTOR============*/
 
-#year-selector .year-header p {
+#year_selector .year-header p {
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 0.675em;
+    font-weight: 600;
+    color: #222;
     padding: 0;
     margin: 1px auto 0;
 }
 
-#year-selector label.year-button {
+/*#year-selector label.year-button {
     width: auto;
     height: 100%;
     position: relative;
@@ -313,7 +315,7 @@ p {
 
 #year-selector label.year-button:active {
     background-color: #111;
-}
+}*/
 
 .ui-helper-hidden-accessible {
     border: 0;
@@ -324,4 +326,48 @@ p {
     padding: 0;
     position: absolute;
     width: 1px;
+}
+.ui-widget {
+    font-family: "Raleway",Verdana,Arial,sans-serif;
+    font-size: 1em;
+}
+.ui-button-text-only .ui-button-text {
+    padding: .25em 0.75em;
+}
+
+/* Interaction states
+----------------------------------*/
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+    border-left: 1px solid #3D3D3D;
+    border-top: 0px;
+    border-bottom: 0px;
+    background: #222222;
+    font-weight: normal;
+    color: #ffffff;
+}
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    background: #000;
+}
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active {
+    background: #A6A939;
+}
+.ui-state-active:hover {
+    background: #747628; 
+}
+.ui-corner-left {
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
+.ui-corner-right {
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
 }
