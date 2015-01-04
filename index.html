@@ -9,6 +9,9 @@
     <<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <!-- Chosen -->
+    <script type="text/javascript" src="src/script/chosen.jquery.min.js"></script>    
+    <link rel="stylesheet" href="src/css/chosen.min.css">
     <!-- FONTS -->
     <link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>  
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'> 
@@ -66,7 +69,7 @@
         opacity: 1,
         weight: 1,
         fillColor: "#BEC1C4",
-        fillOpacity: 0.5,
+        fillOpacity: 1,
       };
       var originalKelurahanOpacity = 0.7;
       var onHoverKelurahanOpacity = 0.3;
@@ -81,14 +84,22 @@
       var projectLocationLayer;
       document.addEventListener("DOMContentLoaded", initialize);
       var subcategories = {
-        JA : "Jalan",
-        SA : "Sanitasi",
-        SM : "Mannakemen sampah",
-        LS : "Listrik",
-        AR : "Air Bersih",
-        IC : "Informasi dan komunicasi",
-        DR : "Drainase",
-        SR : "Saran lainnyn"
+        JA : {name: "Jalan",
+              color: "#4C4320"},
+        SA : {name: "Sanitasi",
+              color: "#573649"},        
+        SM : {name: "Mannakemen sampah",
+              color: "#601D00"},        
+        LS : {name: "Listrik",
+              color: "#E7922A"},        
+        AR : {name: "Air Bersih",
+              color: "#003951"},        
+        IC : {name: "Informasi dan komunicasi",
+              color: "#B65B46"},        
+        DR : {name: "Drainase",
+              color: "#7FA6B2"},        
+        SR : {name: "Saran lainnyn",
+              color: "#C0B58F"}        
       };
       function initialize() {
         mapSC = new mapStateController();
@@ -208,25 +219,28 @@
           var project = projectDatabase({ID: selectedProjectID}).get()[0];
           var location = project.LOCATION.split(',');
           var kelurahan = project.KELURAHAN;
-          this.showLocationShapes(kelurahan, location);
+          var subcategory = subcategories[project.SUBCATEGORY];
+          this.showLocationShapes(kelurahan, subcategory, location);
         }
         this.emptyProjectLocationLayer = function(){
           map.removeLayer(projectLocationLayer);
           projectLocationLayer = L.mapbox.featureLayer().addTo(map);
           selectedProjectID = null;
         }
-        this.showLocationShapes = function(kelurahan, locations){  
+        this.showLocationShapes = function(kelurahan, subcategory, locations){  
+          var shapeOptions = originalLocationShapeOptions;
+          shapeOptions.fillColor = subcategory.color;
           for (var i=0; i<locations.length; i++){
             if(locations[i].indexOf("-") !=-1){
               var tempLoc = locations[i].split("-");
               var geometry = subdivisions[kelurahan][tempLoc[0].substring(2, tempLoc[0].length)][tempLoc[1].substring(2, tempLoc[1].length)].GEOMETRIES;
-              var shape = L.polygon(geometry, originalLocationShapeOptions);
+              var shape = L.polygon(geometry, shapeOptions);
               shape.addTo(projectLocationLayer);
             } else if(locations[i].indexOf("RW") !=-1){
               var locationsToShow = subdivisions[kelurahan][locations[i].substring(2,locations[i].length)];
               for(var key in locationsToShow){
                 var geometry = locationsToShow[key].GEOMETRIES;
-                var shape = L.polygon(geometry, originalLocationShapeOptions);
+                var shape = L.polygon(geometry, shapeOptions);
                 shape.addTo(projectLocationLayer);
               }
             }
@@ -271,6 +285,36 @@
 
       function subcategoryFilters(parent) {
         this.parent = parent;
+        this.scFilters = document.createElement("select");
+        this.scFilters.id = "subcategory_filter";
+        this.scFilters.multiple = true;
+        this.scOptions =[];
+        for (var key in subcategories){
+          var option = document.createElement("option");
+          option.selected = "selected";
+          option.innerHTML = subcategories[key].name;
+          option.id = "filter_" + key;
+          this.scFilters.appendChild(option);
+          this.scOptions.push(option);
+        }
+        var that = this;
+        this.scFilters.onchange = function(){
+          that.parent.filteringChanged();
+        }
+        this.addTo = function(div){
+          div.appendChild(this.scFilters)
+          $("#subcategory_filter").attr('data-placeholder', "Select Subcategories...").chosen();
+        }
+        this.getSelected = function(){
+          var selectedSubcategories = [];
+          for (var i = 0; i < this.scOptions.length; i++){
+            if (this.scOptions[i].selected){
+              selectedSubcategories.push(this.scOptions[i].id.slice(7,this.scOptions[i].id.length));
+            }
+          }
+          return selectedSubcategories;
+        }
+/*        this.parent = parent;
         this.scFilters = document.createElement("div");
         this.scFilters.id = "subcategory_filter";
         this.scCheckboxes =[];
@@ -282,7 +326,7 @@
             input.checked = true;
             var label = document.createElement("label");
             label.htmlFor = "filter_" + key;
-            label.textContent = subcategories[key];
+            label.textContent = subcategories[key].name;
             var that = this;
             input.onchange = function(){
               that.parent.filteringChanged();
@@ -303,7 +347,7 @@
             }
           }
           return selectedSubcategories;
-        }
+        }*/
       }
       function parseKelurahans(data){
         var rows = data['rows'];
@@ -412,7 +456,7 @@
           var tempIcon = new Image();
           tempIcon.className = "icon-block";
           tempIcon.src = "src/img/png/solo_" + name + ".png";
-          tempIcon.innerHTML = subcategories[name];
+          tempIcon.innerHTML = subcategories[name].name;
           this.icons[name] = tempIcon;
         }
         this.getIcon = function(code){
@@ -470,7 +514,7 @@
             tempObj[projectFields[i]] = rows[j][i];
           }
           tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
-          tempObj["SUBCATEGORY_TEXT"] = subcategories[tempObj.SUBCATEGORY];
+          tempObj["SUBCATEGORY_TEXT"] = subcategories[tempObj.SUBCATEGORY].name;
           projectDatabase.insert(tempObj);
         }
         mapSC.onProjectsParsed();
