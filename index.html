@@ -9,6 +9,9 @@
     <<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <!-- Chosen -->
+    <script type="text/javascript" src="src/script/chosen.jquery.min.js"></script>    
+    <link rel="stylesheet" href="src/css/chosen.min.css">
     <!-- FONTS -->
     <link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>  
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'> 
@@ -282,6 +285,36 @@
 
       function subcategoryFilters(parent) {
         this.parent = parent;
+        this.scFilters = document.createElement("select");
+        this.scFilters.id = "subcategory_filter";
+        this.scFilters.multiple = true;
+        this.scOptions =[];
+        for (var key in subcategories){
+          var option = document.createElement("option");
+          option.selected = "selected";
+          option.innerHTML = subcategories[key].name;
+          option.id = "filter_" + key;
+          this.scFilters.appendChild(option);
+          this.scOptions.push(option);
+        }
+        var that = this;
+        this.scFilters.onchange = function(){
+          that.parent.filteringChanged();
+        }
+        this.addTo = function(div){
+          div.appendChild(this.scFilters)
+          $("#subcategory_filter").attr('data-placeholder', "Select Subcategories...").chosen();
+        }
+        this.getSelected = function(){
+          var selectedSubcategories = [];
+          for (var i = 0; i < this.scOptions.length; i++){
+            if (this.scOptions[i].selected){
+              selectedSubcategories.push(this.scOptions[i].id.slice(7,this.scOptions[i].id.length));
+            }
+          }
+          return selectedSubcategories;
+        }
+/*        this.parent = parent;
         this.scFilters = document.createElement("div");
         this.scFilters.id = "subcategory_filter";
         this.scCheckboxes =[];
@@ -314,7 +347,7 @@
             }
           }
           return selectedSubcategories;
-        }
+        }*/
       }
       function parseKelurahans(data){
         var rows = data['rows'];
