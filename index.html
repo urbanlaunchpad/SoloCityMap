@@ -288,6 +288,7 @@
         this.scFilters = document.createElement("select");
         this.scFilters.id = "subcategory_filter";
         this.scFilters.multiple = true;
+        this.scFilters.style.width='320px';
         this.scOptions =[];
         for (var key in subcategories){
           var option = document.createElement("option");
