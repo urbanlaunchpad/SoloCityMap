@@ -39,7 +39,33 @@
       var kelurahansFusionTableID = "1jdxsdPlAvCNRair4uv2pOwWTzMNtutDdhfXlp9QO";
       var subdivisionsFusionTableID = "158fKZygrAlgGKaYDkT4alniT5ZEeTqPdwtFtEoc-";
       var musrenbangFusionTableID = "1yHXZ3Z5yQXl8eEewPUgYSzOvd458RhW9pQ2smFIf";
+      var data2010FusionTableID = "1oMln7GsJjbGJ9CQK41FP-aq3Xkz7fJPVZof2U5rY";
       var projectFields = ["KELURAHAN", "YEAR", "VOTED", "CATEGORY", "SUBCATEGORY", "UNIQUE_NUMBER", "LEVEL", "PRIORITY", "PROJECT_NAME", "LOCATION", "AGENCY", "PLANNED_BUDGET", "EXECUTED_BUDGET", "IS_IT_EXECUTED", "NOTES"];
+      var dataFields = {
+        KELURAHAN:"Kelurahan",
+        TOTAL_HH:"Total number of households",
+        TOTAL_CITIZENS:"Total citizens",
+        AVERAGE_HH_SIZE:"Average household size",
+        TOTAL_7_18:"Age 7-18 population",
+        NO_SCHOOL:"Total of children not in school",
+        NO_SCHOOL_PERCENTAGE:"Percentage of children not in school",
+        TOTAL_HH_WC_PERCENTAGE:"Total households with WC",
+        PRIVATE_WC_PERCENTAGE:"Percentage of private WC",
+        TOTAL_HH_WC_PUBLIC:"Total households with public WC",
+        WC_PUBLIC_PERCENTAGE:"Percentage of public WC",
+        TOTAL_PDAM:"Total PDAM",
+        PDAM_PERCENTAGE:"Percentage of PDAM",
+        TOTAL_HH_PUBLIC_WELLS:"Total households with public wells",
+        PUBLIC_WELLS_PERCENTAGE:"Percentage of public wells",
+        TOTAL_HH_PRIVATE_WELLS:"Total households with private wells",
+        PRIVATE_WELLS_PERCENTAGE:"Percentage of private wells",
+        TOTAL_HOUSES:"Total households",
+        TOTAL_LAND_TENURE:"Total land tenure",
+        LAND_TENURE_PERCENTAGE:"Percentage of land tenure",
+        HOUSES_HH_RATIO:"House household ratio",
+        TOTAL_POOR_HH:"Poor households",
+        POVERTY_PERCENTAGE:"Poverty percentage"
+      };   
       var projectDatabase =  TAFFY();
       //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
       var colors = ['#BEC1C4']; // More neutral, similar to Kota Kita site
@@ -69,7 +95,7 @@
         opacity: 1,
         weight: 1,
         fillColor: "#BEC1C4",
-        fillOpacity: 1,
+        fillOpacity: 0.5,
       };
       var originalKelurahanOpacity = 0.7;
       var onHoverKelurahanOpacity = 0.3;
@@ -85,28 +111,31 @@
       document.addEventListener("DOMContentLoaded", initialize);
       var subcategories = {
         JA : {name: "Jalan",
-              color: "#4C4320"},
+          color: "#4C4320"},
         SA : {name: "Sanitasi",
-              color: "#573649"},        
+          color: "#573649"},        
         SM : {name: "Mannakemen sampah",
-              color: "#601D00"},        
+          color: "#601D00"},        
         LS : {name: "Listrik",
-              color: "#E7922A"},        
+          color: "#E7922A"},        
         AR : {name: "Air Bersih",
-              color: "#003951"},        
+          color: "#003951"},        
         IC : {name: "Informasi dan komunicasi",
-              color: "#B65B46"},        
+          color: "#B65B46"},        
         DR : {name: "Drainase",
-              color: "#7FA6B2"},        
+          color: "#7FA6B2"},        
         SR : {name: "Saran lainnyn",
-              color: "#C0B58F"}        
-      };
+          color: "#C0B58F"}        
+      };   
       function initialize() {
         mapSC = new mapStateController();
         subcategoryIcons = new getSubcategoryIcons();
-        getKelurahans();
+        getData(2010);
         getSubdivisions();
         getProjects();
+        getKelurahans();
+      }
+      function getData(year){
       }
       function getKelurahans(){
         var query = 'SELECT KELURAHAN, geometry, geometry_pos FROM ' + kelurahansFusionTableID;
@@ -540,12 +569,18 @@
         li.appendChild(label);
         var article = document.createElement("article");
         article.className = "ac-small";
+        var projectID = document.createElement("p");
+        projectID.innerHTML = project.ID;
+        article.appendChild(projectID);
         var year = document.createElement("p");
         year.innerHTML = "Year: " + project.YEAR;
         article.appendChild(year);
         var plannedBudget = document.createElement("p");
         plannedBudget.innerHTML = "Planned budget: " + project.PLANNED_BUDGET + " IDR";
         article.appendChild(plannedBudget);
+        var executedBudget = document.createElement("p");
+        executedBudget.innerHTML = "Executed budget: " + project.EXECUTED_BUDGET + " IDR";
+        article.appendChild(executedBudget);        
         li.appendChild(article);  
         label.onclick = function(){
           parent.setSelectedProject(project.ID);
