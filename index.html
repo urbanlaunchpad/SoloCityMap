@@ -272,6 +272,19 @@
                 var shape = L.polygon(geometry, shapeOptions);
                 shape.addTo(projectLocationLayer);
               }
+            } else if(locations[i] == "KELURAHAN"){
+              var kelurahanLocations = subdivisions[kelurahan];
+              for(var key in kelurahanLocations){
+                var rwLocations = kelurahanLocations[key];
+                for(var key in rwLocations){
+                  var rtLocations = rwLocations[key];
+                  if(rtLocations.hasOwnProperty("GEOMETRIES")){
+                    var geometry = rtLocations.GEOMETRIES;
+                    var shape = L.polygon(geometry, shapeOptions);
+                    shape.addTo(projectLocationLayer);       
+                  }
+                }
+              }
             }
           }
         }
