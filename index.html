@@ -330,6 +330,7 @@
         this.scFilters = document.createElement("select");
         this.scFilters.id = "subcategory_filter";
         this.scFilters.multiple = true;
+        this.scFilters.style.width='320px';
         this.scOptions =[];
         for (var key in subcategories){
           var option = document.createElement("option");
@@ -668,6 +669,9 @@
       <div id="main">
         <div id="map-canvas"></div>
         <div id="year_selector">
+          <div class="year-header">
+            <p>Tahun penyaring</p>
+          </div>
         </div>
       </div>  
       <div id="list" class="pure-u"> 
