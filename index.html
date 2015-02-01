@@ -303,27 +303,6 @@
               break;
           }
         }
-        this.showKelurahanProjects = function(kelurahanIndex){
-
-          // Zoom to the current kelurahan
-
-          // Get the info on the Projects for this Kelurahan if it doesn't exist
-
-          // Get the info for the RTs in this kelurahan if it doesn't exist
-
-          // Get the info for the RWs in this kelurahans if it doesn't exist
-
-          // Set the other kelurahans as not active
-
-          // Set this kelurahan as active
-
-          // Turn off all the other kelurahans
-
-          // Make this kelurahan dimmer
-
-          // Show the list of projects
-        }
-      }
 
       function subcategoryFilters(parent) {
         this.parent = parent;
@@ -356,40 +335,6 @@
           }
           return selectedSubcategories;
         }
-/*        this.parent = parent;
-        this.scFilters = document.createElement("div");
-        this.scFilters.id = "subcategory_filter";
-        this.scCheckboxes =[];
-        for (var key in subcategories){
-            var input = document.createElement("input");
-            input.type = "checkbox";
-            input.id = "filter_" + key;
-            input.subcategory = key;
-            input.checked = true;
-            var label = document.createElement("label");
-            label.htmlFor = "filter_" + key;
-            label.textContent = subcategories[key].name;
-            var that = this;
-            input.onchange = function(){
-              that.parent.filteringChanged();
-            }
-            this.scFilters.appendChild(input);
-            this.scFilters.appendChild(label);
-            this.scCheckboxes.push(input);
-        }
-        this.addTo = function(div){
-          div.appendChild(this.scFilters)
-          $("#subcategory_filter").buttonset();
-        }
-        this.getSelected = function(){
-          var selectedSubcategories = [];
-          for (var i = 0; i < this.scCheckboxes.length; i++){
-            if (this.scCheckboxes[i].checked){
-              selectedSubcategories.push(this.scCheckboxes[i].id.slice(7,this.scCheckboxes[i].length));
-            }
-          }
-          return selectedSubcategories;
-        }*/
       }
       function parseKelurahans(data){
         var rows = data['rows'];
