@@ -87,6 +87,7 @@
       var aggregateDataDatabase = TAFFY();
       //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
       var colors = ['#BEC1C4']; // More neutral, similar to Kota Kita site
+      var percentageColor = "8A0707";
       var originalKelurahanShapeOptions = {
         color: "#000000",
         opacity: 1,
@@ -162,9 +163,8 @@
         var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
         aggregateDataLayerSelector.onchange = function(){
           var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
-          var selectedLayer=aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].value;
-          window.alert(selectedLayer);
-          //showDataLayer(key);
+          var selectedLayer = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].value;
+          showDataLayer(selectedLayer);
         }
       }
       function toggleLayerToolbar(){
@@ -212,27 +212,25 @@
         }
         this.onKelurahanMouseOver = function(kelurahanIndex){
           if(selectedKelurahan != kelurahans[kelurahanIndex].name){
-            kelurahans[kelurahanIndex].setStyle(onHoverKelurahanShapeOptions);
             document.getElementById("kelurahan_name").innerHTML = kelurahans[kelurahanIndex].name;
           }
         }
         this.onKelurahanClick = function(kelurahanIndex){
             state = possibleStates.Kelurahan;
-            kelurahans[kelurahanIndex].setStyle(activeKelurahanShapeOptions);
             map.fitBounds(kelurahans[kelurahanIndex].kelurahanShape.getBounds());
             kelurahans[kelurahanIndex].kelurahanShape.bringToFront();
             if(selectedKelurahan != ""){
-              kelurahans[selectedKelurahanIndex].setStyle(originalKelurahanShapeOptions);
+              kelurahans[selectedKelurahanIndex].setDeselected();
             }
             selectedKelurahan = kelurahans[kelurahanIndex].name;
             selectedKelurahanIndex = kelurahanIndex;
+            kelurahans[selectedKelurahanIndex].setSelected();
             this.addFiltersUI();
             emptyProjectCards();
             this.filteringChanged();
         }
         this.onKelurahanMouseOut = function(kelurahanIndex){
           if(selectedKelurahan != kelurahans[kelurahanIndex].name){
-            kelurahans[kelurahanIndex].setStyle(originalKelurahanShapeOptions);
             document.getElementById("kelurahan_name").innerHTML = selectedKelurahan;
           }
         }
@@ -433,16 +431,24 @@
       }
       function kelurahan(name, geometry, center, index) {
         this.name = name;
+        this.selected = false;
         this.geometry = geometry;
         this.index = index;
         this.center = center;
+        this.onMouseOverStyle = null;
+        this.normalStyle = null;
+        this.selectedStyle = null;
         var projects = null;
         var randomnumber = Math.floor(Math.random() * colors.length);
-        this.shapeOptions = originalKelurahanShapeOptions;
+/*        this.shapeOptions = originalKelurahanShapeOptions;
         this.shapeOptions.index = this.index;
-        this.shapeOptions.kelurahan_name = this.name;
+        this.shapeOptions.kelurahan_name = this.name;*/
         this.kelurahanShape = new L.polygon(this.geometry, this.shapeOptions);
+        this.getName = function(){
+          return this.name;
+        }
         this.drawKelurahan = function() {
+          this.kelurahanShape.setStyle(this.normalStyle);
           this.kelurahanShape.addTo(kelurahanLayer);
         }
         this.initializeShape = function(){
@@ -452,15 +458,43 @@
         this.setStyle = function(style) {
           this.kelurahanShape.setStyle(style);
         }
+        this.setOnMouseOverStyle = function(style){
+          this.onMouseOverStyle = style;
+        }
+        this.setNormalStyle = function(style){
+          this.normalStyle = style;
+        }
+        this.setSelectedStyle = function(style){
+          this.selectedStyle = style;
+        }
+        this.setStyles = function(normalStyle,selectedStyle,onMouseOverStyle){
+          this.normalStyle = normalStyle;
+          this.selectedStyle = selectedStyle;
+          this.onMouseOverStyle = onMouseOverStyle;
+        }
+        this.setSelected = function(){
+          this.selected = true;
+          this.setStyle(this.selectedStyle);
+        }
+        this.setDeselected = function(){
+          this.selected = false;
+          this.setStyle(this.normalStyle);
+        }
         this.addListeners = function() {
           var that = this;
           this.kelurahanShape.on("click", function(){
               mapSC.onKelurahanClick(that.index);
           });
           this.kelurahanShape.on('mouseover', function(){
+            if(!that.selected){
+              that.setStyle(that.onMouseOverStyle);
+            }
             mapSC.onKelurahanMouseOver(that.index);
           });
           this.kelurahanShape.on('mouseout', function(){
+            if(!that.selected){
+              that.setStyle(that.normalStyle);
+            }
             mapSC.onKelurahanMouseOut(that.index);
           });          
         }
@@ -475,6 +509,7 @@
         i = 0;
         var interval = setInterval(function(){
           if (i < kelurahans.length){
+            kelurahans[shuffleArray[i]].setStyles(originalKelurahanShapeOptions, activeKelurahanShapeOptions, onHoverKelurahanShapeOptions);
             kelurahans[shuffleArray[i]].initializeShape();
             i++;
           } else{
@@ -619,6 +654,26 @@
             list.appendChild(ul);
           }
         }
+      }
+      function showDataLayer(key){
+        for (var i = kelurahans.length - 1; i >= 0; i--) {
+          var info = aggregateDataDatabase({KELURAHAN: kelurahans[i].getName()}).get();
+          window.alert(JSON.stringify(info));
+        };
+
+/*        for
+
+
+                var onHoverKelurahanShapeOptions = {
+        color: "#000000",
+        opacity: 1,
+        weight: 2,
+        fillColor: "#FFFFFF",
+        fillOpacity: 0,
+      }*/
+
+
+
       }
       function emptyProjectCards(){
         var list = document.getElementById("list");
