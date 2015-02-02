@@ -11,7 +11,7 @@
     background-color: #e9e9e9;
 }
 
-#list-header, #year-selector {
+#list-header {
     background-color: #dbdbdb;
     z-index: 2;
 }
@@ -29,7 +29,7 @@
 #nav,
 #list,
 #list-header,
-#year-selector,
+#tools_container,
 #main {
     margin: 0;
     padding: 0;
@@ -54,7 +54,19 @@
     border-top: 1px solid #bdbdbd;
 }
 
-#year-selector {
+#layers_button {
+    height: 2.5em;
+    width: 2.5em;
+    background-size: 100%; 
+    background-image: url(../img/png/layer.png);
+    float: right;
+}
+
+#year_selector{
+    float: right;
+}
+
+#tools_container {
     height: auto;
     position: relative;
     float: right;
@@ -62,11 +74,10 @@
     border: 1px solid #bdbdbd;
 }
 
-#year-selector .year-header {
-    height: 100%;
+#tools_container {
     display: block;
-    position: relative;
-    float: left;
+    position: absolute;
+    float: right;
     padding: 8px 16px;
 }
 
