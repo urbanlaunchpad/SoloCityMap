@@ -87,7 +87,7 @@
       var aggregateDataDatabase = TAFFY();
       //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
       var colors = ['#BEC1C4']; // More neutral, similar to Kota Kita site
-      var percentageColor = "8A0707";
+      var percentageColor = "#8A0707";
       var originalKelurahanShapeOptions = {
         color: "#000000",
         opacity: 1,
@@ -467,10 +467,15 @@
         this.setSelectedStyle = function(style){
           this.selectedStyle = style;
         }
-        this.setStyles = function(normalStyle,selectedStyle,onMouseOverStyle){
-          this.normalStyle = normalStyle;
-          this.selectedStyle = selectedStyle;
-          this.onMouseOverStyle = onMouseOverStyle;
+        this.setStyles = function(ns,ss,mov){
+          this.normalStyle = ns;
+          this.selectedStyle = ss;
+          this.onMouseOverStyle = mov;
+          if(this.selected){
+            this.setStyle(this.selectedStyle);
+          } else{
+            this.setStyle(this.normalStyle);
+          }
         }
         this.setSelected = function(){
           this.selected = true;
@@ -494,6 +499,8 @@
           this.kelurahanShape.on('mouseout', function(){
             if(!that.selected){
               that.setStyle(that.normalStyle);
+            } else {
+              that.setStyle(that.selectedStyle);
             }
             mapSC.onKelurahanMouseOut(that.index);
           });          
@@ -657,8 +664,17 @@
       }
       function showDataLayer(key){
         for (var i = kelurahans.length - 1; i >= 0; i--) {
-          var info = aggregateDataDatabase({KELURAHAN: kelurahans[i].getName()}).get();
-          window.alert(JSON.stringify(info));
+          var info = aggregateDataDatabase({KELURAHAN: kelurahans[i].getName()}).get()[0];
+          var normalStyle = originalKelurahanShapeOptions;
+          var onHoverStyle = onHoverKelurahanShapeOptions;
+          var selectedStyle = activeKelurahanShapeOptions;
+          normalStyle.fillColor = percentageColor;
+          onHoverStyle.fillColor = percentageColor;
+          selectedStyle.fillColor = percentageColor;
+          normalStyle.fillOpacity = info[key]/100;
+          onHoverStyle.fillOpacity = info[key]/100;
+          selectedStyle.fillOpacity = info[key]/100;
+          kelurahans[i].setStyles(normalStyle, selectedStyle, onHoverStyle);
         };
 
 /*        for
