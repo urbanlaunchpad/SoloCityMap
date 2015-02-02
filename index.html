@@ -157,13 +157,23 @@
       function initializeLayerToolbar(){
         var layerButton = document.getElementById("layers_button");
         layers_button.onclick = function(){
-          var layerTools = document.getElementById("layer_tools");
-          var displayStyle = window.getComputedStyle(layerTools, null).getPropertyValue("display");
-          if(displayStyle === "none"){
-            layerTools.style.display = "block";
-          } else {
-            layerTools.style.display = "none";
-          }
+          toggleLayerToolbar();
+        }
+        var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
+        aggregateDataLayerSelector.onchange = function(){
+          var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
+          var selectedLayer=aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].value;
+          window.alert(selectedLayer);
+          //showDataLayer(key);
+        }
+      }
+      function toggleLayerToolbar(){
+        var layerTools = document.getElementById("layer_tools");
+        var displayStyle = window.getComputedStyle(layerTools, null).getPropertyValue("display");
+        if(displayStyle === "none"){
+          layerTools.style.display = "block";
+        } else {
+          layerTools.style.display = "none";
         }
       }
       function getKelurahans(){
@@ -668,7 +678,7 @@
               </div>
             </div>
             <div id="layer_tools" style="display:none">
-              <select>
+              <select id="aggregate_data_selector">
                 <option value="" disabled="disabled" selected="selected">Select a data layer</option>
                 <option value="POVERTY_PERCENTAGE">Poverty percentage</option>
                 <option value="NO_SCHOOL_PERCENTAGE">Percentage of children not in school</option>
