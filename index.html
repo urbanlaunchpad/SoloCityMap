@@ -40,56 +40,48 @@
       var subdivisionsFusionTableID = "158fKZygrAlgGKaYDkT4alniT5ZEeTqPdwtFtEoc-";
       var musrenbangFusionTableID = "1yHXZ3Z5yQXl8eEewPUgYSzOvd458RhW9pQ2smFIf";
       var data2010FusionTableID = "1oMln7GsJjbGJ9CQK41FP-aq3Xkz7fJPVZof2U5rY";
-      var projectFields = ["KELURAHAN", "YEAR", "VOTED", "CATEGORY", "SUBCATEGORY", "UNIQUE_NUMBER", "LEVEL", "PRIORITY", "PROJECT_NAME", "LOCATION", "AGENCY", "PLANNED_BUDGET", "EXECUTED_BUDGET", "IS_IT_EXECUTED", "NOTES"];
-      var dataFields = {
-        KELURAHAN:"Kelurahan",
-        TOTAL_HH:"Total number of households",
-        TOTAL_CITIZENS:"Total citizens",
-        AVERAGE_HH_SIZE:"Average household size",
-        TOTAL_7_18:"Age 7-18 population",
-        NO_SCHOOL:"Total of children not in school",
-        NO_SCHOOL_PERCENTAGE:"Percentage of children not in school",
-        TOTAL_HH_WC_PERCENTAGE:"Total households with WC",
-        PRIVATE_WC_PERCENTAGE:"Percentage of private WC",
-        TOTAL_HH_WC_PUBLIC:"Total households with public WC",
-        WC_PUBLIC_PERCENTAGE:"Percentage of public WC",
-        TOTAL_PDAM:"Total PDAM",
-        PDAM_PERCENTAGE:"Percentage of PDAM",
-        TOTAL_HH_PUBLIC_WELLS:"Total households with public wells",
-        PUBLIC_WELLS_PERCENTAGE:"Percentage of public wells",
-        TOTAL_HH_PRIVATE_WELLS:"Total households with private wells",
-        PRIVATE_WELLS_PERCENTAGE:"Percentage of private wells",
-        TOTAL_HOUSES:"Total households",
-        TOTAL_LAND_TENURE:"Total land tenure",
-        LAND_TENURE_PERCENTAGE:"Percentage of land tenure",
-        HOUSES_HH_RATIO:"House household ratio",
-        TOTAL_POOR_HH:"Poor households",
-        POVERTY_PERCENTAGE:"Poverty percentage"
-      };
+      var projectFields = [
+        {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"TEXT"},
+        {KEY:"YEAR", NAME:"Year", TYPE:"NUMBER"},
+        {KEY:"VOTED", NAME:"Voted", TYPE:"TEXT"},
+        {KEY:"CATEGORY", NAME:"Category", TYPE:"TEXT"},
+        {KEY:"SUBCATEGORY", NAME:"Subcategory", TYPE:"TEXT"},
+        {KEY:"UNIQUE_NUMBER", NAME:"Unique number", TYPE:"NUMBER"},
+        {KEY:"LEVEL", NAME:"Level", TYPE:"TEXT"},
+        {KEY:"PRIORITY", NAME:"Priority", TYPE:"NUMBER"},
+        {KEY:"PROJECT_NAME", NAME:"Project name", TYPE:"TEXT"},
+        {KEY:"LOCATION", NAME:"Location", TYPE:"TEXT"},
+        {KEY:"AGENCY", NAME:"Agency", TYPE:"TEXT"},
+        {KEY:"PLANNED_BUDGET", NAME:"Planned budget", TYPE:"NUMBER"},
+        {KEY:"EXECUTED_BUDGET", NAME:"Executed budget", TYPE:"NUMBER"},
+        {KEY:"IS_IT_EXECUTED", NAME:"Is it executed", TYPE:"TEXT"},
+        {KEY:"NOTES", NAME:"Notes", TYPE:"TEXT"}
+      ];
+
       var agregatedDataFields = [
-        {key:"KELURAHAN", name:"Kelurahan", type:"text"},
-        {key:"TOTAL_HH", name:"Total Households", type:"number"},
-        {key:"TOTAL_CITIZENS", name:"Total Citizens", type:"number"},
-        {key:"AVERAGE_HH_SIZE", name:"Average household size", type:"number"},
-        {key:"TOTAL_7_18", name:"Total children between 7 and 18", type:"number"},
-        {key:"NO_SCHOOL", name:"Total children not in school", type:"number"},
-        {key:"NO_SCHOOL_PERCENTAGE", name:"Percentage of children not in school", type:"number"},
-        {key:"TOTAL_HH_WC", name:"Total households with private WC", type:"number"},
-        {key:"PRIVATE_WC_PERCENTAGE", name:"Percentage of households with private WC", type:"number"},
-        {key:"TOTAL_HH_WC_PUBLIC", name:"Total households with private WC", type:"number"},
-        {key:"WC_PUBLIC_PERCENTAGE", name:"Percentage of households with private WC", type:"number"},
-        {key:"TOTAL_PDAM", name:"Total PDAM", type:"number"},
-        {key:"PDAM_PERCENTAGE", name:"Percentage of PDAM", type:"number"},
-        {key:"TOTAL_HH_PUBLIC_WELLS", name:"Total households with public wells", type:"number"},
-        {key:"PUBLIC_WELLS_PERCENTAGE", name:"Public wells percentage", type:"number"},
-        {key:"TOTAL_HH_PRIVATE_WELLS", name:"Total household with private wells", type:"number"},
-        {key:"PRIVATE_WELLS_PERCENTAGE", name:"Percentage of private wells", type:"number"},
-        {key:"TOTAL_HOUSES", name:"Total houses", type:"number"},
-        {key:"TOTAL_LAND_TENURE", name:"Total land tenure", type:"number"},
-        {key:"LAND_TENURE_PERCENTAGE", name:"Land tenure percentage", type:"number"},
-        {key:"HOUSES_HH_RATIO", name:"Houses household ratio", type:"number"},
-        {key:"TOTAL_POOR_HH", name:"Total poor households", type:"number"},
-        {key:"POVERTY_PERCENTAGE", name:"Poverty percentage", type:"number"}
+        {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text"},
+        {KEY:"TOTAL_HH", NAME:"Total Households", TYPE:"number"},
+        {KEY:"TOTAL_CITIZENS", NAME:"Total Citizens", TYPE:"number"},
+        {KEY:"AVERAGE_HH_SIZE", NAME:"Average household size", TYPE:"number"},
+        {KEY:"TOTAL_7_18", NAME:"Total children between 7 and 18", TYPE:"number"},
+        {KEY:"NO_SCHOOL", NAME:"Total children not in school", TYPE:"number"},
+        {KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"number"},
+        {KEY:"TOTAL_HH_WC", NAME:"Total households with private WC", TYPE:"number"},
+        {KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"number"},
+        {KEY:"TOTAL_HH_WC_PUBLIC", NAME:"Total households with private WC", TYPE:"number"},
+        {KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"number"},
+        {KEY:"TOTAL_PDAM", NAME:"Total PDAM", TYPE:"number"},
+        {KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"number"},
+        {KEY:"TOTAL_HH_PUBLIC_WELLS", NAME:"Total households with public wells", TYPE:"number"},
+        {KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"number"},
+        {KEY:"TOTAL_HH_PRIVATE_WELLS", NAME:"Total household with private wells", TYPE:"number"},
+        {KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"number"},
+        {KEY:"TOTAL_HOUSES", NAME:"Total houses", TYPE:"number"},
+        {KEY:"TOTAL_LAND_TENURE", NAME:"Total land tenure", TYPE:"number"},
+        {KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"number"},
+        {KEY:"HOUSES_HH_RATIO", NAME:"Houses household ratio", TYPE:"number"},
+        {KEY:"TOTAL_POOR_HH", NAME:"Total poor households", TYPE:"number"},
+        {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"number"}
       ];   
       var projectDatabase =  TAFFY();
       //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
@@ -538,7 +530,7 @@
           var tempObj = {};
           tempObj["INDEX"] = j;
           for (var i=0; i < projectFields.length; i++){
-            tempObj[projectFields[i]] = rows[j][i];
+            tempObj[projectFields[i].KEY] = rows[j][i];
           }
           tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
           tempObj["SUBCATEGORY_TEXT"] = subcategories[tempObj.SUBCATEGORY].name;
@@ -624,7 +616,7 @@
       function getWhatToGet(columnNames){
         var whatToGet = "";
         for (var i = 0; i < columnNames.length; i++){
-          whatToGet = whatToGet + columnNames[i] + ", ";
+          whatToGet = whatToGet + columnNames[i].KEY + ", ";
         }
         whatToGet = whatToGet.substring(0, whatToGet.length - 2);
         return whatToGet;
