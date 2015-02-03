@@ -3,7 +3,7 @@ html {
     padding: 0;
 }
 
-#year_selector{
+#tools_container{
     position: absolute;
     top: 10px;
     right: 10px;
@@ -293,6 +293,11 @@ p {
     color: #222;
     padding: 0;
     margin: 1px auto 0;
+}
+
+#tools_container {
+    background-color: transparent;
+    border-color: transparent;
 }
 
 /*#year-selector label.year-button {
