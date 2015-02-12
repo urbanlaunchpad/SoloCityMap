@@ -440,9 +440,6 @@
         this.selectedStyle = null;
         var projects = null;
         var randomnumber = Math.floor(Math.random() * colors.length);
-/*        this.shapeOptions = originalKelurahanShapeOptions;
-        this.shapeOptions.index = this.index;
-        this.shapeOptions.kelurahan_name = this.name;*/
         this.kelurahanShape = new L.polygon(this.geometry, this.shapeOptions);
         this.getName = function(){
           return this.name;
@@ -468,9 +465,9 @@
           this.selectedStyle = style;
         }
         this.setStyles = function(ns,ss,mov){
-          this.normalStyle = ns;
-          this.selectedStyle = ss;
-          this.onMouseOverStyle = mov;
+          this.normalStyle = JSON.parse(JSON.stringify(ns));
+          this.selectedStyle = JSON.parse(JSON.stringify(ss));
+          this.onMouseOverStyle = JSON.parse(JSON.stringify(mov));
           if(this.selected){
             this.setStyle(this.selectedStyle);
           } else{
@@ -496,7 +493,7 @@
             }
             mapSC.onKelurahanMouseOver(that.index);
           });
-          this.kelurahanShape.on('mouseout', function(){
+          this.kelurahanShape.on('mouseout', function(){ 
             if(!that.selected){
               that.setStyle(that.normalStyle);
             } else {
@@ -663,33 +660,22 @@
         }
       }
       function showDataLayer(key){
+        this.normalStyle = {};
+        this.onHoverStyle = {};
+        this.selectedStyle = {};
+        this.normalStyle = originalKelurahanShapeOptions;
+        this.onHoverStyle = onHoverKelurahanShapeOptions;
+        this.selectedStyle = activeKelurahanShapeOptions;
         for (var i = kelurahans.length - 1; i >= 0; i--) {
           var info = aggregateDataDatabase({KELURAHAN: kelurahans[i].getName()}).get()[0];
-          var normalStyle = originalKelurahanShapeOptions;
-          var onHoverStyle = onHoverKelurahanShapeOptions;
-          var selectedStyle = activeKelurahanShapeOptions;
-          normalStyle.fillColor = percentageColor;
-          onHoverStyle.fillColor = percentageColor;
-          selectedStyle.fillColor = percentageColor;
-          normalStyle.fillOpacity = info[key]/100;
-          onHoverStyle.fillOpacity = info[key]/100;
-          selectedStyle.fillOpacity = info[key]/100;
-          kelurahans[i].setStyles(normalStyle, selectedStyle, onHoverStyle);
+          this.normalStyle.fillColor = percentageColor;
+          this.onHoverStyle.fillColor = percentageColor;
+          this.selectedStyle.fillColor = percentageColor;
+          this.normalStyle.fillOpacity = info[key]/100;
+          this.onHoverStyle.fillOpacity = info[key]/100;
+          this.selectedStyle.fillOpacity = info[key]/100;
+          kelurahans[i].setStyles(this.normalStyle, this.selectedStyle, this.onHoverStyle);
         };
-
-/*        for
-
-
-                var onHoverKelurahanShapeOptions = {
-        color: "#000000",
-        opacity: 1,
-        weight: 2,
-        fillColor: "#FFFFFF",
-        fillOpacity: 0,
-      }*/
-
-
-
       }
       function emptyProjectCards(){
         var list = document.getElementById("list");
