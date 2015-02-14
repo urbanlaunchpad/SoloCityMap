@@ -263,6 +263,14 @@
             emptyProjectCards();
             this.filteringChanged();
         }
+        this.selectKelurahanByName = function(kelurahanName){
+          for (var i = kelurahans.length - 1; i >= 0; i--) {
+            if (kelurahans[i].name == kelurahanName){
+              this.selectKelurahan(kelurahans[i]);
+              break;
+            }
+          };
+        }
         this.onKelurahanMouseOver = function(kelurahan){
           if(kelurahan != selectedKelurahan){
             document.getElementById("kelurahan_name").innerHTML = kelurahan.name;
@@ -421,7 +429,7 @@
         }
         var that = this;
         this.kelSelector.onchange = function(){
-          that.parent.selectKelurahan(this.options[this.selectedIndex].value);
+          that.parent.selectKelurahanByName(this.options[this.selectedIndex].value);
         }
       }
       function subcategoryFilters(parent) {
