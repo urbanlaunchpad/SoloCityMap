@@ -188,12 +188,12 @@
           color: "#C0B58F"}        
       };   
       function initialize() {
-        mapSC = new mapStateController();
         subcategoryIcons = new getSubcategoryIcons();
         getSubdivisions();
         getProjects();
         getKelurahans();
         get2010Data();
+        mapSC = new mapStateController();
         initializeLayerToolbar();
       }
       function initializeLayerToolbar(){
@@ -247,7 +247,6 @@
         var selectedKelurahan = null;
         var selectedProjectID = null;
         var scFilters = new subcategoryFilters(this);
-        //this.addFiltersUI();
         this.showMain = function(){
         }
         this.selectKelurahan = function(kelurahanToSelect){
@@ -375,6 +374,11 @@
             }
           }
         }
+        this.addKelurahanSelector = function(){
+          var kelSelect = new kelurahanSelector(this);
+          //this.addFiltersUI();
+          kelSelect.addTo(document.getElementById("filter_conditions"));
+        }
         this.addFiltersUI = function(){
           switch(state){
             case possibleStates.Default :
@@ -389,6 +393,25 @@
               }
               break;
           }
+        }
+      }
+      function kelurahanSelector(parent){
+        this.parent = parent;
+        this.kelSelector = document.createElement("select");
+        this.kelSelector.id = "kelurahan_selector";
+        this.kelSelector.multiple = false;
+        this.kelSelector.style.width='320px';
+        this.kelOptions = [];
+        for (var i = 0; i < kelurahans.length; i++) {
+          var option = document.createElement("option");
+          option.innerHTML = kelurahans[i].name;
+          option.id = "kel_" + kelurahans[i].name;
+          this.kelSelector.appendChild(option);
+          this.kelOptions.push(option);
+        };
+        this.addTo = function(div){
+          div.appendChild(this.kelSelector)
+          $("#kelurahan_selector").attr('data-placeholder', "Select a kelurahan").chosen();
         }
       }
       function subcategoryFilters(parent) {
@@ -441,6 +464,7 @@
           kelurahans[i] = new kelurahan(kelurahan_name, newCoordinates, center, i);
         }
         drawKelurahans(kelurahans);
+        mapSC.addKelurahanSelector();
       }
       function parseSubdivisions(data){
         var rows = data['rows'];
