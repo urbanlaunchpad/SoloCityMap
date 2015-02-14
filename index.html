@@ -244,35 +244,39 @@
         };
         state = possibleStates.Default;
         var yearCheckboxes = [];
-        var selectedKelurahan = "";
-        var selectedKelurahanIndex;
+        var selectedKelurahan = null;
         var selectedProjectID = null;
         var scFilters = new subcategoryFilters(this);
         //this.addFiltersUI();
         this.showMain = function(){
         }
-        this.onKelurahanMouseOver = function(kelurahanIndex){
-          if(selectedKelurahan != kelurahans[kelurahanIndex].name){
-            document.getElementById("kelurahan_name").innerHTML = kelurahans[kelurahanIndex].name;
+        this.selectKelurahan = function(kelurahanToSelect){
+
+        }
+        this.onKelurahanMouseOver = function(kelurahan){
+          if(kelurahan != selectedKelurahan){
+            document.getElementById("kelurahan_name").innerHTML = kelurahan.name;
           }
         }
-        this.onKelurahanClick = function(kelurahanIndex){
+        this.onKelurahanClick = function(kelurahan){
             state = possibleStates.Kelurahan;
-            map.fitBounds(kelurahans[kelurahanIndex].kelurahanShape.getBounds());
-            kelurahans[kelurahanIndex].kelurahanShape.bringToFront();
-            if(selectedKelurahan != ""){
-              kelurahans[selectedKelurahanIndex].setDeselected();
+            map.fitBounds(kelurahan.kelurahanShape.getBounds());
+            kelurahan.kelurahanShape.bringToFront();
+            if(selectedKelurahan != null){
+              selectedKelurahan.setDeselected();
             }
-            selectedKelurahan = kelurahans[kelurahanIndex].name;
-            selectedKelurahanIndex = kelurahanIndex;
-            kelurahans[selectedKelurahanIndex].setSelected();
+            selectedKelurahan = kelurahan;
+            //selectedKelurahanIndex = kelurahanIndex;
+            kelurahan.setSelected();
             this.addFiltersUI();
             emptyProjectCards();
             this.filteringChanged();
         }
-        this.onKelurahanMouseOut = function(kelurahanIndex){
-          if(selectedKelurahan != kelurahans[kelurahanIndex].name){
-            document.getElementById("kelurahan_name").innerHTML = selectedKelurahan;
+        this.onKelurahanMouseOut = function(kelurahan){
+          if((kelurahan != selectedKelurahan) && (selectedKelurahan != null)){
+            document.getElementById("kelurahan_name").innerHTML = selectedKelurahan.name;
+          } else {
+            document.getElementById("kelurahan_name").innerHTML = "";
           }
         }
         this.onProjectsParsed = function(){
@@ -318,7 +322,7 @@
               }
               var scSelected = scFilters.getSelected();
               emptyProjectCards();
-              fillProjectCards(selectedKelurahan, years, scSelected, this);
+              fillProjectCards(selectedKelurahan.name, years, scSelected, this);
               break;
           }
         }
@@ -526,13 +530,13 @@
         this.addListeners = function() {
           var that = this;
           this.kelurahanShape.on("click", function(){
-              mapSC.onKelurahanClick(that.index);
+              mapSC.onKelurahanClick(that);
           });
           this.kelurahanShape.on('mouseover', function(){
             if(!that.selected){
               that.setStyle(that.onMouseOverStyle);
             }
-            mapSC.onKelurahanMouseOver(that.index);
+            mapSC.onKelurahanMouseOver(that);
           });
           this.kelurahanShape.on('mouseout', function(){ 
             if(!that.selected){
@@ -540,7 +544,7 @@
             } else {
               that.setStyle(that.selectedStyle);
             }
-            mapSC.onKelurahanMouseOut(that.index);
+            mapSC.onKelurahanMouseOut(that);
           });          
         }
       }
