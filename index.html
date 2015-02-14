@@ -31,8 +31,49 @@
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/menus-min.css">
     <link rel="stylesheet" href="src/css/structure.css">
-    <!--<![endif]-->
-    <script type="text/javascript">
+    <!--<![endif]-->   
+  </head>
+  <body>
+    <div id="layout" class="content pure-g">
+      <div id="nav" class="pure-u">
+        <a href="#" class="nav-menu-button">Menu</a>
+        <h6 style="margin-top:0; padding-top:0.5em">Solo City Map</h6>
+        <div class="nav-inner">
+          <div class="pure-menu pure-menu-open">
+            <ul>
+              <li><a href="#">Lorem</a></li>
+              <li><a href="#">Ipsum</a></li>
+              <li><a href="#">Dolor</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="list-header" class="pure-u">
+        <h4 id="kelurahan_name"></h4>
+        <div id="filter_conditions"></div>
+      </div>
+      <div id="main">
+        <div id="map-canvas"></div>
+          <div id="tools_container">
+            <button type="button" id="layers_button"></button>
+            <div id="year_selector">
+              <div class="year-header">
+                <p>Tahun penyaring</p>
+              </div>
+            </div>
+            <div id="layer_tools" style="display:none">
+              <select id="aggregate_data_selector">
+                <option value="" disabled="disabled" selected="selected">Select a data layer</option>
+                <option value="POVERTY_PERCENTAGE">Poverty percentage</option>
+                <option value="NO_SCHOOL_PERCENTAGE">Percentage of children not in school</option>
+              </select>
+            </div>
+          </div>
+        </div>  
+        <div id="list" class="pure-u"> 
+      </div>  
+    </div>
+     <script type="text/javascript">
       //***********************************************************************
       //***********************Here goes the stuff for the map*****************
       //***********************************************************************
@@ -147,12 +188,12 @@
           color: "#C0B58F"}        
       };   
       function initialize() {
-        mapSC = new mapStateController();
         subcategoryIcons = new getSubcategoryIcons();
         getSubdivisions();
         getProjects();
         getKelurahans();
         get2010Data();
+        mapSC = new mapStateController();
         initializeLayerToolbar();
       }
       function initializeLayerToolbar(){
@@ -203,35 +244,46 @@
         };
         state = possibleStates.Default;
         var yearCheckboxes = [];
-        var selectedKelurahan = "";
-        var selectedKelurahanIndex;
+        var selectedKelurahan = null;
         var selectedProjectID = null;
         var scFilters = new subcategoryFilters(this);
-        //this.addFiltersUI();
         this.showMain = function(){
         }
-        this.onKelurahanMouseOver = function(kelurahanIndex){
-          if(selectedKelurahan != kelurahans[kelurahanIndex].name){
-            document.getElementById("kelurahan_name").innerHTML = kelurahans[kelurahanIndex].name;
-          }
-        }
-        this.onKelurahanClick = function(kelurahanIndex){
+        this.selectKelurahan = function(kelurahanToSelect){
             state = possibleStates.Kelurahan;
-            map.fitBounds(kelurahans[kelurahanIndex].kelurahanShape.getBounds());
-            kelurahans[kelurahanIndex].kelurahanShape.bringToFront();
-            if(selectedKelurahan != ""){
-              kelurahans[selectedKelurahanIndex].setDeselected();
+            map.fitBounds(kelurahanToSelect.kelurahanShape.getBounds());
+            kelurahanToSelect.kelurahanShape.bringToFront();
+            if(selectedKelurahan != null){
+              selectedKelurahan.setDeselected();
             }
-            selectedKelurahan = kelurahans[kelurahanIndex].name;
-            selectedKelurahanIndex = kelurahanIndex;
-            kelurahans[selectedKelurahanIndex].setSelected();
+            selectedKelurahan = kelurahanToSelect;
+            //selectedKelurahanIndex = kelurahanIndex;
+            kelurahanToSelect.setSelected();
             this.addFiltersUI();
             emptyProjectCards();
             this.filteringChanged();
         }
-        this.onKelurahanMouseOut = function(kelurahanIndex){
-          if(selectedKelurahan != kelurahans[kelurahanIndex].name){
-            document.getElementById("kelurahan_name").innerHTML = selectedKelurahan;
+        this.selectKelurahanByName = function(kelurahanName){
+          for (var i = kelurahans.length - 1; i >= 0; i--) {
+            if (kelurahans[i].name == kelurahanName){
+              this.selectKelurahan(kelurahans[i]);
+              break;
+            }
+          };
+        }
+        this.onKelurahanMouseOver = function(kelurahan){
+          if(kelurahan != selectedKelurahan){
+            document.getElementById("kelurahan_name").innerHTML = kelurahan.name;
+          }
+        }
+        this.onKelurahanClick = function(kelurahan){
+          this.selectKelurahan(kelurahan);
+        }
+        this.onKelurahanMouseOut = function(kelurahan){
+          if((kelurahan != selectedKelurahan) && (selectedKelurahan != null)){
+            document.getElementById("kelurahan_name").innerHTML = selectedKelurahan.name;
+          } else {
+            document.getElementById("kelurahan_name").innerHTML = "";
           }
         }
         this.onProjectsParsed = function(){
@@ -277,7 +329,7 @@
               }
               var scSelected = scFilters.getSelected();
               emptyProjectCards();
-              fillProjectCards(selectedKelurahan, years, scSelected, this);
+              fillProjectCards(selectedKelurahan.name, years, scSelected, this);
               break;
           }
         }
@@ -330,6 +382,11 @@
             }
           }
         }
+        this.addKelurahanSelector = function(){
+          var kelSelect = new kelurahanSelector(this);
+          //this.addFiltersUI();
+          kelSelect.addTo(document.getElementById("filter_conditions"));
+        }
         this.addFiltersUI = function(){
           switch(state){
             case possibleStates.Default :
@@ -344,6 +401,35 @@
               }
               break;
           }
+        }
+      }
+      function kelurahanSelector(parent){
+        this.parent = parent;
+        this.kelSelector = document.createElement("select");
+        this.kelSelector.id = "kelurahan_selector";
+        this.kelSelector.multiple = false;
+        this.kelSelector.style.width='320px';
+        this.kelOptions = [];
+        //Adding blank text option
+        var option = document.createElement("option");
+        option.innerHTML = "";
+        option.value = "";
+        this.kelSelector.appendChild(option);
+        for (var i = 0; i < kelurahans.length; i++) {
+          var option = document.createElement("option");
+          option.innerHTML = kelurahans[i].name;
+          option.id = "kel_" + kelurahans[i].name;
+          option.value = kelurahans[i].name;
+          this.kelSelector.appendChild(option);
+          this.kelOptions.push(option);
+        };
+        this.addTo = function(div){ 
+          div.appendChild(this.kelSelector)
+          $("#kelurahan_selector").attr('data-placeholder', "Select a kelurahan").chosen({allow_single_deselect: true});
+        }
+        var that = this;
+        this.kelSelector.onchange = function(){
+          that.parent.selectKelurahanByName(this.options[this.selectedIndex].value);
         }
       }
       function subcategoryFilters(parent) {
@@ -396,6 +482,7 @@
           kelurahans[i] = new kelurahan(kelurahan_name, newCoordinates, center, i);
         }
         drawKelurahans(kelurahans);
+        mapSC.addKelurahanSelector();
       }
       function parseSubdivisions(data){
         var rows = data['rows'];
@@ -485,13 +572,13 @@
         this.addListeners = function() {
           var that = this;
           this.kelurahanShape.on("click", function(){
-              mapSC.onKelurahanClick(that.index);
+              mapSC.onKelurahanClick(that);
           });
           this.kelurahanShape.on('mouseover', function(){
             if(!that.selected){
               that.setStyle(that.onMouseOverStyle);
             }
-            mapSC.onKelurahanMouseOver(that.index);
+            mapSC.onKelurahanMouseOver(that);
           });
           this.kelurahanShape.on('mouseout', function(){ 
             if(!that.selected){
@@ -499,7 +586,7 @@
             } else {
               that.setStyle(that.selectedStyle);
             }
-            mapSC.onKelurahanMouseOut(that.index);
+            mapSC.onKelurahanMouseOut(that);
           });          
         }
       }
@@ -705,47 +792,6 @@
         return whatToGet;
       }
     </script>
-  </head>
-  <body>
-    <div id="layout" class="content pure-g">
-      <div id="nav" class="pure-u">
-        <a href="#" class="nav-menu-button">Menu</a>
-        <h6 style="margin-top:0; padding-top:0.5em">Solo City Map</h6>
-        <div class="nav-inner">
-          <div class="pure-menu pure-menu-open">
-            <ul>
-              <li><a href="#">Lorem</a></li>
-              <li><a href="#">Ipsum</a></li>
-              <li><a href="#">Dolor</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div id="list-header" class="pure-u">
-        <h4 id="kelurahan_name"></h4>
-        <div id="filter_conditions"></div>
-      </div>
-      <div id="main">
-        <div id="map-canvas"></div>
-          <div id="tools_container">
-            <button type="button" id="layers_button"></button>
-            <div id="year_selector">
-              <div class="year-header">
-                <p>Tahun penyaring</p>
-              </div>
-            </div>
-            <div id="layer_tools" style="display:none">
-              <select id="aggregate_data_selector">
-                <option value="" disabled="disabled" selected="selected">Select a data layer</option>
-                <option value="POVERTY_PERCENTAGE">Poverty percentage</option>
-                <option value="NO_SCHOOL_PERCENTAGE">Percentage of children not in school</option>
-              </select>
-            </div>
-          </div>
-        </div>  
-        <div id="list" class="pure-u"> 
-      </div>  
-    </div>
     <script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
     <script>
       YUI().use('node-base', 'node-event-delegate', function (Y) {
