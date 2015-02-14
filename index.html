@@ -250,7 +250,18 @@
         this.showMain = function(){
         }
         this.selectKelurahan = function(kelurahanToSelect){
-
+            state = possibleStates.Kelurahan;
+            map.fitBounds(kelurahanToSelect.kelurahanShape.getBounds());
+            kelurahanToSelect.kelurahanShape.bringToFront();
+            if(selectedKelurahan != null){
+              selectedKelurahan.setDeselected();
+            }
+            selectedKelurahan = kelurahanToSelect;
+            //selectedKelurahanIndex = kelurahanIndex;
+            kelurahanToSelect.setSelected();
+            this.addFiltersUI();
+            emptyProjectCards();
+            this.filteringChanged();
         }
         this.onKelurahanMouseOver = function(kelurahan){
           if(kelurahan != selectedKelurahan){
@@ -258,18 +269,7 @@
           }
         }
         this.onKelurahanClick = function(kelurahan){
-            state = possibleStates.Kelurahan;
-            map.fitBounds(kelurahan.kelurahanShape.getBounds());
-            kelurahan.kelurahanShape.bringToFront();
-            if(selectedKelurahan != null){
-              selectedKelurahan.setDeselected();
-            }
-            selectedKelurahan = kelurahan;
-            //selectedKelurahanIndex = kelurahanIndex;
-            kelurahan.setSelected();
-            this.addFiltersUI();
-            emptyProjectCards();
-            this.filteringChanged();
+          this.selectKelurahan(kelurahan);
         }
         this.onKelurahanMouseOut = function(kelurahan){
           if((kelurahan != selectedKelurahan) && (selectedKelurahan != null)){
@@ -415,9 +415,13 @@
           this.kelSelector.appendChild(option);
           this.kelOptions.push(option);
         };
-        this.addTo = function(div){
+        this.addTo = function(div){ 
           div.appendChild(this.kelSelector)
           $("#kelurahan_selector").attr('data-placeholder', "Select a kelurahan").chosen({allow_single_deselect: true});
+        }
+        var that = this;
+        this.kelSelector.onchange = function(){
+          that.parent.selectKelurahan(this.options[this.selectedIndex].value);
         }
       }
       function subcategoryFilters(parent) {
