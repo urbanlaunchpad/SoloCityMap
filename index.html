@@ -402,16 +402,22 @@
         this.kelSelector.multiple = false;
         this.kelSelector.style.width='320px';
         this.kelOptions = [];
+        //Adding blank text option
+        var option = document.createElement("option");
+        option.innerHTML = "";
+        option.value = "";
+        this.kelSelector.appendChild(option);
         for (var i = 0; i < kelurahans.length; i++) {
           var option = document.createElement("option");
           option.innerHTML = kelurahans[i].name;
           option.id = "kel_" + kelurahans[i].name;
+          option.value = kelurahans[i].name;
           this.kelSelector.appendChild(option);
           this.kelOptions.push(option);
         };
         this.addTo = function(div){
           div.appendChild(this.kelSelector)
-          $("#kelurahan_selector").attr('data-placeholder', "Select a kelurahan").chosen();
+          $("#kelurahan_selector").attr('data-placeholder', "Select a kelurahan").chosen({allow_single_deselect: true});
         }
       }
       function subcategoryFilters(parent) {
