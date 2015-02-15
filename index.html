@@ -53,7 +53,7 @@
         <div id="filter_conditions">
           <select id="kelurahan_selector" style="width: 320px;" data-placeholder="Select a kelurahan">
           </select>
-          <select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px;">
+          <select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none">
           </select>
         </div>
       </div>
@@ -398,11 +398,7 @@
             case possibleStates.Main :
               break;
             case possibleStates.Kelurahan :
-              if(!document.getElementById("subcategory_filter")){
-                var fc = document.getElementById("filter_conditions");
-                fc.innerHTML = "";
-                scFilters.addTo(fc);
-              }
+                scFilters.show();
               break;
           }
         }
@@ -436,9 +432,7 @@
       function subcategoryFilters(parent) {
         this.parent = parent;
         this.scFilters = document.getElementById("subcategory_filter");
-        this.scFilters.id = "subcategory_filter";
         this.scFilters.multiple = true;
-        this.scFilters.style.width='320px';
         this.scOptions =[];
         for (var key in subcategories){
           var option = document.createElement("option");
@@ -452,9 +446,9 @@
         this.scFilters.onchange = function(){
           that.parent.filteringChanged();
         }
-        this.addTo = function(div){
-          div.appendChild(this.scFilters)
-          $("#subcategory_filter").attr('data-placeholder', "Select Subcategories...").chosen();
+        this.show = function(){
+          this.scFilters.style.display = "inherit";
+          $(this.scFilters).attr('data-placeholder', "Select Subcategories...").chosen();
         }
         this.getSelected = function(){
           var selectedSubcategories = [];
