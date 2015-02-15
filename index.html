@@ -434,6 +434,7 @@
         this.scFilters = document.getElementById("subcategory_filter");
         this.scFilters.multiple = true;
         this.scOptions =[];
+        this.isActive = false;
         for (var key in subcategories){
           var option = document.createElement("option");
           option.selected = "selected";
@@ -447,8 +448,11 @@
           that.parent.filteringChanged();
         }
         this.show = function(){
-          this.scFilters.style.display = "inherit";
-          $(this.scFilters).attr('data-placeholder', "Select Subcategories...").chosen();
+          if(this.isActive == false){
+            this.scFilters.style.display = "inherit";
+            $(this.scFilters).attr('data-placeholder', "Select Subcategories...").chosen();
+            this.isActive = true;
+          }
         }
         this.getSelected = function(){
           var selectedSubcategories = [];
