@@ -252,6 +252,7 @@
         var selectedKelurahan = null;
         var selectedProjectID = null;
         var scFilters = new subcategoryFilters(this);
+        this.kelSelect = null;
         this.showMain = function(){
         }
         this.selectKelurahan = function(kelurahanToSelect){
@@ -267,6 +268,7 @@
             this.addFiltersUI();
             emptyProjectCards();
             this.filteringChanged();
+            this.kelSelect.selectKelurahan(kelurahanToSelect.name);
         }
         this.selectKelurahanByName = function(kelurahanName){
           for (var i = kelurahans.length - 1; i >= 0; i--) {
@@ -388,8 +390,8 @@
           }
         }
         this.addKelurahanSelector = function(){
-          var kelSelect = new kelurahanSelector(this);
-          kelSelect.initialize();
+          this.kelSelect = new kelurahanSelector(this);
+          this.kelSelect.initialize();
         }
         this.addFiltersUI = function(){
           switch(state){
@@ -408,12 +410,17 @@
         this.kelSelector = document.getElementById("kelurahan_selector");
         this.kelSelector.multiple = false;
         this.kelOptions = [];
+        var that = this;
+        this.kelSelector.onchange = function(){
+          that.parent.selectKelurahanByName(this.options[this.selectedIndex].value);
+        }
         this.initialize = function(){
             //Adding blank text option
             var option = document.createElement("option");
             option.innerHTML = "";
             option.value = "";
             this.kelSelector.appendChild(option);
+            this.kelOptions.push(option);
             for (var i = 0; i < kelurahans.length; i++) {
               var option = document.createElement("option");
               option.innerHTML = kelurahans[i].name;
@@ -424,10 +431,17 @@
             };
             $(this.kelSelector).attr('data-placeholder', "Select a kelurahan").chosen({allow_single_deselect: true});
         }
-        var that = this;
-        this.kelSelector.onchange = function(){
-          that.parent.selectKelurahanByName(this.options[this.selectedIndex].value);
-        }
+        this.selectKelurahan = function(kelurahanName){
+          if(this.kelSelector.options[this.kelSelector.selectedIndex].value != kelurahanName){
+            for (var i = this.kelOptions.length - 1; i >= 0; i--) {
+              if (this.kelOptions[i].value == kelurahanName){
+                this.kelSelector.selectedIndex = i;
+                $(this.kelSelector).trigger("chosen:updated"); 
+                break;
+              }
+            };
+          }
+        }        
       }
       function subcategoryFilters(parent) {
         this.parent = parent;
