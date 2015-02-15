@@ -50,7 +50,12 @@
       </div>
       <div id="list-header" class="pure-u">
         <h4 id="kelurahan_name"></h4>
-        <div id="filter_conditions"></div>
+        <div id="filter_conditions">
+          <select id="kelurahan_selector" style="width: 320px; display: none;" data-placeholder="Select a kelurahan">
+          </select>
+          <select id="subcategory_filter" multiple="" data-placeholder="Select Subcategories..." style="width: 320px; display: none;">
+          </select>
+        </div>
       </div>
       <div id="main">
         <div id="map-canvas"></div>
@@ -178,7 +183,7 @@
           color: "#601D00"},        
         LS : {name: "Listrik",
           color: "#E7922A"},        
-        AR : {name: "Air Bersih",
+        AR : {name: "Air Bersih", 
           color: "#003951"},        
         IC : {name: "Informasi dan komunicasi",
           color: "#B65B46"},        
