@@ -51,9 +51,9 @@
       <div id="list-header" class="pure-u">
         <h4 id="kelurahan_name"></h4>
         <div id="filter_conditions">
-          <select id="kelurahan_selector" style="width: 320px; display: none;" data-placeholder="Select a kelurahan">
+          <select id="kelurahan_selector" style="width: 320px;" data-placeholder="Select a kelurahan">
           </select>
-          <select id="subcategory_filter" multiple="" data-placeholder="Select Subcategories..." style="width: 320px; display: none;">
+          <select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px;">
           </select>
         </div>
       </div>
@@ -389,8 +389,7 @@
         }
         this.addKelurahanSelector = function(){
           var kelSelect = new kelurahanSelector(this);
-          //this.addFiltersUI();
-          kelSelect.addTo(document.getElementById("filter_conditions"));
+          kelSelect.initialize();
         }
         this.addFiltersUI = function(){
           switch(state){
@@ -410,27 +409,24 @@
       }
       function kelurahanSelector(parent){
         this.parent = parent;
-        this.kelSelector = document.createElement("select");
-        this.kelSelector.id = "kelurahan_selector";
+        this.kelSelector = document.getElementById("kelurahan_selector");
         this.kelSelector.multiple = false;
-        this.kelSelector.style.width='320px';
         this.kelOptions = [];
-        //Adding blank text option
-        var option = document.createElement("option");
-        option.innerHTML = "";
-        option.value = "";
-        this.kelSelector.appendChild(option);
-        for (var i = 0; i < kelurahans.length; i++) {
-          var option = document.createElement("option");
-          option.innerHTML = kelurahans[i].name;
-          option.id = "kel_" + kelurahans[i].name;
-          option.value = kelurahans[i].name;
-          this.kelSelector.appendChild(option);
-          this.kelOptions.push(option);
-        };
-        this.addTo = function(div){ 
-          div.appendChild(this.kelSelector)
-          $("#kelurahan_selector").attr('data-placeholder', "Select a kelurahan").chosen({allow_single_deselect: true});
+        this.initialize = function(){
+            //Adding blank text option
+            var option = document.createElement("option");
+            option.innerHTML = "";
+            option.value = "";
+            this.kelSelector.appendChild(option);
+            for (var i = 0; i < kelurahans.length; i++) {
+              var option = document.createElement("option");
+              option.innerHTML = kelurahans[i].name;
+              option.id = "kel_" + kelurahans[i].name;
+              option.value = kelurahans[i].name;
+              this.kelSelector.appendChild(option);
+              this.kelOptions.push(option);
+            };
+            $(this.kelSelector).attr('data-placeholder', "Select a kelurahan").chosen({allow_single_deselect: true});
         }
         var that = this;
         this.kelSelector.onchange = function(){
@@ -439,7 +435,7 @@
       }
       function subcategoryFilters(parent) {
         this.parent = parent;
-        this.scFilters = document.createElement("select");
+        this.scFilters = document.getElementById("subcategory_filter");
         this.scFilters.id = "subcategory_filter";
         this.scFilters.multiple = true;
         this.scFilters.style.width='320px';
