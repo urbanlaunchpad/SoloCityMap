@@ -6,7 +6,7 @@
     <title>Solo map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <!-- jquery and jquery UI -->
-    <<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <!-- Chosen -->
@@ -55,6 +55,22 @@
           </select>
           <select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none">
           </select>
+          <div id="was_voted_filter">            
+            <input type="checkbox" id="was_voted_filter_ALL" value="ALL"></input>
+            <label for="was_voted_filter_ALL">All</label>
+            <input type="checkbox" id="was_voted_filter_VO" value="VO"></input>
+            <label for="was_voted_filter_VO">Voted</label>
+            <input type="checkbox" id="was_voted_filter_NV" value="NV"></input>
+            <label for="was_voted_filter_NV">Ghost project</label>
+          </div>
+          <div id="is_it_executed_filter">
+            <input type="checkbox" id="is_it_executed_filter_ALL" value="ALL"></input>
+            <label for="is_it_executed_filter_ALL">All</label>
+            <input type="checkbox" id="is_it_executed_filter_YES" value="YES"></input>
+            <label for="is_it_executed_filter_YES">Executed</label>
+            <input type="checkbox" id="is_it_executed_filter_NO" value="NO"></input>
+            <label for="is_it_executed_filter_NO">Not executed</label>
+          </div>
         </div>
       </div>
       <div id="main">
@@ -266,6 +282,8 @@
             //selectedKelurahanIndex = kelurahanIndex;
             kelurahanToSelect.setSelected();
             this.addFiltersUI();
+            $("#was_voted_filter").buttonset();
+            $("#is_it_executed_filter").buttonset();
             emptyProjectCards();
             this.filteringChanged();
             this.kelSelect.selectKelurahan(kelurahanToSelect.name);
