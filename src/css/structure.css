@@ -1,3 +1,44 @@
+.bar_element{
+    width: 12.5%;
+    height: 25px;
+    float: left;
+    margin-left:0px;
+    margin-right:0px;
+    padding-left:0px;
+    padding-right:0px
+}
+
+.JA {
+    background-color: #4C4320;
+}
+
+.SA {
+    background-color: #573649;
+}
+
+.SM {
+    background-color: #601D00;
+}
+
+.LS {
+    background-color: #E7922A;
+}
+
+.AR {
+    background-color: #003951;
+}
+
+.IC {
+    background-color: #B65B46;
+}
+
+.DR {
+    background-color: #7FA6B2;
+}
+
+.SR {
+    background-color: #C0B58F;  
+}
 
 #layout {
     background-color: #444;
