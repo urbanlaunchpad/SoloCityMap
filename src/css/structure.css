@@ -1,3 +1,44 @@
+.bar_element{
+    width: 12.5%;
+    height: 25px;
+    float: left;
+    margin-left:0px;
+    margin-right:0px;
+    padding-left:0px;
+    padding-right:0px
+}
+
+.JA {
+    background-color: #4C4320;
+}
+
+.SA {
+    background-color: #573649;
+}
+
+.SM {
+    background-color: #601D00;
+}
+
+.LS {
+    background-color: #E7922A;
+}
+
+.AR {
+    background-color: #003951;
+}
+
+.IC {
+    background-color: #B65B46;
+}
+
+.DR {
+    background-color: #7FA6B2;
+}
+
+.SR {
+    background-color: #C0B58F;  
+}
 
 #layout {
     background-color: #444;
@@ -66,18 +107,27 @@
     float: right;
 }
 
-#tools_container {
+#kelurahan_name {
+    pointer-events: none;   
     height: auto;
     position: relative;
-    float: right;
     margin: 1em;
-    border: 1px solid #bdbdbd;
-}
-
-#tools_container {
     display: block;
     position: absolute;
-    float: right;
+    padding: 8px 16px;
+    top: 10px;
+    left: 10px;
+}
+
+
+#tools_container {
+    height: auto;
+    margin: 1em;
+    border: 1px solid #bdbdbd;
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
     padding: 8px 16px;
 }
 
@@ -225,12 +275,12 @@
     }
 
     #list {
-        top: 10em;
+        top: 20em;
         height: auto;        
     }
 
     #list-header {
-        height: 11em;
+        height: 18em;
         padding-top: 2em;
     }
 
