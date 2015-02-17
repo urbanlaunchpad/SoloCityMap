@@ -70,7 +70,7 @@
             <input type="checkbox" id="is_it_executed_filter_NO" value="NO"></input>
             <label for="is_it_executed_filter_NO">Not executed</label>
           </div>
-          <p>Total budget:        <span id="total_budget">0.00</span> IDR
+          <p>Planned budget:<span id="total_budget">0.00</span> IDR
           </p>
           <div id="budget_bar">
             <div class="bar_element JA"></div>
@@ -282,6 +282,7 @@
         this.filters = document.getElementById("filter_conditions");
         this.GPFilter = new ghostProjectFilters(this);
         this.EPFilter = new executedProjectFilters(this);
+        this.BBar = new budgetBar();
         this.kelSelect = null;
         this.showMain = function(){
         }
@@ -370,7 +371,8 @@
               var gpFilterSelected = this.GPFilter.getActiveFilter();
               var exFilterSelected = this.EPFilter.getActiveFilter();
               emptyProjectCards();
-              fillProjectCards(selectedKelurahan.name, years, scSelected, gpFilterSelected, exFilterSelected, this);
+              var cardData = fillProjectCards(selectedKelurahan.name, years, scSelected, gpFilterSelected, exFilterSelected, this);
+              this.BBar.updateBar(cardData);
               break;
           }
         }
@@ -607,6 +609,14 @@
           return selectedSubcategories;
         }
       }
+      function budgetBar(){
+        this.budgetView = document.getElementById("total_budget");
+
+        this.updateBar = function(projects){
+          this.projects = projects;
+          this.budgetView.innerHTML = projects().sum("PLANNED_BUDGET");
+        }
+      }
       function parseKelurahans(data){
         var rows = data['rows'];
         for (var i in rows) {
@@ -822,7 +832,15 @@
           var tempObj = {};
           tempObj["INDEX"] = j;
           for (var i=0; i < projectFields.length; i++){
-            tempObj[projectFields[i].KEY] = rows[j][i];
+            if((projectFields[i].KEY == "PLANNED_BUDGET") || (projectFields[i].KEY == " EXECUTED_BUDGET")){
+              if(rows[j][i] == ""){
+                tempObj[projectFields[i].KEY] = 0;
+              } else {
+                tempObj[projectFields[i].KEY] = parseInt(rows[j][i]);
+              }
+            } else {
+                tempObj[projectFields[i].KEY] = rows[j][i];
+            }
           }
           tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
           tempObj["SUBCATEGORY_TEXT"] = subcategories[tempObj.SUBCATEGORY].name;
@@ -874,6 +892,7 @@
       function fillProjectCards(kelurahan, years, subcategories, ghostOrNot, executedOrNot, parent){
         var list = document.getElementById("list");
         var ul = document.createElement("ul");
+        var projectTAFFY = TAFFY();
         var projectCardArray = [];
         for (var j=0; j < years.length; j++){
           for (var k=0; k < subcategories.length; k++){
@@ -883,12 +902,14 @@
                 for (var i=0; i < projectsToShow.length; i++){
                   projectCardArray[i] = new projectCard(projectsToShow[i], parent);
                   ul.appendChild(projectCardArray[i].getView());
+                  projectTAFFY.insert(projectsToShow[i]);
                 }
                 list.appendChild(ul);
               }
             }
           }
         }
+        return projectTAFFY;
       }
       function showDataLayer(key){
         this.normalStyle = {};
