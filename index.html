@@ -49,46 +49,43 @@
         </div>
       </div>
       <div id="list-header" class="pure-u">
-        <h4 id="kelurahan_name"></h4>
-        <div id="filter_conditions">
-        	<select id="kelurahan_selector" style="width: 320px;" data-placeholder="Select a kelurahan">
-        	</select>
-        	<select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none">
-        	</select>
-        	<div id="was_voted_filter" class="ui-buttonset">
-				<p>Voted</p>
-	            <input type="checkbox" id="was_voted_filter_ALL" value="ALL" class="ui-helper-hidden-accessible"></input>
-	            <label for="was_voted_filter_ALL" class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left" role="button">
-	            	<span class="ui-button-text">All</span>
-	            </label>
-	            <input type="checkbox" id="was_voted_filter_VO" value="VO" class="ui-helper-hidden-accessible"></input>
-	            <label for="was_voted_filter_VO" class="ui-button ui-widget ui-state-default ui-button-text-only" role="button">
-	            	<span class="ui-button-text">Voted</span>
-	            </label>
-	            <input type="checkbox" id="was_voted_filter_NV" value="NV" class="ui-helper-hidden-accessible"></input>
-	            <label for="was_voted_filter_NV" class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right" role="button">
-	            	<span class="ui-button-text">Ghost project</span>
-	            </label>
-          	</div>
-          	<div id="is_it_executed_filter" class="ui-buttonset">
-				<p>Status</p>
-	            <input type="checkbox" id="is_it_executed_filter_ALL" value="ALL" class="ui-helper-hidden-accessible"></input>
-	            <label for="is_it_executed_filter_ALL" class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left" role="button">
-	            	<span class="ui-button-text">All</span>
-	            </label>
-	            <input type="checkbox" id="is_it_executed_filter_YES" value="YES" class="ui-helper-hidden-accessible"></input>
-	            <label for="is_it_executed_filter_YES" class="ui-button ui-widget ui-state-default ui-button-text-only" role="button">
-	            	<span class="ui-button-text">Executed</span>
-	            </label>
-	            <input type="checkbox" id="is_it_executed_filter_NO" value="NO" class="ui-helper-hidden-accessible"></input>
-				<label for="is_it_executed_filter_NO" class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right" role="button">
-					<span class="ui-button-text">Not executed</span>
-				</label>
-        	</div>
+        <select id="kelurahan_selector" style="width: 320px;" data-placeholder="Select a kelurahan"></select>
+        <div id="filter_conditions" style= "display: none">
+          <select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none">
+          </select>
+          <div id="was_voted_filter">            
+            <input type="checkbox" id="was_voted_filter_ALL" value="ALL"></input>
+            <label for="was_voted_filter_ALL">All</label>
+            <input type="checkbox" id="was_voted_filter_VO" value="VO"></input>
+            <label for="was_voted_filter_VO">Voted</label>
+            <input type="checkbox" id="was_voted_filter_NV" value="NV"></input>
+            <label for="was_voted_filter_NV">Ghost project</label>
+          </div>
+          <div id="is_it_executed_filter">
+            <input type="checkbox" id="is_it_executed_filter_ALL" value="ALL"></input>
+            <label for="is_it_executed_filter_ALL">All</label>
+            <input type="checkbox" id="is_it_executed_filter_YES" value="YES"></input>
+            <label for="is_it_executed_filter_YES">Executed</label>
+            <input type="checkbox" id="is_it_executed_filter_NO" value="NO"></input>
+            <label for="is_it_executed_filter_NO">Not executed</label>
+          </div>
+          <p>Planned budget:<span id="total_budget">0.00</span> IDR
+          </p>
+          <div id="budget_bar">
+            <div class="bar_element JA" id="bar_element_JA"></div>
+            <div class="bar_element SA" id="bar_element_SA"></div>
+            <div class="bar_element SM" id="bar_element_SM"></div>
+            <div class="bar_element LS" id="bar_element_LS"></div>
+            <div class="bar_element AR" id="bar_element_AR"></div>
+            <div class="bar_element IC" id="bar_element_IC"></div>
+            <div class="bar_element DR" id="bar_element_DR"></div>
+            <div class="bar_element SR" id="bar_element_SR"></div>              
+          </div>          
         </div>
       </div>
       <div id="main">
         <div id="map-canvas"></div>
+          <h4 id="kelurahan_name"></h4>
           <div id="tools_container">
             <button type="button" id="layers_button"></button>
             <div id="year_selector">
@@ -280,10 +277,15 @@
         var selectedKelurahan = null;
         var selectedProjectID = null;
         var scFilters = new subcategoryFilters(this);
+        this.filters = document.getElementById("filter_conditions");
+        this.GPFilter = new ghostProjectFilters(this);
+        this.EPFilter = new executedProjectFilters(this);
+        this.BBar = new budgetBar();
         this.kelSelect = null;
         this.showMain = function(){
         }
         this.selectKelurahan = function(kelurahanToSelect){
+            document.getElementById("kelurahan_name").innerHTML = kelurahanToSelect.name;
             state = possibleStates.Kelurahan;
             map.fitBounds(kelurahanToSelect.kelurahanShape.getBounds());
             kelurahanToSelect.kelurahanShape.bringToFront();
@@ -317,7 +319,7 @@
           this.selectKelurahan(kelurahan);
         }
         this.onKelurahanMouseOut = function(kelurahan){
-          if((kelurahan != selectedKelurahan) && (selectedKelurahan != null)){
+          if(selectedKelurahan != null){
             document.getElementById("kelurahan_name").innerHTML = selectedKelurahan.name;
           } else {
             document.getElementById("kelurahan_name").innerHTML = "";
@@ -365,8 +367,11 @@
                 }
               }
               var scSelected = scFilters.getSelected();
+              var gpFilterSelected = this.GPFilter.getActiveFilter();
+              var exFilterSelected = this.EPFilter.getActiveFilter();
               emptyProjectCards();
-              fillProjectCards(selectedKelurahan.name, years, scSelected, this);
+              var cardData = fillProjectCards(selectedKelurahan.name, years, scSelected, gpFilterSelected, exFilterSelected, this);
+              this.BBar.updateBar(cardData);
               break;
           }
         }
@@ -430,6 +435,7 @@
             case possibleStates.Main :
               break;
             case possibleStates.Kelurahan :
+                this.filters.style.display = "inherit";
                 scFilters.show();
               break;
           }
@@ -473,6 +479,100 @@
           }
         }        
       }
+      function ghostProjectFilters(parent){
+        this.parent = parent;
+        var that = this;
+        this.callback = function(){
+          if(!this.checked){
+            that.all.checked = false;
+            $(that.all).button("refresh")
+          }
+          if ((that.nv.checked) && (that.vo.checked)){
+            that.all.checked = true;
+            $(that.all).button("refresh")
+          }
+          that.parent.filteringChanged();
+        }
+        this.all = document.getElementById("was_voted_filter_ALL");
+        this.nv = document.getElementById("was_voted_filter_NV");
+        this.vo = document.getElementById("was_voted_filter_VO");
+        this.all.checked = true;
+        this.nv.checked = true;
+        this.vo.checked = true;
+        this.all.onchange = function(){
+          if(this.checked){
+            that.nv.checked = true;
+            $(that.nv).button("refresh")
+            that.vo.checked = true;
+            $(that.vo).button("refresh")
+          } else {
+            that.nv.checked = false;
+            $(that.nv).button("refresh")
+            that.vo.checked = false;
+            $(that.vo).button("refresh")
+          }
+          that.parent.filteringChanged();
+        };
+        this.nv.onchange = this.callback;
+        this.vo.onchange = this.callback; 
+        this.getActiveFilter = function(){
+          var filterArray = [];
+          if(this.nv.checked){
+            filterArray.push("NV")
+          }
+          if(this.vo.checked){
+            filterArray.push("VO")
+          }
+          return filterArray;
+        }
+      }
+      function executedProjectFilters(parent){
+        this.parent = parent;
+        var that = this;
+        this.callback = function(){
+          if(!this.checked){
+            that.all.checked = false;
+            $(that.all).button("refresh")
+          }
+          if ((that.no.checked) && (that.yes.checked)){
+            that.all.checked = true;
+            $(that.all).button("refresh")
+          }
+          that.parent.filteringChanged();
+        }
+        this.all = document.getElementById("is_it_executed_filter_ALL");
+        this.yes = document.getElementById("is_it_executed_filter_YES");
+        this.no = document.getElementById("is_it_executed_filter_NO");
+        this.all.checked = true;
+        this.yes.checked = true;
+        this.no.checked = true;
+        this.all.onchange = function(){
+          if(this.checked){
+            that.no.checked = true;
+            $(that.no).button("refresh")
+            that.yes.checked = true;
+            $(that.yes).button("refresh")
+          } else {
+            that.no.checked = false;
+            $(that.no).button("refresh")
+            that.yes.checked = false;
+            $(that.yes).button("refresh")
+          }
+          that.parent.filteringChanged();
+        };
+        this.no.onchange = this.callback;
+        this.yes.onchange = this.callback; 
+        this.getActiveFilter = function(){
+          var filterArray = [];
+          if(this.no.checked){
+            filterArray.push("NO")
+          }
+          if(this.yes.checked){
+            filterArray.push("YES")
+          }
+          return filterArray;
+        }
+      }      
       function subcategoryFilters(parent) {
         this.parent = parent;
         this.scFilters = document.getElementById("subcategory_filter");
@@ -506,6 +606,41 @@
             }
           }
           return selectedSubcategories;
+        }
+      }
+      function budgetBar(){
+        this.budgetView = document.getElementById("total_budget");
+        this.budgetBar = document.getElementById("budget_bar");
+        this.budgetBars = [];
+        this.percentages = [];
+        for (var key in subcategories){
+          this.budgetBars.push(document.getElementById("bar_element_" + key));
+        }
+        this.updateBar = function(projects){
+          this.projects = projects;
+          var totalBudget = projects().sum("PLANNED_BUDGET");
+          this.budgetView.innerHTML = totalBudget;
+          this.percentages = [];
+          this.budgetBar.innerHTML = "";
+          var i = 0;
+          for (var key in subcategories){
+            if(totalBudget == 0){
+              this.percentages.push(100*(1/Object.keys(subcategories).length));
+            } else {
+              this.percentages.push(100*((this.projects({SUBCATEGORY : key}).sum("PLANNED_BUDGET"))/totalBudget));
+            }
+            this.budgetBars[i].style.width = this.percentages[i] + "%";
+            this.budgetBars[i].percentage = this.percentages[i];
+            i++;
+          }
+          this.percentages.sort(sortNumber);    
+          for (var i = this.percentages.length - 1; i >= 0; i--) {
+            for (var j = 0; j < this.budgetBars.length; j++) {
+              if(this.budgetBars[j].percentage == this.percentages[i]){
+                this.budgetBar.appendChild(this.budgetBars[j]);
+              }
+            };
+          };
         }
       }
       function parseKelurahans(data){
@@ -678,6 +813,9 @@
         pointCoordinates = new L.LatLng(pointFromSource[1], pointFromSource[0]);
         return pointCoordinates;
       }
+      function sortNumber(a,b) {
+        return a > b ? 1 : a < b ? -1 : 0;
+      }
       // Fisher–Yates shuffle
       function shuffle(array) {
         var counter = array.length, temp, index;
@@ -716,8 +854,6 @@
         }
       }
 
-
-
       function parseProjects(data){
         var rows = data['rows'];
         // Filling a TaffyDB with the information of the projects.
@@ -725,7 +861,15 @@
           var tempObj = {};
           tempObj["INDEX"] = j;
           for (var i=0; i < projectFields.length; i++){
-            tempObj[projectFields[i].KEY] = rows[j][i];
+            if((projectFields[i].KEY == "PLANNED_BUDGET") || (projectFields[i].KEY == " EXECUTED_BUDGET")){
+              if(rows[j][i] == ""){
+                tempObj[projectFields[i].KEY] = 0;
+              } else {
+                tempObj[projectFields[i].KEY] = parseInt(rows[j][i]);
+              }
+            } else {
+                tempObj[projectFields[i].KEY] = rows[j][i];
+            }
           }
           tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
           tempObj["SUBCATEGORY_TEXT"] = subcategories[tempObj.SUBCATEGORY].name;
@@ -774,20 +918,27 @@
           return li;
         };
       }
-      function fillProjectCards(kelurahan, years, subcategories, parent){
+      function fillProjectCards(kelurahan, years, subcategories, ghostOrNot, executedOrNot, parent){
         var list = document.getElementById("list");
         var ul = document.createElement("ul");
+        var projectTAFFY = TAFFY();
         var projectCardArray = [];
         for (var j=0; j < years.length; j++){
           for (var k=0; k < subcategories.length; k++){
-            var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : subcategories[k]}).get();
-            for (var i=0; i < projectsToShow.length; i++){
-              projectCardArray[i] = new projectCard(projectsToShow[i], parent);
-              ul.appendChild(projectCardArray[i].getView());
+            for (var l = 0; l < ghostOrNot.length; l++) {
+              for (var m = 0; m < executedOrNot.length; m++){
+                var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : subcategories[k], VOTED : ghostOrNot[l], IS_IT_EXECUTED : executedOrNot[m]}).get();
+                for (var i=0; i < projectsToShow.length; i++){
+                  projectCardArray[i] = new projectCard(projectsToShow[i], parent);
+                  ul.appendChild(projectCardArray[i].getView());
+                  projectTAFFY.insert(projectsToShow[i]);
+                }
+                list.appendChild(ul);
+              }
             }
-            list.appendChild(ul);
           }
         }
+        return projectTAFFY;
       }
       function showDataLayer(key){
         this.normalStyle = {};
