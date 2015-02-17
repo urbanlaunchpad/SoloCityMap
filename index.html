@@ -73,14 +73,14 @@
           <p>Planned budget:<span id="total_budget">0.00</span> IDR
           </p>
           <div id="budget_bar">
-            <div class="bar_element JA"></div>
-            <div class="bar_element SA"></div>
-            <div class="bar_element SM"></div>
-            <div class="bar_element LS"></div>
-            <div class="bar_element AR"></div>
-            <div class="bar_element IC"></div>
-            <div class="bar_element DR"></div>
-            <div class="bar_element SR"></div>                       
+            <div class="bar_element JA" id="bar_element_JA"></div>
+            <div class="bar_element SA" id="bar_element_SA"></div>
+            <div class="bar_element SM" id="bar_element_SM"></div>
+            <div class="bar_element LS" id="bar_element_LS"></div>
+            <div class="bar_element AR" id="bar_element_AR"></div>
+            <div class="bar_element IC" id="bar_element_IC"></div>
+            <div class="bar_element DR" id="bar_element_DR"></div>
+            <div class="bar_element SR" id="bar_element_SR"></div>                       
           </div>          
         </div>
       </div>
@@ -611,10 +611,35 @@
       }
       function budgetBar(){
         this.budgetView = document.getElementById("total_budget");
+        this.BarJA = document.getElementById("bar_element_JA");
+        this.BarSA = document.getElementById("bar_element_SA");
+        this.BarSM = document.getElementById("bar_element_SM");
+        this.BarLS = document.getElementById("bar_element_LS");
+        this.BarAR = document.getElementById("bar_element_AR");
+        this.BarIC = document.getElementById("bar_element_IC");
+        this.BarDR = document.getElementById("bar_element_DR");
+        this.BarSR = document.getElementById("bar_element_SR");
+        this.JApercentage = 0;
+        this.SApercentage = 0;
+        this.SMpercentage = 0;
+        this.LSpercentage = 0;
+        this.ARpercentage = 0;
+        this.ICpercentage = 0;
+        this.DRpercentage = 0;
+        this.SRpercentage = 0;
 
         this.updateBar = function(projects){
           this.projects = projects;
-          this.budgetView.innerHTML = projects().sum("PLANNED_BUDGET");
+          var totalBudget = projects().sum("PLANNED_BUDGET");
+          this.budgetView.innerHTML = totalBudget;
+          this.JApercentage = 100*((this.projects({SUBCATEGORY : "JA"}).sum("PLANNED_BUDGET"))/totalBudget);
+          this.SApercentage = 100*((this.projects({SUBCATEGORY : "SA"}).sum("PLANNED_BUDGET"))/totalBudget);
+          this.SMpercentage = 100*((this.projects({SUBCATEGORY : "SM"}).sum("PLANNED_BUDGET"))/totalBudget);
+          this.LSpercentage = 100*((this.projects({SUBCATEGORY : "LS"}).sum("PLANNED_BUDGET"))/totalBudget);
+          this.ARpercentage = 100*((this.projects({SUBCATEGORY : "AR"}).sum("PLANNED_BUDGET"))/totalBudget);
+          this.ICpercentage = 100*((this.projects({SUBCATEGORY : "IC"}).sum("PLANNED_BUDGET"))/totalBudget);
+          this.DRpercentage = 100*((this.projects({SUBCATEGORY : "DR"}).sum("PLANNED_BUDGET"))/totalBudget);
+          this.SRpercentage = 100*((this.projects({SUBCATEGORY : "SR"}).sum("PLANNED_BUDGET"))/totalBudget);
         }
       }
       function parseKelurahans(data){
