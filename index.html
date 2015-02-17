@@ -480,7 +480,7 @@
       }
       function ghostProjectFilters(parent){
         this.parent = parent;
-        that = this;
+        var that = this;
         this.callback = function(){
           if(!this.checked){
             that.all.checked = false;
@@ -527,7 +527,7 @@
       }
       function executedProjectFilters(parent){
         this.parent = parent;
-        that = this;
+        var that = this;
         this.callback = function(){
           if(!this.checked){
             that.all.checked = false;
