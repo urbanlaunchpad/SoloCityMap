@@ -277,9 +277,18 @@ p {
     background: rgba(0,0,0,0.1);
 }
 
+/*============FILTERS============*/
+
+#filter_conditions {
+    padding: 0 15px;
+}
+#filter_conditions div {
+    margin: 0 0 10px 0;
+}
+
 /*============YEAR SELECTOR============*/
 
-#year_selector .year-header p {
+.ui-buttonset p {
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 0.675em;
