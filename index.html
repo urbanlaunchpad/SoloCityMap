@@ -69,7 +69,7 @@
             <input type="checkbox" id="is_it_executed_filter_NO" value="NO"></input>
             <label for="is_it_executed_filter_NO">Not executed</label>
           </div>
-          <p>Planned budget: <span id="total_budget">0.00</span> IDR
+          <p>Planned budget:<span id="total_budget">0.00</span> IDR
           </p>
           <div id="budget_bar">
             <div class="bar_element JA" id="bar_element_JA"></div>
@@ -863,8 +863,12 @@
           var tempObj = {};
           tempObj["INDEX"] = j;
           for (var i=0; i < projectFields.length; i++){
-            if((projectFields[i].KEY == "PLANNED_BUDGET") || (projectFields[i].KEY == "EXECUTED_BUDGET")){
-                tempObj[projectFields[i].KEY] = parseInt(rows[j][i]) || 0;
+            if((projectFields[i].KEY == "PLANNED_BUDGET") || (projectFields[i].KEY == " EXECUTED_BUDGET")){
+              if(rows[j][i] == ""){
+                tempObj[projectFields[i].KEY] = 0;
+              } else {
+                tempObj[projectFields[i].KEY] = parseInt(rows[j][i]);
+              }
             } else {
                 tempObj[projectFields[i].KEY] = rows[j][i];
             }
