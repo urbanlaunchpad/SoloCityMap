@@ -50,9 +50,8 @@
       </div>
       <div id="list-header" class="pure-u">
         <h4 id="kelurahan_name"></h4>
+        <select id="kelurahan_selector" style="width: 320px;" data-placeholder="Select a kelurahan"></select>
         <div id="filter_conditions" style= "display: none">
-          <select id="kelurahan_selector" style="width: 320px;" data-placeholder="Select a kelurahan">
-          </select>
           <select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none">
           </select>
           <div id="was_voted_filter">            
@@ -282,6 +281,7 @@
         var scFilters = new subcategoryFilters(this);
         this.filters = document.getElementById("filter_conditions");
         this.GPFilter = new ghostProjectFilters(this);
+        this.EPFilter = new executedProjectFilters(this);
         this.kelSelect = null;
         this.showMain = function(){
         }
@@ -368,8 +368,9 @@
               }
               var scSelected = scFilters.getSelected();
               var gpFilterSelected = this.GPFilter.getActiveFilter();
+              var exFilterSelected = this.EPFilter.getActiveFilter();
               emptyProjectCards();
-              fillProjectCards(selectedKelurahan.name, years, scSelected, gpFilterSelected, this);
+              fillProjectCards(selectedKelurahan.name, years, scSelected, gpFilterSelected, exFilterSelected, this);
               break;
           }
         }
@@ -524,6 +525,53 @@
           return filterArray;
         }
       }
+      function executedProjectFilters(parent){
+        this.parent = parent;
+        that = this;
+        this.callback = function(){
+          if(!this.checked){
+            that.all.checked = false;
+            $(that.all).button("refresh")
+          }
+          if ((that.no.checked) && (that.yes.checked)){
+            that.all.checked = true;
+            $(that.all).button("refresh")
+          }
+          that.parent.filteringChanged();
+        }
+        this.all = document.getElementById("is_it_executed_filter_ALL");
+        this.yes = document.getElementById("is_it_executed_filter_YES");
+        this.no = document.getElementById("is_it_executed_filter_NO");
+        this.all.checked = true;
+        this.yes.checked = true;
+        this.no.checked = true;
+        this.all.onchange = function(){
+          if(this.checked){
+            that.no.checked = true;
+            $(that.no).button("refresh")
+            that.yes.checked = true;
+            $(that.yes).button("refresh")
+          } else {
+            that.no.checked = false;
+            $(that.no).button("refresh")
+            that.yes.checked = false;
+            $(that.yes).button("refresh")
+          }
+          that.parent.filteringChanged();
+        };
+        this.no.onchange = this.callback;
+        this.yes.onchange = this.callback; 
+        this.getActiveFilter = function(){
+          var filterArray = [];
+          if(this.no.checked){
+            filterArray.push("NO")
+          }
+          if(this.yes.checked){
+            filterArray.push("YES")
+          }
+          return filterArray;
+        }
+      }      
       function subcategoryFilters(parent) {
         this.parent = parent;
         this.scFilters = document.getElementById("subcategory_filter");
@@ -823,19 +871,21 @@
           return li;
         };
       }
-      function fillProjectCards(kelurahan, years, subcategories, ghostOrNot, parent){
+      function fillProjectCards(kelurahan, years, subcategories, ghostOrNot, executedOrNot, parent){
         var list = document.getElementById("list");
         var ul = document.createElement("ul");
         var projectCardArray = [];
         for (var j=0; j < years.length; j++){
           for (var k=0; k < subcategories.length; k++){
             for (var l = 0; l < ghostOrNot.length; l++) {
-              var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : subcategories[k], VOTED : ghostOrNot[l]}).get();
-              for (var i=0; i < projectsToShow.length; i++){
-                projectCardArray[i] = new projectCard(projectsToShow[i], parent);
-                ul.appendChild(projectCardArray[i].getView());
+              for (var m = 0; m < executedOrNot.length; m++){
+                var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : subcategories[k], VOTED : ghostOrNot[l], IS_IT_EXECUTED : executedOrNot[m]}).get();
+                for (var i=0; i < projectsToShow.length; i++){
+                  projectCardArray[i] = new projectCard(projectsToShow[i], parent);
+                  ul.appendChild(projectCardArray[i].getView());
+                }
+                list.appendChild(ul);
               }
-              list.appendChild(ul);
             }
           }
         }
