@@ -79,7 +79,7 @@
             <div class="bar_element AR" id="bar_element_AR"></div>
             <div class="bar_element IC" id="bar_element_IC"></div>
             <div class="bar_element DR" id="bar_element_DR"></div>
-            <div class="bar_element SR" id="bar_element_SR"></div>                       
+            <div class="bar_element SR" id="bar_element_SR"></div>              
           </div>          
         </div>
       </div>
@@ -287,6 +287,7 @@
         this.showMain = function(){
         }
         this.selectKelurahan = function(kelurahanToSelect){
+            document.getElementById("kelurahan_name").innerHTML = kelurahanToSelect.name;
             state = possibleStates.Kelurahan;
             map.fitBounds(kelurahanToSelect.kelurahanShape.getBounds());
             kelurahanToSelect.kelurahanShape.bringToFront();
@@ -320,7 +321,7 @@
           this.selectKelurahan(kelurahan);
         }
         this.onKelurahanMouseOut = function(kelurahan){
-          if((kelurahan != selectedKelurahan) && (selectedKelurahan != null)){
+          if(selectedKelurahan != null){
             document.getElementById("kelurahan_name").innerHTML = selectedKelurahan.name;
           } else {
             document.getElementById("kelurahan_name").innerHTML = "";

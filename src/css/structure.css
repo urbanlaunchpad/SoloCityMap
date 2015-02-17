@@ -108,6 +108,7 @@
 }
 
 #kelurahan_name {
+    pointer-events: none;   
     height: auto;
     position: relative;
     margin: 1em;
@@ -274,12 +275,12 @@
     }
 
     #list {
-        top: 13em;
+        top: 19em;
         height: auto;        
     }
 
     #list-header {
-        height: 11em;
+        height: 17em;
         padding-top: 2em;
     }
 
