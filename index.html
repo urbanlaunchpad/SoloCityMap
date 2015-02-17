@@ -367,8 +367,9 @@
                 }
               }
               var scSelected = scFilters.getSelected();
+              var gpFilterSelected = this.GPFilter.getActiveFilter();
               emptyProjectCards();
-              fillProjectCards(selectedKelurahan.name, years, scSelected, this);
+              fillProjectCards(selectedKelurahan.name, years, scSelected, gpFilterSelected, this);
               break;
           }
         }
@@ -513,7 +514,14 @@
         this.nv.onchange = this.callback;
         this.vo.onchange = this.callback; 
         this.getActiveFilter = function(){
-
+          var filterArray = [];
+          if(this.nv.checked){
+            filterArray.push("NV")
+          }
+          if(this.vo.checked){
+            filterArray.push("VO")
+          }
+          return filterArray;
         }
       }
       function subcategoryFilters(parent) {
@@ -815,18 +823,20 @@
           return li;
         };
       }
-      function fillProjectCards(kelurahan, years, subcategories, parent){
+      function fillProjectCards(kelurahan, years, subcategories, ghostOrNot, parent){
         var list = document.getElementById("list");
         var ul = document.createElement("ul");
         var projectCardArray = [];
         for (var j=0; j < years.length; j++){
           for (var k=0; k < subcategories.length; k++){
-            var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : subcategories[k]}).get();
-            for (var i=0; i < projectsToShow.length; i++){
-              projectCardArray[i] = new projectCard(projectsToShow[i], parent);
-              ul.appendChild(projectCardArray[i].getView());
+            for (var l = 0; l < ghostOrNot.length; l++) {
+              var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : subcategories[k], VOTED : ghostOrNot[l]}).get();
+              for (var i=0; i < projectsToShow.length; i++){
+                projectCardArray[i] = new projectCard(projectsToShow[i], parent);
+                ul.appendChild(projectCardArray[i].getView());
+              }
+              list.appendChild(ul);
             }
-            list.appendChild(ul);
           }
         }
       }
