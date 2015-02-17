@@ -1,111 +1,513 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8">
     <meta content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" name="viewport">
     <title>Solo map</title>
-  	<link rel="stylesheet" type="text/css" href="src/css/style.css">
-    <script type="text/javascript"
-      src="https://maps.google.com/maps/api/js?sensor=false"></script>
-    <!-- Swipper stuff -->
-    <link rel="stylesheet" href="src/style/idangerous.swiper.css">
-    <script defer src="src/script/idangerous.swiper.js"></script>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <!-- jquery and jquery UI -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <!-- Chosen -->
+    <script type="text/javascript" src="src/script/chosen.jquery.min.js"></script>    
+    <link rel="stylesheet" href="src/css/chosen.min.css">
     <!-- FONTS -->
     <link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>  
-	<link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <!-- stamen maps library -->
-<!--     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.1.3"></script> -->
-    <script type="text/javascript">
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'> 
+    <!-- Mapbox -->
+    <script type="text/javascript" src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' type='text/css'/>    
+    <!-- Taffy DB -->
+    <script type="text/javascript" src="src/script/taffy-min.js"></script>
+    <!-- STYLE -->
+    <link rel="stylesheet" href="src/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="src/css/style.css">
+    <!-- [pure stylesheets] -->
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/menus-min.css">
+    <link rel="stylesheet" href="src/css/structure.css">
+    <!--<![endif]-->   
+  </head>
+  <body>
+    <div id="layout" class="content pure-g">
+      <div id="nav" class="pure-u">
+        <a href="#" class="nav-menu-button">Menu</a>
+        <h6 style="margin-top:0; padding-top:0.5em">Solo City Map</h6>
+        <div class="nav-inner">
+          <div class="pure-menu pure-menu-open">
+            <ul>
+              <li><a href="#">Lorem</a></li>
+              <li><a href="#">Ipsum</a></li>
+              <li><a href="#">Dolor</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="list-header" class="pure-u">
+        <h4 id="kelurahan_name"></h4>
+        <div id="filter_conditions">
+        	<select id="kelurahan_selector" style="width: 320px;" data-placeholder="Select a kelurahan">
+        	</select>
+        	<select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none">
+        	</select>
+        	<div id="was_voted_filter" class="ui-buttonset">
+				<p>Voted</p>
+	            <input type="checkbox" id="was_voted_filter_ALL" value="ALL" class="ui-helper-hidden-accessible"></input>
+	            <label for="was_voted_filter_ALL" class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left" role="button">
+	            	<span class="ui-button-text">All</span>
+	            </label>
+	            <input type="checkbox" id="was_voted_filter_VO" value="VO" class="ui-helper-hidden-accessible"></input>
+	            <label for="was_voted_filter_VO" class="ui-button ui-widget ui-state-default ui-button-text-only" role="button">
+	            	<span class="ui-button-text">Voted</span>
+	            </label>
+	            <input type="checkbox" id="was_voted_filter_NV" value="NV" class="ui-helper-hidden-accessible"></input>
+	            <label for="was_voted_filter_NV" class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right" role="button">
+	            	<span class="ui-button-text">Ghost project</span>
+	            </label>
+          	</div>
+          	<div id="is_it_executed_filter" class="ui-buttonset">
+				<p>Status</p>
+	            <input type="checkbox" id="is_it_executed_filter_ALL" value="ALL" class="ui-helper-hidden-accessible"></input>
+	            <label for="is_it_executed_filter_ALL" class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left" role="button">
+	            	<span class="ui-button-text">All</span>
+	            </label>
+	            <input type="checkbox" id="is_it_executed_filter_YES" value="YES" class="ui-helper-hidden-accessible"></input>
+	            <label for="is_it_executed_filter_YES" class="ui-button ui-widget ui-state-default ui-button-text-only" role="button">
+	            	<span class="ui-button-text">Executed</span>
+	            </label>
+	            <input type="checkbox" id="is_it_executed_filter_NO" value="NO" class="ui-helper-hidden-accessible"></input>
+				<label for="is_it_executed_filter_NO" class="ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right" role="button">
+					<span class="ui-button-text">Not executed</span>
+				</label>
+        	</div>
+        </div>
+      </div>
+      <div id="main">
+        <div id="map-canvas"></div>
+          <div id="tools_container">
+            <button type="button" id="layers_button"></button>
+            <div id="year_selector">
+                <p>Tahun penyaring</p>
+            </div>
+            <div id="layer_tools" style="display:none">
+              <select id="aggregate_data_selector">
+                <option value="" disabled="disabled" selected="selected">Select a data layer</option>
+                <option value="POVERTY_PERCENTAGE">Poverty percentage</option>
+                <option value="NO_SCHOOL_PERCENTAGE">Percentage of children not in school</option>
+              </select>
+            </div>
+          </div>
+        </div>  
+        <div id="list" class="pure-u"> 
+      </div>  
+    </div>
+     <script type="text/javascript">
       //***********************************************************************
       //***********************Here goes the stuff for the map*****************
       //***********************************************************************
       var kelurahansFusionTableID = "1jdxsdPlAvCNRair4uv2pOwWTzMNtutDdhfXlp9QO";
+      var subdivisionsFusionTableID = "158fKZygrAlgGKaYDkT4alniT5ZEeTqPdwtFtEoc-";
       var musrenbangFusionTableID = "1yHXZ3Z5yQXl8eEewPUgYSzOvd458RhW9pQ2smFIf";
-      var projectFields = ["KELURAHAN", "YEAR", "VOTED", "CATEGORY", "SUBCATEGORY", "UNIQUE_NUMBER", "LEVEL", "PRIORITY", "PROJECT_NAME", "LOCATION", "AGENCY", "PLANNED_BUDGET", "EXECUTED_BUDGET", "IS_IT_EXECUTED", "NOTES"];
-      //var colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00']; // Kiddie pallette
-      //var colors = ['#FE0055', '#0E7AFC', '#FF9C00', '#7CFE00']; // Chosen for now
-      //var colors = ['#04AF44', '#5012A3', '#F1DC06', '#F12F06'];
-      //var colors = ['#C40093', '#FF7100', '#00A7A1', '#B8F400'];
-      var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
+      var data2010FusionTableID = "1oMln7GsJjbGJ9CQK41FP-aq3Xkz7fJPVZof2U5rY";
+      var projectFields = [
+        {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"TEXT"},
+        {KEY:"YEAR", NAME:"Year", TYPE:"NUMBER"},
+        {KEY:"VOTED", NAME:"Voted", TYPE:"TEXT"},
+        {KEY:"CATEGORY", NAME:"Category", TYPE:"TEXT"},
+        {KEY:"SUBCATEGORY", NAME:"Subcategory", TYPE:"TEXT"},
+        {KEY:"UNIQUE_NUMBER", NAME:"Unique number", TYPE:"NUMBER"},
+        {KEY:"LEVEL", NAME:"Level", TYPE:"TEXT"},
+        {KEY:"PRIORITY", NAME:"Priority", TYPE:"NUMBER"},
+        {KEY:"PROJECT_NAME", NAME:"Project name", TYPE:"TEXT"},
+        {KEY:"LOCATION", NAME:"Location", TYPE:"TEXT"},
+        {KEY:"AGENCY", NAME:"Agency", TYPE:"TEXT"},
+        {KEY:"PLANNED_BUDGET", NAME:"Planned budget", TYPE:"NUMBER"},
+        {KEY:"EXECUTED_BUDGET", NAME:"Executed budget", TYPE:"NUMBER"},
+        {KEY:"IS_IT_EXECUTED", NAME:"Is it executed", TYPE:"TEXT"},
+        {KEY:"NOTES", NAME:"Notes", TYPE:"TEXT"}
+      ];
 
-      //var colors = ['#594C5C', '#ED5A97', '#F2B06A', '#B0EBE0']; // Second neutral attempt
+      var dataFields = [
+        {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text"},
+        {KEY:"TOTAL_HH", NAME:"Total Households", TYPE:"number"},
+        {KEY:"TOTAL_CITIZENS", NAME:"Total Citizens", TYPE:"number"},
+        {KEY:"AVERAGE_HH_SIZE", NAME:"Average household size", TYPE:"number"},
+        {KEY:"TOTAL_7_18", NAME:"Total children between 7 and 18", TYPE:"number"},
+        {KEY:"NO_SCHOOL", NAME:"Total children not in school", TYPE:"number"},
+        {KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"number"},
+        {KEY:"TOTAL_HH_WC", NAME:"Total households with private WC", TYPE:"number"},
+        {KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"number"},
+        {KEY:"TOTAL_HH_WC_PUBLIC", NAME:"Total households with private WC", TYPE:"number"},
+        {KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"number"},
+        {KEY:"TOTAL_PDAM", NAME:"Total PDAM", TYPE:"number"},
+        {KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"number"},
+        {KEY:"TOTAL_HH_PUBLIC_WELLS", NAME:"Total households with public wells", TYPE:"number"},
+        {KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"number"},
+        {KEY:"TOTAL_HH_PRIVATE_WELLS", NAME:"Total household with private wells", TYPE:"number"},
+        {KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"number"},
+        {KEY:"TOTAL_HOUSES", NAME:"Total houses", TYPE:"number"},
+        {KEY:"TOTAL_LAND_TENURE", NAME:"Total land tenure", TYPE:"number"},
+        {KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"number"},
+        {KEY:"HOUSES_HH_RATIO", NAME:"Houses household ratio", TYPE:"number"},
+        {KEY:"TOTAL_POOR_HH", NAME:"Total poor households", TYPE:"number"},
+        {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"number"}
+      ];   
+      var projectDatabase =  TAFFY();
+      var aggregateDataDatabase = TAFFY();
+      //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
+      var colors = ['#BEC1C4']; // More neutral, similar to Kota Kita site
+      var percentageColor = "#8A0707";
+      var originalKelurahanShapeOptions = {
+        color: "#000000",
+        opacity: 1,
+        weight: 1,
+        fillColor: "#FFFFFF",
+        fillOpacity: 0,
+      };
+      var onHoverKelurahanShapeOptions = {
+        color: "#000000",
+        opacity: 1,
+        weight: 2,
+        fillColor: "#FFFFFF",
+        fillOpacity: 0,
+      };
+      var activeKelurahanShapeOptions = {
+        color: "#FFFF00",
+        opacity: 1,
+        weight: 4,
+        fillColor: "#FFFFFF",
+        fillOpacity: 0,        
+      };      
+      var originalLocationShapeOptions = {
+        color: "#000000",
+        opacity: 1,
+        weight: 1,
+        fillColor: "#BEC1C4",
+        fillOpacity: 0.5,
+      };
       var originalKelurahanOpacity = 0.7;
       var onHoverKelurahanOpacity = 0.3;
       var activeKelurahanOpacity = 0.1;
       var map;
       var kelurahans = [];
+      var subdivisions = {};
       var projectsArray = [];
-      google.maps.event.addDomListener(window, 'load', initialize);
-      var mapStateController = new mapStateController();
+      var subcategoryIcons;
+      var mapSC;
+      var kelurahanLayer;
+      var projectLocationLayer;
+      document.addEventListener("DOMContentLoaded", initialize);
+      var subcategories = {
+        JA : {name: "Jalan",
+          color: "#4C4320"},
+        SA : {name: "Sanitasi",
+          color: "#573649"},        
+        SM : {name: "Mannakemen sampah",
+          color: "#601D00"},        
+        LS : {name: "Listrik",
+          color: "#E7922A"},        
+        AR : {name: "Air Bersih", 
+          color: "#003951"},        
+        IC : {name: "Informasi dan komunicasi",
+          color: "#B65B46"},        
+        DR : {name: "Drainase",
+          color: "#7FA6B2"},        
+        SR : {name: "Saran lainnyn",
+          color: "#C0B58F"}        
+      };   
       function initialize() {
-        var stamen_layer = "terrain"; // Kind of Stamen map to be rendered
-        var myOptions = {
-          zoom: 13,
-          center: new google.maps.LatLng(-7.555974952021982, 110.818951686123),
-          // mapTypeId: stamen_layer,
-          disableDefaultUI: true,
-          scaleControl: true /*, 
-          mapTypeControlOptions: {
-            mapTypeIds: [stamen_layer]
-          }*/
-        };
-        map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
-        getKelurahans();
+        subcategoryIcons = new getSubcategoryIcons();
+        getSubdivisions();
         getProjects();
+        getKelurahans();
+        get2010Data();
+        mapSC = new mapStateController();
+        initializeLayerToolbar();
       }
-
+      function initializeLayerToolbar(){
+        var layerButton = document.getElementById("layers_button");
+        layers_button.onclick = function(){
+          toggleLayerToolbar();
+        }
+        var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
+        aggregateDataLayerSelector.onchange = function(){
+          var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
+          var selectedLayer = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].value;
+          showDataLayer(selectedLayer);
+        }
+      }
+      function toggleLayerToolbar(){
+        var layerTools = document.getElementById("layer_tools");
+        var displayStyle = window.getComputedStyle(layerTools, null).getPropertyValue("display");
+        if(displayStyle === "none"){
+          layerTools.style.display = "block";
+        } else {
+          layerTools.style.display = "none";
+        }
+      }
       function getKelurahans(){
         var query = 'SELECT KELURAHAN, geometry, geometry_pos FROM ' + kelurahansFusionTableID;
         getFusionTablesData(query, "parseKelurahans");
       }
-
+      function getSubdivisions(){
+        var query = 'SELECT KELURAHAN, geometry, geometry_pos, RW, RT FROM ' + subdivisionsFusionTableID;
+        getFusionTablesData(query, "parseSubdivisions");
+      }
+      function get2010Data(){
+        var columnNames = getWhatToGet(dataFields);
+        var query = 'SELECT ' + columnNames + '  FROM ' + data2010FusionTableID;
+        getFusionTablesData(query, "parseData");
+      }
       function mapStateController(){
+        L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
+        map = L.mapbox.map("map-canvas", 'stephenkennedy.ad4e43ac')
+        .setView([-7.566667, 110.816667], 13);
+        kelurahanLayer =  L.mapbox.featureLayer().addTo(map);
+        projectLocationLayer = L.mapbox.featureLayer().addTo(map);
         var state;
         var possibleStates = {
+            Default: 0,
             Main: 1,
             Kelurahan: 2,
         };
+        state = possibleStates.Default;
+        var yearCheckboxes = [];
+        var selectedKelurahan = null;
+        var selectedProjectID = null;
+        var scFilters = new subcategoryFilters(this);
+        this.kelSelect = null;
         this.showMain = function(){
-
         }
-
-        this.onKelurahanMouseOver = function(kelurahanIndex){
-            kelurahans[kelurahanIndex].setOpacity(onHoverKelurahanOpacity);
-            document.getElementById("kelurahan_name").innerHTML = kelurahans[kelurahanIndex].name;
+        this.selectKelurahan = function(kelurahanToSelect){
+            state = possibleStates.Kelurahan;
+            map.fitBounds(kelurahanToSelect.kelurahanShape.getBounds());
+            kelurahanToSelect.kelurahanShape.bringToFront();
+            if(selectedKelurahan != null){
+              selectedKelurahan.setDeselected();
+            }
+            selectedKelurahan = kelurahanToSelect;
+            //selectedKelurahanIndex = kelurahanIndex;
+            kelurahanToSelect.setSelected();
+            this.addFiltersUI();
+            $("#was_voted_filter").buttonset();
+            $("#is_it_executed_filter").buttonset();
+            emptyProjectCards();
+            this.filteringChanged();
+            this.kelSelect.selectKelurahan(kelurahanToSelect.name);
         }
-        this.onKelurahanClick = function(kelurahanIndex){
-            map.panTo(kelurahans[kelurahanIndex].center);
-            map.fitBounds(kelurahans[kelurahanIndex].bounds);
-            kelurahans[kelurahanIndex].setOpacity(activeKelurahanOpacity);
+        this.selectKelurahanByName = function(kelurahanName){
+          for (var i = kelurahans.length - 1; i >= 0; i--) {
+            if (kelurahans[i].name == kelurahanName){
+              this.selectKelurahan(kelurahans[i]);
+              break;
+            }
+          };
         }
-        this.onKelurahanMouseOut = function(kelurahanIndex){
-          kelurahans[kelurahanIndex].setOpacity(originalKelurahanOpacity);
-          document.getElementById("kelurahan_name").innerHTML = "";
+        this.onKelurahanMouseOver = function(kelurahan){
+          if(kelurahan != selectedKelurahan){
+            document.getElementById("kelurahan_name").innerHTML = kelurahan.name;
+          }
         }
-        this.onKelurahan
-        this.showKelurahanProjects = function(kelurahanIndex){
-
-          // Zoom to the current kelurahan
-
-          // Get the info on the Projects for this Kelurahan if it doesn't exist
-
-          // Get the info for the RTs in this kelurahan if it doesn't exist
-
-          // Get the info for the RWs in this kelurahans if it doesn't exist
-
-          // Set the other kelurahans as not active
-
-          // Set this kelurahan as active
-
-          // Turn off all the other kelurahans
-
-          // Make this kelurahan dimmer
-
-          // Show the list of projects
-
+        this.onKelurahanClick = function(kelurahan){
+          this.selectKelurahan(kelurahan);
+        }
+        this.onKelurahanMouseOut = function(kelurahan){
+          if((kelurahan != selectedKelurahan) && (selectedKelurahan != null)){
+            document.getElementById("kelurahan_name").innerHTML = selectedKelurahan.name;
+          } else {
+            document.getElementById("kelurahan_name").innerHTML = "";
+          }
+        }
+        this.onProjectsParsed = function(){
+          this.initializeYearSelector();
+        }
+        this.initializeYearSelector = function(){
+          var minYear = projectDatabase().min("YEAR");
+          var maxYear = projectDatabase().max("YEAR");
+          var yearSelector = document.getElementById("year_selector");
+          yearCheckboxes = [];
+          for (var i = minYear; i <= maxYear; i++){
+            var input = document.createElement("input");
+            input.type = "checkbox";
+            input.id = "year_" + i;
+            input.year = i;
+            var label = document.createElement("label");
+            label.htmlFor = "year_" + i;
+            label.textContent = i;
+            var that = this;
+            input.onchange = function(){
+              that.filteringChanged();
+            }
+            yearSelector.appendChild(input);
+            yearSelector.appendChild(label);
+            yearCheckboxes.push(input);
+          }
+          document.getElementById("year_" + maxYear).checked = true; // Selecting the last year by default.
+          $("#year_selector").buttonset();
+        }
+        this.filteringChanged = function(){
+          switch(state){
+            case possibleStates.Default :
+              break;
+            case possibleStates.Main :
+              break;
+            case possibleStates.Kelurahan :
+              var years = [];
+              this.emptyProjectLocationLayer();
+              for (var i = 0; i < yearCheckboxes.length; i++){
+                if(yearCheckboxes[i].checked){
+                  years.push(yearCheckboxes[i].year);
+                }
+              }
+              var scSelected = scFilters.getSelected();
+              emptyProjectCards();
+              fillProjectCards(selectedKelurahan.name, years, scSelected, this);
+              break;
+          }
+        }
+        this.setSelectedProject = function(projectID){
+          if(selectedProjectID != null){
+            this.emptyProjectLocationLayer();
+          }
+          selectedProjectID = projectID;
+          //window.alert(selectedProjectID);
+          var project = projectDatabase({ID: selectedProjectID}).get()[0];
+          var location = project.LOCATION.split(',');
+          var kelurahan = project.KELURAHAN;
+          var subcategory = subcategories[project.SUBCATEGORY];
+          this.showLocationShapes(kelurahan, subcategory, location);
+        }
+        this.emptyProjectLocationLayer = function(){
+          map.removeLayer(projectLocationLayer);
+          projectLocationLayer = L.mapbox.featureLayer().addTo(map);
+          selectedProjectID = null;
+        }
+        this.showLocationShapes = function(kelurahan, subcategory, locations){  
+          var shapeOptions = originalLocationShapeOptions;
+          shapeOptions.fillColor = subcategory.color;
+          for (var i=0; i<locations.length; i++){
+            if(locations[i].indexOf("-") !=-1){
+              var tempLoc = locations[i].split("-");
+              var geometry = subdivisions[kelurahan][tempLoc[0].substring(2, tempLoc[0].length)][tempLoc[1].substring(2, tempLoc[1].length)].GEOMETRIES;
+              var shape = L.polygon(geometry, shapeOptions);
+              shape.addTo(projectLocationLayer);
+            } else if(locations[i].indexOf("RW") !=-1){
+              var locationsToShow = subdivisions[kelurahan][locations[i].substring(2,locations[i].length)];
+              for(var key in locationsToShow){
+                var geometry = locationsToShow[key].GEOMETRIES;
+                var shape = L.polygon(geometry, shapeOptions);
+                shape.addTo(projectLocationLayer);
+              }
+            } else if(locations[i] == "KELURAHAN"){
+              var kelurahanLocations = subdivisions[kelurahan];
+              for(var key in kelurahanLocations){
+                var rwLocations = kelurahanLocations[key];
+                for(var key in rwLocations){
+                  var rtLocations = rwLocations[key];
+                  if(rtLocations.hasOwnProperty("GEOMETRIES")){
+                    var geometry = rtLocations.GEOMETRIES;
+                    var shape = L.polygon(geometry, shapeOptions);
+                    shape.addTo(projectLocationLayer);       
+                  }
+                }
+              }
+            }
+          }
+        }
+        this.addKelurahanSelector = function(){
+          this.kelSelect = new kelurahanSelector(this);
+          this.kelSelect.initialize();
+        }
+        this.addFiltersUI = function(){
+          switch(state){
+            case possibleStates.Default :
+              break;
+            case possibleStates.Main :
+              break;
+            case possibleStates.Kelurahan :
+                scFilters.show();
+              break;
+          }
         }
       }
-
+      function kelurahanSelector(parent){
+        this.parent = parent;
+        this.kelSelector = document.getElementById("kelurahan_selector");
+        this.kelSelector.multiple = false;
+        this.kelOptions = [];
+        var that = this;
+        this.kelSelector.onchange = function(){
+          that.parent.selectKelurahanByName(this.options[this.selectedIndex].value);
+        }
+        this.initialize = function(){
+            //Adding blank text option
+            var option = document.createElement("option");
+            option.innerHTML = "";
+            option.value = "";
+            this.kelSelector.appendChild(option);
+            this.kelOptions.push(option);
+            for (var i = 0; i < kelurahans.length; i++) {
+              var option = document.createElement("option");
+              option.innerHTML = kelurahans[i].name;
+              option.id = "kel_" + kelurahans[i].name;
+              option.value = kelurahans[i].name;
+              this.kelSelector.appendChild(option);
+              this.kelOptions.push(option);
+            };
+            $(this.kelSelector).attr('data-placeholder', "Select a kelurahan").chosen({allow_single_deselect: true});
+        }
+        this.selectKelurahan = function(kelurahanName){
+          if(this.kelSelector.options[this.kelSelector.selectedIndex].value != kelurahanName){
+            for (var i = this.kelOptions.length - 1; i >= 0; i--) {
+              if (this.kelOptions[i].value == kelurahanName){
+                this.kelSelector.selectedIndex = i;
+                $(this.kelSelector).trigger("chosen:updated"); 
+                break;
+              }
+            };
+          }
+        }        
+      }
+      function subcategoryFilters(parent) {
+        this.parent = parent;
+        this.scFilters = document.getElementById("subcategory_filter");
+        this.scFilters.multiple = true;
+        this.scOptions =[];
+        this.isActive = false;
+        for (var key in subcategories){
+          var option = document.createElement("option");
+          option.selected = "selected";
+          option.innerHTML = subcategories[key].name;
+          option.id = "filter_" + key;
+          this.scFilters.appendChild(option);
+          this.scOptions.push(option);
+        }
+        var that = this;
+        this.scFilters.onchange = function(){
+          that.parent.filteringChanged();
+        }
+        this.show = function(){
+          if(this.isActive == false){
+            this.scFilters.style.display = "inherit";
+            $(this.scFilters).attr('data-placeholder', "Select Subcategories...").chosen();
+            this.isActive = true;
+          }
+        }
+        this.getSelected = function(){
+          var selectedSubcategories = [];
+          for (var i = 0; i < this.scOptions.length; i++){
+            if (this.scOptions[i].selected){
+              selectedSubcategories.push(this.scOptions[i].id.slice(7,this.scOptions[i].id.length));
+            }
+          }
+          return selectedSubcategories;
+        }
+      }
       function parseKelurahans(data){
         var rows = data['rows'];
         for (var i in rows) {
@@ -123,49 +525,114 @@
           kelurahans[i] = new kelurahan(kelurahan_name, newCoordinates, center, i);
         }
         drawKelurahans(kelurahans);
+        mapSC.addKelurahanSelector();
       }
-
+      function parseSubdivisions(data){
+        var rows = data['rows'];
+        subdivisions = {};
+        for (var i in rows) {
+          var newCoordinates = [];
+          var kelurahan_name = rows[i][0];
+          var center = constructNewPointCoordinates(rows[i][2]['geometry']);
+          var geometries = rows[i][1]['geometries'];
+          var rw_name = rows[i][3];
+          var rt_name = rows[i][4];
+          if (geometries) {
+            for (var j in geometries) {
+              newCoordinates.push(constructNewCoordinates(geometries[j]));
+            }
+          } else {
+            newCoordinates = constructNewCoordinates(rows[i][1]['geometry']);
+          }
+          if(!subdivisions.hasOwnProperty(kelurahan_name)){
+            subdivisions[kelurahan_name] = {};
+          }
+          if(!subdivisions[kelurahan_name].hasOwnProperty(rw_name)){
+            subdivisions[kelurahan_name][rw_name] = {};
+          }
+          if(!subdivisions[kelurahan_name][rw_name].hasOwnProperty(rt_name)){
+            subdivisions[kelurahan_name][rw_name][rt_name] = {};
+          }          
+          subdivisions[kelurahan_name][rw_name][rt_name] = {
+            CENTER : center,
+            GEOMETRIES : newCoordinates
+          }
+        }
+      }
       function kelurahan(name, geometry, center, index) {
         this.name = name;
+        this.selected = false;
         this.geometry = geometry;
         this.index = index;
         this.center = center;
+        this.onMouseOverStyle = null;
+        this.normalStyle = null;
+        this.selectedStyle = null;
         var projects = null;
-        var randomnumber = Math.floor(Math.random() * 4);
-        var kelurahanShape = new google.maps.Polygon({
-            paths: this.geometry,
-            strokeColor: "#000000",
-            strokeOpacity: 0.7,
-            strokeWeight: 1,
-            fillColor: colors[randomnumber],
-            fillOpacity: originalKelurahanOpacity,
-            kelurahan_name : this.name,
-            index : this.index
-        });
-        this.bounds = kelurahanShape.getBounds();
+        var randomnumber = Math.floor(Math.random() * colors.length);
+        this.kelurahanShape = new L.polygon(this.geometry, this.shapeOptions);
+        this.getName = function(){
+          return this.name;
+        }
         this.drawKelurahan = function() {
-          kelurahanShape.setMap(map);
+          this.kelurahanShape.setStyle(this.normalStyle);
+          this.kelurahanShape.addTo(kelurahanLayer);
         }
         this.initializeShape = function(){
           this.drawKelurahan();
           this.addListeners();
         }
-        this.setOpacity = function(opacity) {
-          kelurahanShape.setOptions({fillOpacity: opacity});
+        this.setStyle = function(style) {
+          this.kelurahanShape.setStyle(style);
+        }
+        this.setOnMouseOverStyle = function(style){
+          this.onMouseOverStyle = style;
+        }
+        this.setNormalStyle = function(style){
+          this.normalStyle = style;
+        }
+        this.setSelectedStyle = function(style){
+          this.selectedStyle = style;
+        }
+        this.setStyles = function(ns,ss,mov){
+          this.normalStyle = JSON.parse(JSON.stringify(ns));
+          this.selectedStyle = JSON.parse(JSON.stringify(ss));
+          this.onMouseOverStyle = JSON.parse(JSON.stringify(mov));
+          if(this.selected){
+            this.setStyle(this.selectedStyle);
+          } else{
+            this.setStyle(this.normalStyle);
+          }
+        }
+        this.setSelected = function(){
+          this.selected = true;
+          this.setStyle(this.selectedStyle);
+        }
+        this.setDeselected = function(){
+          this.selected = false;
+          this.setStyle(this.normalStyle);
         }
         this.addListeners = function() {
-          google.maps.event.addListener(kelurahanShape, 'mouseover', function() {
-            mapStateController.onKelurahanMouseOver(this["index"]);
+          var that = this;
+          this.kelurahanShape.on("click", function(){
+              mapSC.onKelurahanClick(that);
           });
-          google.maps.event.addListener(kelurahanShape, 'mouseout', function() {
-            mapStateController.onKelurahanMouseOut(this["index"]);
+          this.kelurahanShape.on('mouseover', function(){
+            if(!that.selected){
+              that.setStyle(that.onMouseOverStyle);
+            }
+            mapSC.onKelurahanMouseOver(that);
           });
-          google.maps.event.addListener(kelurahanShape, 'click', function() {
-            mapStateController.onKelurahanClick(this["index"]);
-          }); 
+          this.kelurahanShape.on('mouseout', function(){ 
+            if(!that.selected){
+              that.setStyle(that.normalStyle);
+            } else {
+              that.setStyle(that.selectedStyle);
+            }
+            mapSC.onKelurahanMouseOut(that);
+          });          
         }
       }
-
       function drawKelurahans(kelurahans) {
         this.kelurahans = kelurahans;
         shuffleArray = [];
@@ -176,6 +643,7 @@
         i = 0;
         var interval = setInterval(function(){
           if (i < kelurahans.length){
+            kelurahans[shuffleArray[i]].setStyles(originalKelurahanShapeOptions, activeKelurahanShapeOptions, onHoverKelurahanShapeOptions);
             kelurahans[shuffleArray[i]].initializeShape();
             i++;
           } else{
@@ -183,27 +651,33 @@
           }
         }, 50)
       }
-
-      function drawMap(data) {
-
+      function getSubcategoryIcons(){
+        this.icons = {};
+        for(var name in subcategories) {
+          var tempIcon = new Image();
+          tempIcon.className = "icon-block";
+          tempIcon.src = "src/img/png/solo_" + name + ".png";
+          tempIcon.innerHTML = subcategories[name].name;
+          this.icons[name] = tempIcon;
+        }
+        this.getIcon = function(code){
+          return this.icons[code].cloneNode();
+        }
       }
-
       function constructNewCoordinates(polygon) {
         var newCoordinates = [];
         var coordinates = polygon['coordinates'][0];
         for (var i in coordinates) {
-          newCoordinates.push(new google.maps.LatLng(coordinates[i][1], coordinates[i][0]));
+          newCoordinates.push(new L.LatLng(coordinates[i][1], coordinates[i][0]));
         }
         return newCoordinates;
       }
-
       function constructNewPointCoordinates(originalPoint) {
         var pointCoordinates;
         var pointFromSource = originalPoint["coordinates"];
-        pointCoordinates = new google.maps.LatLng(pointFromSource[1], pointFromSource[0]);
+        pointCoordinates = new L.LatLng(pointFromSource[1], pointFromSource[0]);
         return pointCoordinates;
       }
-
       // Fisher–Yates shuffle
       function shuffle(array) {
         var counter = array.length, temp, index;
@@ -220,78 +694,122 @@
         }
         return array;
       }
-      
-      google.maps.Polygon.prototype.getBounds = function() {
-          var bounds = new google.maps.LatLngBounds();
-          var paths = this.getPaths();
-          var path;        
-          for (var i = 0; i < paths.getLength(); i++) {
-              path = paths.getAt(i);
-              for (var ii = 0; ii < path.getLength(); ii++) {
-                  bounds.extend(path.getAt(ii));
-              }
-          }
-          return bounds;
-      }
       //***********************************************************************
-      //***************Here goes the stuff for the swipe and info**************
+      //***************Here goes the stuff for the  info***********************
       //***********************************************************************
       function getProjects() {
         columnNames = getWhatToGet(projectFields);
         var query = 'SELECT ' + columnNames + '  FROM ' + musrenbangFusionTableID;
         getFusionTablesData(query, "parseProjects");
       }
+
+      function parseData(data){
+        var rows = data['rows'];
+        // Filling a TaffyDB with the information of the projects.
+        for (var j in rows){
+          var tempObj = {};
+          tempObj["INDEX"] = j;
+          for (var i=0; i < dataFields.length; i++){
+            tempObj[dataFields[i].KEY] = rows[j][i];
+          }
+          aggregateDataDatabase.insert(tempObj);
+        }
+      }
+
+
+
       function parseProjects(data){
         var rows = data['rows'];
-        // Creating an array with all the steps storead as objects with the information in them storead with the column names as field names.
-        projectsArray = [];
+        // Filling a TaffyDB with the information of the projects.
         for (var j in rows){
-          projectsArray[j] = {};
-          projectsArray[j]["INDEX"] = j
+          var tempObj = {};
+          tempObj["INDEX"] = j;
           for (var i=0; i < projectFields.length; i++){
-            projectsArray[j][projectFields[i]] = rows[j][i];
+            tempObj[projectFields[i].KEY] = rows[j][i];
           }
+          tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
+          tempObj["SUBCATEGORY_TEXT"] = subcategories[tempObj.SUBCATEGORY].name;
+          projectDatabase.insert(tempObj);
         }
-        fillProjectCards(projectsArray);
+        mapSC.onProjectsParsed();
       }
-      function projectCard(project){
+      function projectCard(project, parent){
+        var li = document.createElement('li');
+        var input = document.createElement("input");
+        input.id = project.ID;
+        input.name = "accordion-1";
+        input.type = "radio"
+        li.appendChild(input);
+        var label = document.createElement("label");
+        label.htmlFor = project.ID;
+        label.className = "pc-" + project.SUBCATEGORY;
+        var icon = subcategoryIcons.getIcon(project.SUBCATEGORY);
+        label.appendChild(icon);
         var div = document.createElement("div");
-        var category = document.createTextNode(project.CATEGORY);
-        var subcategory = document.createTextNode(project.SUBCATEGORY);
-        var name = document.createTextNode(project.PROJECT_NAME);
-        div.appendChild(category);
-        div.appendChild(subcategory);
-        div.appendChild(name);
+        div.className = "text-block";
+        var h6 = document.createElement("h6");
+        h6.innerHTML = project.PROJECT_NAME;
+        div.appendChild(h6);
+        label.appendChild(div);
+        li.appendChild(label);
+        var article = document.createElement("article");
+        article.className = "ac-small";
+        var projectID = document.createElement("p");
+        projectID.innerHTML = project.ID;
+        article.appendChild(projectID);
+        var year = document.createElement("p");
+        year.innerHTML = "Year: " + project.YEAR;
+        article.appendChild(year);
+        var plannedBudget = document.createElement("p");
+        plannedBudget.innerHTML = "Planned budget: " + project.PLANNED_BUDGET + " IDR";
+        article.appendChild(plannedBudget);
+        var executedBudget = document.createElement("p");
+        executedBudget.innerHTML = "Executed budget: " + project.EXECUTED_BUDGET + " IDR";
+        article.appendChild(executedBudget);        
+        li.appendChild(article);  
+        label.onclick = function(){
+          parent.setSelectedProject(project.ID);
+        };
         this.getView = function(){
-          return div;
+          return li;
         };
       }
-      function fillProjectCards(projectsArray){
-        var swiperWrapper = document.getElementById("swiper-wrapper");
+      function fillProjectCards(kelurahan, years, subcategories, parent){
+        var list = document.getElementById("list");
+        var ul = document.createElement("ul");
         var projectCardArray = [];
-        for (var i=0; i < projectsArray.length; i++){
-          var swiperSlide = document.createElement('div');
-          swiperSlide.className = 'swiper-slide';
-          projectCardArray[i] = new projectCard(projectsArray[i]);
-          swiperSlide.appendChild(projectCardArray[i].getView());
-          swiperWrapper.appendChild(swiperSlide);
+        for (var j=0; j < years.length; j++){
+          for (var k=0; k < subcategories.length; k++){
+            var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : subcategories[k]}).get();
+            for (var i=0; i < projectsToShow.length; i++){
+              projectCardArray[i] = new projectCard(projectsToShow[i], parent);
+              ul.appendChild(projectCardArray[i].getView());
+            }
+            list.appendChild(ul);
+          }
         }
-        createSwiperInterface();
       }
-      function createSwiperInterface(){
-        var mySwiper = new Swiper('.swiper-container',{
-          //Your options here:
-          mode:'vertical',
-          pagination: '.pagination',
-          paginationClickable: true,
-          loop: true,
-          grabCursor: true,
-          createPagination: true,
-          autoResize: true,
-          resizeReInit: true,
-          slidesPerView: 10,
-          //etc..
-        });
+      function showDataLayer(key){
+        this.normalStyle = {};
+        this.onHoverStyle = {};
+        this.selectedStyle = {};
+        this.normalStyle = originalKelurahanShapeOptions;
+        this.onHoverStyle = onHoverKelurahanShapeOptions;
+        this.selectedStyle = activeKelurahanShapeOptions;
+        for (var i = kelurahans.length - 1; i >= 0; i--) {
+          var info = aggregateDataDatabase({KELURAHAN: kelurahans[i].getName()}).get()[0];
+          this.normalStyle.fillColor = percentageColor;
+          this.onHoverStyle.fillColor = percentageColor;
+          this.selectedStyle.fillColor = percentageColor;
+          this.normalStyle.fillOpacity = info[key]/100;
+          this.onHoverStyle.fillOpacity = info[key]/100;
+          this.selectedStyle.fillOpacity = info[key]/100;
+          kelurahans[i].setStyles(this.normalStyle, this.selectedStyle, this.onHoverStyle);
+        };
+      }
+      function emptyProjectCards(){
+        var list = document.getElementById("list");
+        list.innerHTML = "";
       }
       //***********************************************************************
       //*************Here goes the stuff related to Fusion Tables**************
@@ -311,26 +829,23 @@
       function getWhatToGet(columnNames){
         var whatToGet = "";
         for (var i = 0; i < columnNames.length; i++){
-          whatToGet = whatToGet + columnNames[i] + ", ";
+          whatToGet = whatToGet + columnNames[i].KEY + ", ";
         }
         whatToGet = whatToGet.substring(0, whatToGet.length - 2);
         return whatToGet;
-      }    
+      }
     </script>
-  </head>
-  <body>
-    <div id="info_container">
-      <div class="swiper-container">
-        <div class="swiper-wrapper" id="swiper-wrapper"></div>
-        <div class="pagination"></div>
-      </div>
-    </div>
-    <div id="solo_map_container">
-      <div id="map-canvas"></div>
-      <div id="info_box">
-        <h1 id="kelurahan_title">Solo</h1>
-        <p id="kelurahan_name"></p>
-      </div>
-    </div>
+    <script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
+    <script>
+      YUI().use('node-base', 'node-event-delegate', function (Y) {
+        var menuButton = Y.one('.nav-menu-button'),
+          nav   = Y.one('#nav');
+        // Setting the active class name expands the menu vertically on small screens.
+        menuButton.on('click', function (e) {
+          nav.toggleClass('active');
+        });
+        // Your application code goes here...
+      });
+    </script>
   </body>
 </html>
