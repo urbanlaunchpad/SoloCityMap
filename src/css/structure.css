@@ -107,18 +107,26 @@
     float: right;
 }
 
-#tools_container {
+#kelurahan_name {
     height: auto;
     position: relative;
-    float: right;
     margin: 1em;
-    border: 1px solid #bdbdbd;
-}
-
-#tools_container {
     display: block;
     position: absolute;
-    float: right;
+    padding: 8px 16px;
+    top: 10px;
+    left: 10px;
+}
+
+
+#tools_container {
+    height: auto;
+    margin: 1em;
+    border: 1px solid #bdbdbd;
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
     padding: 8px 16px;
 }
 
