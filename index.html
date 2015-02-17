@@ -611,35 +611,37 @@
       }
       function budgetBar(){
         this.budgetView = document.getElementById("total_budget");
-        this.BarJA = document.getElementById("bar_element_JA");
-        this.BarSA = document.getElementById("bar_element_SA");
-        this.BarSM = document.getElementById("bar_element_SM");
-        this.BarLS = document.getElementById("bar_element_LS");
-        this.BarAR = document.getElementById("bar_element_AR");
-        this.BarIC = document.getElementById("bar_element_IC");
-        this.BarDR = document.getElementById("bar_element_DR");
-        this.BarSR = document.getElementById("bar_element_SR");
-        this.JApercentage = 0;
-        this.SApercentage = 0;
-        this.SMpercentage = 0;
-        this.LSpercentage = 0;
-        this.ARpercentage = 0;
-        this.ICpercentage = 0;
-        this.DRpercentage = 0;
-        this.SRpercentage = 0;
-
+        this.budgetBar = document.getElementById("budget_bar");
+        this.budgetBars = [];
+        this.percentages = [];
+        for (var key in subcategories){
+          this.budgetBars.push(document.getElementById("bar_element_" + key));
+        }
         this.updateBar = function(projects){
           this.projects = projects;
           var totalBudget = projects().sum("PLANNED_BUDGET");
           this.budgetView.innerHTML = totalBudget;
-          this.JApercentage = 100*((this.projects({SUBCATEGORY : "JA"}).sum("PLANNED_BUDGET"))/totalBudget);
-          this.SApercentage = 100*((this.projects({SUBCATEGORY : "SA"}).sum("PLANNED_BUDGET"))/totalBudget);
-          this.SMpercentage = 100*((this.projects({SUBCATEGORY : "SM"}).sum("PLANNED_BUDGET"))/totalBudget);
-          this.LSpercentage = 100*((this.projects({SUBCATEGORY : "LS"}).sum("PLANNED_BUDGET"))/totalBudget);
-          this.ARpercentage = 100*((this.projects({SUBCATEGORY : "AR"}).sum("PLANNED_BUDGET"))/totalBudget);
-          this.ICpercentage = 100*((this.projects({SUBCATEGORY : "IC"}).sum("PLANNED_BUDGET"))/totalBudget);
-          this.DRpercentage = 100*((this.projects({SUBCATEGORY : "DR"}).sum("PLANNED_BUDGET"))/totalBudget);
-          this.SRpercentage = 100*((this.projects({SUBCATEGORY : "SR"}).sum("PLANNED_BUDGET"))/totalBudget);
+          this.percentages = [];
+          this.budgetBar.innerHTML = "";
+          var i = 0;
+          for (var key in subcategories){
+            if(totalBudget == 0){
+              this.percentages.push(100*(1/Object.keys(subcategories).length));
+            } else {
+              this.percentages.push(100*((this.projects({SUBCATEGORY : key}).sum("PLANNED_BUDGET"))/totalBudget));
+            }
+            this.budgetBars[i].style.width = this.percentages[i] + "%";
+            this.budgetBars[i].percentage = this.percentages[i];
+            i++;
+          }
+          this.percentages.sort(sortNumber);    
+          for (var i = this.percentages.length - 1; i >= 0; i--) {
+            for (var j = 0; j < this.budgetBars.length; j++) {
+              if(this.budgetBars[j].percentage == this.percentages[i]){
+                this.budgetBar.appendChild(this.budgetBars[j]);
+              }
+            };
+          };
         }
       }
       function parseKelurahans(data){
@@ -811,6 +813,9 @@
         var pointFromSource = originalPoint["coordinates"];
         pointCoordinates = new L.LatLng(pointFromSource[1], pointFromSource[0]);
         return pointCoordinates;
+      }
+      function sortNumber(a,b) {
+        return a > b ? 1 : a < b ? -1 : 0;
       }
       // Fisher–Yates shuffle
       function shuffle(array) {
