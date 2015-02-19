@@ -871,7 +871,7 @@
               if(rows[j][i] == ""){
                 tempObj[projectFields[i].KEY] = 0;
               } else {
-                tempObj[projectFields[i].KEY] = parseInt(rows[j][i]);
+                tempObj[projectFields[i].KEY] = isNaN(parseInt(rows[j][i])) ? 0 : parseInt(rows[j][i]);
               }
             } else {
                 tempObj[projectFields[i].KEY] = rows[j][i];
@@ -899,6 +899,7 @@
         div.className = "text-block";
         var h6 = document.createElement("h6");
         h6.innerHTML = project.PROJECT_NAME;
+        h6.title = project.ID;
         div.appendChild(h6);
         label.appendChild(div);
         li.appendChild(label);
