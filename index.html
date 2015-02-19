@@ -885,6 +885,7 @@
       }
       function projectCard(project, parent){
         var li = document.createElement('li');
+        li.title = "Project ID: " + project.ID;
         var input = document.createElement("input");
         input.id = project.ID;
         input.name = "accordion-1";
@@ -899,7 +900,6 @@
         div.className = "text-block";
         var h6 = document.createElement("h6");
         h6.innerHTML = project.PROJECT_NAME;
-        h6.title = project.ID;
         div.appendChild(h6);
         label.appendChild(div);
         li.appendChild(label);
