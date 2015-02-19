@@ -620,7 +620,7 @@
         this.updateBar = function(projects){
           this.projects = projects;
           var totalBudget = projects().sum("PLANNED_BUDGET");
-          this.budgetView.innerHTML = totalBudget;
+          this.budgetView.innerHTML = " " + numberWithCommas(totalBudget);
           this.percentages = [];
           this.budgetBar.innerHTML = "";
           var i = 0;
@@ -813,6 +813,11 @@
         var pointFromSource = originalPoint["coordinates"];
         pointCoordinates = new L.LatLng(pointFromSource[1], pointFromSource[0]);
         return pointCoordinates;
+      }
+      function numberWithCommas(x) {
+        var parts = x.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".");
       }
       function sortNumber(a,b) {
         return a > b ? 1 : a < b ? -1 : 0;
