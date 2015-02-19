@@ -905,12 +905,9 @@
         li.appendChild(label);
         var article = document.createElement("article");
         article.className = "ac-small";
-        var projectID = document.createElement("p");
-        projectID.innerHTML = project.ID;
-        article.appendChild(projectID);
-        var year = document.createElement("p");
-        year.innerHTML = "Year: " + project.YEAR;
-        article.appendChild(year);
+        var processPriority = document.createElement("p");
+        processPriority.innerHTML = "Project priority: " + project.PRIORITY;
+        article.appendChild(processPriority);
         var plannedBudget = document.createElement("p");
         plannedBudget.innerHTML = "Planned budget: " + numberWithCommas(project.PLANNED_BUDGET) + " IDR";
         article.appendChild(plannedBudget);
