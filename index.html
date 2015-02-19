@@ -911,10 +911,10 @@
         year.innerHTML = "Year: " + project.YEAR;
         article.appendChild(year);
         var plannedBudget = document.createElement("p");
-        plannedBudget.innerHTML = "Planned budget: " + project.PLANNED_BUDGET + " IDR";
+        plannedBudget.innerHTML = "Planned budget: " + numberWithCommas(project.PLANNED_BUDGET) + " IDR";
         article.appendChild(plannedBudget);
         var executedBudget = document.createElement("p");
-        executedBudget.innerHTML = "Executed budget: " + project.EXECUTED_BUDGET + " IDR";
+        executedBudget.innerHTML = "Executed budget: " + numberWithCommas(project.EXECUTED_BUDGET) + " IDR";
         article.appendChild(executedBudget);        
         li.appendChild(article);  
         label.onclick = function(){
