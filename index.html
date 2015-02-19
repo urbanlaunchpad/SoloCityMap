@@ -614,27 +614,37 @@
         this.budgetBar = document.getElementById("budget_bar");
         this.budgetBars = [];
         this.percentages = [];
+        this.totalBudget = 0;
+        this.budgets = [];
         for (var key in subcategories){
           this.budgetBars.push(document.getElementById("bar_element_" + key));
         }
         this.updateBar = function(projects){
           this.projects = projects;
-          var totalBudget = projects().sum("PLANNED_BUDGET");
-          this.budgetView.innerHTML = " " + numberWithCommas(totalBudget);
+          this.totalBudget = projects().sum("PLANNED_BUDGET");
+          this.budgetView.innerHTML = " " + numberWithCommas(this.totalBudget);
+          this.budgets = [];
           this.percentages = [];
           this.budgetBar.innerHTML = "";
           var i = 0;
           for (var key in subcategories){
-            if(totalBudget == 0){
+            if(this.totalBudget == 0){
+              this.budgets.push(0);
               this.percentages.push(100*(1/Object.keys(subcategories).length));
             } else {
-              this.percentages.push(100*((this.projects({SUBCATEGORY : key}).sum("PLANNED_BUDGET"))/totalBudget));
+              this.budgets.push(this.projects({SUBCATEGORY : key}).sum("PLANNED_BUDGET"));
+              this.percentages.push((100*(this.budgets[i]/this.totalBudget)).toFixed(1));
             }
-            this.budgetBars[i].style.width = this.percentages[i] + "%";
+            this.budgetBars[i].style.width = Math.floor(this.percentages[i]) + "%";
             this.budgetBars[i].percentage = this.percentages[i];
+            if (this.totalBudget == 0){
+              this.budgetBars[i].title = subcategories[key].name + " " + "0 IDR, 0.0 %"
+            } else{
+              this.budgetBars[i].title = subcategories[key].name + " " + numberWithCommas(this.budgets[i]) + " IDR, " + this.percentages[i] + " %";
+            }
             i++;
           }
-          this.percentages.sort(sortNumber);    
+          this.percentages.sort(sortNumber);  
           for (var i = this.percentages.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.budgetBars.length; j++) {
               if(this.budgetBars[j].percentage == this.percentages[i]){
