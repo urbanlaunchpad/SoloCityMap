@@ -69,18 +69,6 @@
             <label for="is_it_executed_filter_NO">Not Implemented</label>
           </div>
           <div id="budget_info" title="This is the budget summary for all showing on the project list bellow, based on the information gathered so far.">
-            <p><span id="total_projects">0</span> projects</p>
-            <p>Planned budget: <span id="total_budget">0.00</span> IDR</p>
-            <div id="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category.">
-              <div class="bar_element JA" id="bar_element_JA" title="Jalan"></div>
-              <div class="bar_element SA" id="bar_element_SA" title="Sanitasi"></div>
-              <div class="bar_element SM" id="bar_element_SM" title="Mannakemen sampah"></div>
-              <div class="bar_element LS" id="bar_element_LS" title="Listrik"></div>
-              <div class="bar_element AR" id="bar_element_AR" title="Air Bersih"></div>
-              <div class="bar_element IC" id="bar_element_IC" title="Informasi dan komunicasi"></div>
-              <div class="bar_element DR" id="bar_element_DR" title="Drainase"></div>
-              <div class="bar_element SR" id="bar_element_SR" title="Saran lainnyn"></div>              
-            </div> 
           </div>         
         </div>
       </div>
@@ -281,7 +269,7 @@
         this.filters = document.getElementById("filter_conditions");
         this.GPFilter = new ghostProjectFilters(this);
         this.EPFilter = new executedProjectFilters(this);
-        this.BBar = new budgetBar("PLANNED_BUDGET");
+        this.BBar = new budgetBar("PLANNED_BUDGET", document.getElementById("budget_info"));
         this.kelSelect = null;
         this.isKelurahanParsed = false;
         this.isProjectParsed = false;
@@ -631,10 +619,12 @@
           return selectedSubcategories;
         }
       }
-      function budgetBar(key_name){
-        this.budgetView = document.getElementById("total_budget");
-        this.budgetBar = document.getElementById("budget_bar");
-        this.projectNumber = document.getElementById("total_projects");
+      function budgetBar(key_name, div){
+        this.div = div;
+        this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>Planned budget: <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="Jalan"></div><div class="bar_element SA" title="Sanitasi"></div><div class="bar_element SM" title="Mannakemen sampah"></div><div class="bar_element LS" title="Listrik"></div><div class="bar_element AR" title="Air Bersih"></div><div class="bar_element IC" title="Informasi dan komunicasi"></div><div class="bar_element DR" title="Drainase"></div><div class="bar_element SR" title="Saran lainnyn"></div></div>  '
+        this.budgetView = this.div.getElementsByClassName("total_budget")[0];
+        this.budgetBar = this.div.getElementsByClassName("budget_bar")[0];
+        this.projectNumber = this.div.getElementsByClassName("total_projects")[0];
         this.budgetBars = [];
         this.percentages = [];
         this.projectCounts = [];
@@ -642,7 +632,7 @@
         this.budgets = [];
         this.key_name = key_name;
         for (var key in subcategories){
-          this.budgetBars.push(document.getElementById("bar_element_" + key));
+          this.budgetBars.push(this.div.getElementsByClassName(key)[0]);
         }
         this.updateBar = function(projects){
           this.projects = projects;
