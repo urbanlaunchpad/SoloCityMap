@@ -341,7 +341,7 @@
           mapSC.addKelurahanSelector();
           this.isKelurahanParsed = true;
           if(this.isProjectParsed){
-            state = possibleStates.Main;
+            state = possibleStates.Main;  
             this.filteringChanged();
           }
         }
@@ -983,9 +983,13 @@
         this.list = document.getElementById("list");
         for(var i = 0; i < kelurahans.length; i++){
           var kelurahanSummary = document.createElement("div");
+          kelurahanSummary.kelurahanName =  kelurahans[i].getName();
           var kname = document.createElement("h6");
           kname.innerHTML = kelurahans[i].getName();
           kelurahanSummary.appendChild(kname);
+          kelurahanSummary.onclick = function(){
+            mapSC.selectKelurahanByName(this.kelurahanName);
+          }
           this.list.appendChild(kelurahanSummary);
         }
       }
