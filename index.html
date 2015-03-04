@@ -384,7 +384,7 @@
         this.goToMainView = function(){
           this.state = possibleStates.Main;
           emptyProjectCards();
-          fillKelurahanSummaries();
+          fillKelurahanSummaries(projectDatabase);
         }
         this.setSelectedProject = function(projectID){
           if(selectedProjectID != null){
@@ -977,6 +977,10 @@
           var kname = document.createElement("h6");
           kname.innerHTML = kelurahans[i].getName();
           kelurahanSummary.appendChild(kname);
+          var budgetdiv = document.createElement("div");
+          var bb = new budgetBar("PLANNED_BUDGET", budgetdiv);
+          bb.updateBar(projects);
+          kelurahanSummary.appendChild(budgetdiv);
           kelurahanSummary.onclick = function(){
             mapSC.selectKelurahanByName(this.kelurahanName);
           }
