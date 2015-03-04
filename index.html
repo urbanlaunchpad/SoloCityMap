@@ -970,6 +970,7 @@
       }
 
       function fillKelurahanSummaries(projects){
+        this.projects = projects;
         this.list = document.getElementById("list");
         for(var i = 0; i < kelurahans.length; i++){
           var kelurahanSummary = document.createElement("div");
@@ -979,7 +980,7 @@
           kelurahanSummary.appendChild(kname);
           var budgetdiv = document.createElement("div");
           var bb = new budgetBar("PLANNED_BUDGET", budgetdiv);
-          bb.updateBar(projects);
+          bb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName()}).get()));
           kelurahanSummary.appendChild(budgetdiv);
           kelurahanSummary.onclick = function(){
             mapSC.selectKelurahanByName(this.kelurahanName);
