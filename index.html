@@ -69,18 +69,6 @@
             <label for="is_it_executed_filter_NO">Not Implemented</label>
           </div>
           <div id="budget_info" title="This is the budget summary for all showing on the project list bellow, based on the information gathered so far.">
-            <p>Planned budget:<span id="total_budget">0.00</span> IDR
-            </p>
-            <div id="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category.">
-              <div class="bar_element JA" id="bar_element_JA" title="Jalan"></div>
-              <div class="bar_element SA" id="bar_element_SA" title="Sanitasi"></div>
-              <div class="bar_element SM" id="bar_element_SM" title="Mannakemen sampah"></div>
-              <div class="bar_element LS" id="bar_element_LS" title="Listrik"></div>
-              <div class="bar_element AR" id="bar_element_AR" title="Air Bersih"></div>
-              <div class="bar_element IC" id="bar_element_IC" title="Informasi dan komunicasi"></div>
-              <div class="bar_element DR" id="bar_element_DR" title="Drainase"></div>
-              <div class="bar_element SR" id="bar_element_SR" title="Saran lainnyn"></div>              
-            </div> 
           </div>         
         </div>
       </div>
@@ -281,8 +269,10 @@
         this.filters = document.getElementById("filter_conditions");
         this.GPFilter = new ghostProjectFilters(this);
         this.EPFilter = new executedProjectFilters(this);
-        this.BBar = new budgetBar();
+        this.BBar = new budgetBar("PLANNED_BUDGET", document.getElementById("budget_info"));
         this.kelSelect = null;
+        this.isKelurahanParsed = false;
+        this.isProjectParsed = false;
         this.showMain = function(){
         }
         this.selectKelurahan = function(kelurahanToSelect){
@@ -328,6 +318,20 @@
         }
         this.onProjectsParsed = function(){
           this.initializeYearSelector();
+          this.isProjectParsed = true;
+          if(this.isKelurahanParsed){
+            state = possibleStates.Main;
+            this.filteringChanged();
+          }
+        }
+        this.onKelurahansParsed = function(){
+          drawKelurahans(kelurahans);
+          mapSC.addKelurahanSelector();
+          this.isKelurahanParsed = true;
+          if(this.isProjectParsed){
+            state = possibleStates.Main;  
+            this.filteringChanged();
+          }
         }
         this.initializeYearSelector = function(){
           var minYear = projectDatabase().min("YEAR");
@@ -358,6 +362,7 @@
             case possibleStates.Default :
               break;
             case possibleStates.Main :
+              this.goToMainView();
               break;
             case possibleStates.Kelurahan :
               var years = [];
@@ -375,6 +380,11 @@
               this.BBar.updateBar(cardData);
               break;
           }
+        }
+        this.goToMainView = function(){
+          this.state = possibleStates.Main;
+          emptyProjectCards();
+          fillKelurahanSummaries(projectDatabase);
         }
         this.setSelectedProject = function(projectID){
           if(selectedProjectID != null){
@@ -609,39 +619,44 @@
           return selectedSubcategories;
         }
       }
-      function budgetBar(){
-        this.budgetView = document.getElementById("total_budget");
-        this.budgetBar = document.getElementById("budget_bar");
+      function budgetBar(key_name, div){
+        this.div = div;
+        this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>Planned budget: <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="Jalan"></div><div class="bar_element SA" title="Sanitasi"></div><div class="bar_element SM" title="Mannakemen sampah"></div><div class="bar_element LS" title="Listrik"></div><div class="bar_element AR" title="Air Bersih"></div><div class="bar_element IC" title="Informasi dan komunicasi"></div><div class="bar_element DR" title="Drainase"></div><div class="bar_element SR" title="Saran lainnyn"></div></div>  '
+        this.budgetView = this.div.getElementsByClassName("total_budget")[0];
+        this.budgetBar = this.div.getElementsByClassName("budget_bar")[0];
+        this.projectNumber = this.div.getElementsByClassName("total_projects")[0];
         this.budgetBars = [];
         this.percentages = [];
+        this.projectCounts = [];
         this.totalBudget = 0;
         this.budgets = [];
+        this.key_name = key_name;
         for (var key in subcategories){
-          this.budgetBars.push(document.getElementById("bar_element_" + key));
+          this.budgetBars.push(this.div.getElementsByClassName(key)[0]);
         }
         this.updateBar = function(projects){
           this.projects = projects;
-          this.totalBudget = projects().sum("PLANNED_BUDGET");
+          this.totalBudget = projects().sum(this.key_name);
           this.budgetView.innerHTML = " " + numberWithCommas(this.totalBudget);
+          this.projectNumber.innerHTML = this.projects().count();
           this.budgets = [];
           this.percentages = [];
+          this.projectCounts = [];
           this.budgetBar.innerHTML = "";
           var i = 0;
           for (var key in subcategories){
             if(this.totalBudget == 0){
               this.budgets.push(0);
               this.percentages.push(100*(1/Object.keys(subcategories).length));
+              this.projectCounts.push(0);
             } else {
-              this.budgets.push(this.projects({SUBCATEGORY : key}).sum("PLANNED_BUDGET"));
+              this.budgets.push(this.projects({SUBCATEGORY : key}).sum(this.key_name));
               this.percentages.push((100*(this.budgets[i]/this.totalBudget)).toFixed(1));
+              this.projectCounts.push(this.projects({SUBCATEGORY : key}).count());
             }
             this.budgetBars[i].style.width = Math.floor(this.percentages[i]) + "%";
             this.budgetBars[i].percentage = this.percentages[i];
-            if (this.totalBudget == 0){
-              this.budgetBars[i].title = subcategories[key].name + " " + "0 IDR, 0.0 %"
-            } else{
-              this.budgetBars[i].title = subcategories[key].name + " " + numberWithCommas(this.budgets[i]) + " IDR, " + this.percentages[i] + " %";
-            }
+            this.budgetBars[i].title = subcategories[key].name + ": " + this.projectCounts[i] + " projects, " +  numberWithCommas(this.budgets[i]) + " IDR, " + this.percentages[i] + " %";
             i++;
           }
           this.percentages.sort(sortNumber);  
@@ -670,8 +685,7 @@
           }
           kelurahans[i] = new kelurahan(kelurahan_name, newCoordinates, center, i);
         }
-        drawKelurahans(kelurahans);
-        mapSC.addKelurahanSelector();
+        mapSC.onKelurahansParsed();
       }
       function parseSubdivisions(data){
         var rows = data['rows'];
@@ -954,6 +968,28 @@
         }
         return projectTAFFY;
       }
+
+      function fillKelurahanSummaries(projects){
+        this.projects = projects;
+        this.list = document.getElementById("list");
+        for(var i = 0; i < kelurahans.length; i++){
+          var kelurahanSummary = document.createElement("div");
+          kelurahanSummary.kelurahanName =  kelurahans[i].getName();
+          var kname = document.createElement("h6");
+          kname.innerHTML = kelurahans[i].getName();
+          kelurahanSummary.appendChild(kname);
+          var budgetdiv = document.createElement("div");
+          var bb = new budgetBar("PLANNED_BUDGET", budgetdiv);
+          bb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName()}).get()));
+          kelurahanSummary.appendChild(budgetdiv);
+          kelurahanSummary.onclick = function(){
+            mapSC.selectKelurahanByName(this.kelurahanName);
+          }
+          this.list.appendChild(kelurahanSummary);
+        }
+      }
+
+
       function showDataLayer(key){
         this.normalStyle = {};
         this.onHoverStyle = {};
