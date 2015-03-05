@@ -161,7 +161,7 @@ p {
 /*=== KELURAHAN LIST ===*/
 #list > div {
     padding: 10px 10px 40px 10px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #b6b6b6;
 }
 #list > div:hover {
     background-color: #e1e1e1;
