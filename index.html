@@ -87,8 +87,6 @@
             <div id="layer_tools" style="display:none">
               <select id="aggregate_data_selector" title="Choose which data layer to show.">
                 <option value="" disabled="disabled" selected="selected">Select a data layer</option>
-                <option value="POVERTY_PERCENTAGE">Poverty percentage</option>
-                <option value="NO_SCHOOL_PERCENTAGE">Percentage of children not in school</option>
               </select>
             </div>
           </div>
@@ -226,6 +224,13 @@
           toggleLayerToolbar();
         }
         var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
+        for (var i = 0; i < dataFields.length; i++) {
+          var option = document.createElement("option");
+          option.value = dataFields[i]["KEY"];
+          option.type = dataFields[i]["TYPE"];
+          option.innerHTML = dataFields[i]["NAME"];
+          aggregate_data_selector.appendChild(option);
+        };
         aggregateDataLayerSelector.onchange = function(){
           var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
           var selectedLayer = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].value;
