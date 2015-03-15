@@ -122,29 +122,29 @@
       ];
 
       var dataFields = [
-        {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text"},
-        {KEY:"TOTAL_HH", NAME:"Total Households", TYPE:"TOTAL"},
-        {KEY:"TOTAL_CITIZENS", NAME:"Total Citizens", TYPE:"TOTAL"},
-        {KEY:"AVERAGE_HH_SIZE", NAME:"Average household size", TYPE:"TOTAL"},
-        {KEY:"TOTAL_7_18", NAME:"Total children between 7 and 18", TYPE:"TOTAL"},
-        {KEY:"NO_SCHOOL", NAME:"Total children not in school", TYPE:"TOTAL"},
-        {KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE"},
-        {KEY:"TOTAL_HH_WC", NAME:"Total households with private WC", TYPE:"TOTAL"},
-        {KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE"},
-        {KEY:"TOTAL_HH_WC_PUBLIC", NAME:"Total households with private WC", TYPE:"TOTAL"},
-        {KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE"},
-        {KEY:"TOTAL_PDAM", NAME:"Total PDAM", TYPE:"TOTAL"},
-        {KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE"},
-        {KEY:"TOTAL_HH_PUBLIC_WELLS", NAME:"Total households with public wells", TYPE:"TOTAL"},
-        {KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE"},
-        {KEY:"TOTAL_HH_PRIVATE_WELLS", NAME:"Total household with private wells", TYPE:"TOTAL"},
-        {KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE"},
-        {KEY:"TOTAL_HOUSES", NAME:"Total houses", TYPE:"TOTAL"},
-        {KEY:"TOTAL_LAND_TENURE", NAME:"Total land tenure", TYPE:"TOTAL"},
-        {KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE"},
-        {KEY:"HOUSES_HH_RATIO", NAME:"Houses household ratio", TYPE:"TOTAL"},
-        {KEY:"TOTAL_POOR_HH", NAME:"Total poor households", TYPE:"TOTAL"},
-        {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"PERCENTAGE"}
+        {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT"},
+        {KEY:"TOTAL_HH", NAME:"Total Households", TYPE:"TOTAL", KIND:"INTEGER"},
+        {KEY:"TOTAL_CITIZENS", NAME:"Total Citizens", TYPE:"TOTAL", KIND:"INTEGER"},
+        {KEY:"AVERAGE_HH_SIZE", NAME:"Average household size", TYPE:"TOTAL", KIND:"FLOAT"},
+        {KEY:"TOTAL_7_18", NAME:"Total children between 7 and 18", TYPE:"TOTAL", KIND:"INTEGER"},
+        {KEY:"NO_SCHOOL", NAME:"Total children not in school", TYPE:"TOTAL", KIND:"INTEGER"},
+        {KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+        {KEY:"TOTAL_HH_WC", NAME:"Total households with private WC", TYPE:"TOTAL", KIND:"INTEGER"},
+        {KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+        {KEY:"TOTAL_HH_WC_PUBLIC", NAME:"Total households with private WC", TYPE:"TOTAL", KIND:"INTEGER"},
+        {KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+        {KEY:"TOTAL_PDAM", NAME:"Total PDAM", TYPE:"TOTAL", KIND:"INTEGER"},
+        {KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+        {KEY:"TOTAL_HH_PUBLIC_WELLS", NAME:"Total households with public wells", TYPE:"TOTAL", KIND:"INTEGER"},
+        {KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+        {KEY:"TOTAL_HH_PRIVATE_WELLS", NAME:"Total household with private wells", TYPE:"TOTAL", KIND:"INTEGER"},
+        {KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+        {KEY:"TOTAL_HOUSES", NAME:"Total houses", TYPE:"TOTAL", KIND:"INTEGER"},
+        {KEY:"TOTAL_LAND_TENURE", NAME:"Total land tenure", TYPE:"TOTAL", KIND:"INTEGER"},
+        {KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+        {KEY:"HOUSES_HH_RATIO", NAME:"Houses household ratio", TYPE:"TOTAL", KIND:"FLOAT"},
+        {KEY:"TOTAL_POOR_HH", NAME:"Total poor households", TYPE:"TOTAL", KIND:"INTEGER"},
+        {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"}
       ];   
       var projectDatabase =  TAFFY();
       var aggregateDataDatabase = TAFFY();
@@ -225,11 +225,13 @@
         }
         var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
         for (var i = 0; i < dataFields.length; i++) {
-          var option = document.createElement("option");
-          option.value = dataFields[i]["KEY"];
-          option.type = dataFields[i]["TYPE"];
-          option.innerHTML = dataFields[i]["NAME"];
-          aggregate_data_selector.appendChild(option);
+          if(!(dataFields[i]["KEY"] == "KELURAHAN")){
+            var option = document.createElement("option");
+            option.value = dataFields[i]["KEY"];
+            option.type = dataFields[i]["TYPE"];
+            option.innerHTML = dataFields[i]["NAME"];
+            aggregate_data_selector.appendChild(option);
+          }
         };
         aggregateDataLayerSelector.onchange = function(){
           var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
@@ -881,14 +883,16 @@
         }
         return array;
       }
-      function mapKey(){
+      function mapKey(min, max){
         document.getElementById("key_bar_container").innerHTML = "";
 
         var data_value = [ 50, 30, 20, 0];
-        var data_color = [ "e5e2d5", "adbfc6", "789cad" ];
-        var data_label = [ "LMA", "MMA", "HMA" ];
-        var data_description = [ "Low Minority Areas", "Mixed Minority Areas", "High Minority Areas" ];
+        var data_opacity = [ 0.1, 0.1, 0.1, 0.1];
         var data_plabel = [ "0%", "50%", "80%", "100%" ];
+        var data_color = [ "e5e2d5", "adbfc6", "789cad" ];
+        
+        //var data_label = [ "LMA", "MMA", "HMA" ];
+        var data_description = [ "Low Minority Areas", "Mixed Minority Areas", "High Minority Areas" ];
         d3.select("body #key_bar_container")
           .append("div")
           .attr("id","key-container")
@@ -907,15 +911,15 @@
         d3.select("body #key-container")
           .append("div")
           .attr("id","plabel-container");
-        d3.select("body #label-container").selectAll("div.bar")
-          .data(data_value)
-          .enter()
-          .append("div")
-          .style("width", function(d) {
-            return d + "%";
-            })
-          .data(data_label)
-          .append("h5").text(function(d) { return d; });
+        // d3.select("body #label-container").selectAll("div.bar")
+        //   .data(data_value)
+        //   .enter()
+        //   .append("div")
+        //   .style("width", function(d) {
+        //     return d + "%";
+        //     })
+        //   .data(data_label)
+        //   .append("h5").text(function(d) { return d; });
         d3.select("body #bar-container").selectAll("div.bar")
           .data(data_value)
           .enter()
@@ -929,6 +933,11 @@
           .style("background-color", function(d) {
             return "#" + d;
             });
+        d3.select("body").selectAll("div.bar")
+          .data(data_opacity) 
+          .style("opacity", function(d) {
+            return d;
+            });  
         d3.select("body #tick-container").selectAll("div")
           .data(data_value)
           .enter()
@@ -971,7 +980,13 @@
           var tempObj = {};
           tempObj["INDEX"] = j;
           for (var i=0; i < dataFields.length; i++){
-            tempObj[dataFields[i].KEY] = rows[j][i];
+            if(dataFields[i].KIND == "TEXT"){
+              tempObj[dataFields[i].KEY] = rows[j][i];
+            } else if(dataFields[i].KIND == "INTEGER") {
+              tempObj[dataFields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
+            } else {
+              tempObj[dataFields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
+            }
           }
           aggregateDataDatabase.insert(tempObj);
         }
@@ -1090,21 +1105,17 @@
         this.normalStyle = originalKelurahanShapeOptions;
         this.onHoverStyle = onHoverKelurahanShapeOptions;
         this.selectedStyle = activeKelurahanShapeOptions;
-        if(type == "PERCENTAGE"){
-          this.reference = 100;
-        } else {
-          this.reference = aggregateDataDatabase().max(key);
-        }
-
-
+        this.max = aggregateDataDatabase().max(key);
+        this.min = aggregateDataDatabase().min(key);
+        window.alert(this.min + " " + this.max);
         for (var i = kelurahans.length - 1; i >= 0; i--) {
           var info = aggregateDataDatabase({KELURAHAN: kelurahans[i].getName()}).get()[0];
           this.normalStyle.fillColor = percentageColor;
           this.onHoverStyle.fillColor = percentageColor;
           this.selectedStyle.fillColor = percentageColor;
-          this.normalStyle.fillOpacity = info[key]/this.reference;
-          this.onHoverStyle.fillOpacity = info[key]/this.reference;
-          this.selectedStyle.fillOpacity = info[key]/this.reference;
+          this.normalStyle.fillOpacity = (info[key] - this.min)/(this.max - this.min);
+          this.onHoverStyle.fillOpacity = (info[key] - this.min)/(this.max - this.min);
+          this.selectedStyle.fillOpacity = (info[key] - this.min)/(this.max - this.min);
           kelurahans[i].setStyles(this.normalStyle, this.selectedStyle, this.onHoverStyle);
         };
       }
