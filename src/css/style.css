@@ -158,20 +158,6 @@ p {
     background-color: #C0B58F;
 }
 
-/*=== KELURAHAN LIST ===*/
-#list > div {
-    padding: 10px 10px 40px 10px;
-    border-bottom: 1px solid #b6b6b6;
-}
-#list > div:hover {
-    background-color: #e1e1e1;
-    cursor:pointer;
-}
-#list > div p {
-    -webkit-margin-before: 0;
-    -webkit-margin-after: 0;
-}
-
 /*============PROJECT LIST ACCORDION============*/
 
 #list-header h4 {
