@@ -494,13 +494,26 @@
         this.parent = parent;
         var that = this;
         this.callback = function(){
-          if(!this.checked){
-            that.all.checked = false;
-            $(that.all).button("refresh")
-          }
-          if ((that.nv.checked) && (that.vo.checked)){
-            that.all.checked = true;
-            $(that.all).button("refresh")
+          if(this.checked){
+            if(this == that.nv){
+              that.vo.checked = false;
+              that.all.checked = false;
+              $(that.vo).button("refresh");
+              $(that.all).button("refresh");
+            } else if(this == that.vo){
+              that.nv.checked = false;
+              that.all.checked = false;
+              $(that.nv).button("refresh");
+              $(that.all).button("refresh");
+            } else if(this == that.all){
+              that.vo.checked = false;
+              that.nv.checked = false;
+              $(that.vo).button("refresh");
+              $(that.nv).button("refresh");
+            }
+          } else {
+            this.checked = true;
+            $(this).button("refresh");
           }
           that.parent.filteringChanged();
         }
@@ -508,31 +521,22 @@
         this.nv = document.getElementById("was_voted_filter_NV");
         this.vo = document.getElementById("was_voted_filter_VO");
         this.all.checked = true;
-        this.nv.checked = true;
-        this.vo.checked = true;
-        this.all.onchange = function(){
-          if(this.checked){
-            that.nv.checked = true;
-            $(that.nv).button("refresh")
-            that.vo.checked = true;
-            $(that.vo).button("refresh")
-          } else {
-            that.nv.checked = false;
-            $(that.nv).button("refresh")
-            that.vo.checked = false;
-            $(that.vo).button("refresh")
-          }
-          that.parent.filteringChanged();
-        };
+        this.nv.checked = false;
+        this.vo.checked = false;
+        this.all.onchange = this.callback;
         this.nv.onchange = this.callback;
         this.vo.onchange = this.callback; 
         this.getActiveFilter = function(){
           var filterArray = [];
           if(this.nv.checked){
-            filterArray.push("NV")
+            filterArray.push("NV");
           }
           if(this.vo.checked){
-            filterArray.push("VO")
+            filterArray.push("VO");
+          }
+          if(this.all.checked){
+            filterArray.push("NV");
+            filterArray.push("VO");
           }
           return filterArray;
         }
