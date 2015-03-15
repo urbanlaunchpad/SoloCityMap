@@ -229,6 +229,7 @@
             var option = document.createElement("option");
             option.value = dataFields[i]["KEY"];
             option.type = dataFields[i]["TYPE"];
+            option.name = dataFields[i]["NAME"];
             option.innerHTML = dataFields[i]["NAME"];
             aggregate_data_selector.appendChild(option);
           }
@@ -237,7 +238,8 @@
           var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
           var selectedLayer = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].value;
           var selectedType = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].type;
-          showDataLayer(selectedLayer, selectedType);
+          var selectedLabel = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].name;
+          showDataLayer(selectedLayer, selectedType, selectedLabel);
         }
       }
       function toggleLayerToolbar(){
@@ -883,7 +885,7 @@
         }
         return array;
       }
-      function mapKey(min, max){
+      function mapKey(min, max, label){
         var color = percentageColor.substring(1);
         document.getElementById("key_bar_container").innerHTML = "";
         var interval = (max - min)/5;
@@ -891,13 +893,13 @@
         var data_opacity = [];
         var data_color = [];
         var data_plabel = [];
-        data_plabel.push(Math.round(min));
         for (var i = 0; i < 5; i++) {
           data_value.push(20);
           data_opacity.push((interval*i)/(max - min));
           data_color.push(color);
           data_plabel.push(Math.round(min + (interval * i)));
         };
+        data_plabel.push(Math.round(min*5));
         data_value.push(0);
 
 
@@ -907,12 +909,12 @@
         // var data_color = [ "e5e2d5", "adbfc6", "789cad" ];
         
         //var data_label = [ "LMA", "MMA", "HMA" ];
-        var data_description = [ "Low Minority Areas", "Mixed Minority Areas", "High Minority Areas" ];
+        //var data_description = [ "Low Minority Areas", "Mixed Minority Areas", "High Minority Areas" ];
         d3.select("body #key_bar_container")
           .append("div")
           .attr("id","key-container")
           .append("h3")
-          .text("Percent Minority by Census Tract")
+          .text(label)
           .style("margin-bottom", "0.5em");
         d3.select("body #key-container")
           .append("div")
@@ -1112,7 +1114,8 @@
       }
 
 
-      function showDataLayer(key, type){
+      function showDataLayer(key, type, label){
+        this.label = label;
         this.normalStyle = {};
         this.onHoverStyle = {};
         this.selectedStyle = {};
@@ -1131,7 +1134,7 @@
           this.selectedStyle.fillOpacity = (info[key] - this.min)/(this.max - this.min);
           kelurahans[i].setStyles(this.normalStyle, this.selectedStyle, this.onHoverStyle);
         };
-        mapKey(this.min, this.max); 
+        mapKey(this.min, this.max, this.label); 
       }
       function emptyProjectCards(){
         var list = document.getElementById("list");
