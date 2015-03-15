@@ -49,50 +49,39 @@
         </div>
       </div>
       <div id="list-header" class="pure-u">
-        <select id="kelurahan_selector" style="width: 320px;" data-placeholder="Select a kelurahan"></select>
+        <select id="kelurahan_selector" style="width: 320px;" data-placeholder="Select a kelurahan" title="Select a Kelurahan to see its projects."></select>
         <div id="filter_conditions" style= "display: none">
-          <select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none">
-          </select>
-          <div id="was_voted_filter">            
+          <select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none" title="Here you can toggle which categories you want to show."></select>
+          <div id="was_voted_filter" title="Filter if you want to show the projects that went trough the complete musrenbang process and the projects that were executed without voting.">            
             <input type="checkbox" id="was_voted_filter_ALL" value="ALL"></input>
-            <label for="was_voted_filter_ALL">All</label>
+            <label for="was_voted_filter_ALL" title="Toggle to show all the categories.">All</label>
             <input type="checkbox" id="was_voted_filter_VO" value="VO"></input>
             <label for="was_voted_filter_VO">Voted</label>
             <input type="checkbox" id="was_voted_filter_NV" value="NV"></input>
-            <label for="was_voted_filter_NV">Ghost project</label>
+            <label for="was_voted_filter_NV">Not voted</label>
           </div>
-          <div id="is_it_executed_filter">
+          <div id="is_it_executed_filter" title="Filter if you want to show the projects that were executed and the projects that were proposed, but not executed.">
             <input type="checkbox" id="is_it_executed_filter_ALL" value="ALL"></input>
-            <label for="is_it_executed_filter_ALL">All</label>
+            <label for="is_it_executed_filter_ALL" title="Toggle to show all the categories.">All</label>
             <input type="checkbox" id="is_it_executed_filter_YES" value="YES"></input>
-            <label for="is_it_executed_filter_YES">Executed</label>
+            <label for="is_it_executed_filter_YES">Implemented</label>
             <input type="checkbox" id="is_it_executed_filter_NO" value="NO"></input>
-            <label for="is_it_executed_filter_NO">Not executed</label>
+            <label for="is_it_executed_filter_NO">Not Implemented</label>
           </div>
-          <p>Planned budget:<span id="total_budget">0.00</span> IDR
-          </p>
-          <div id="budget_bar">
-            <div class="bar_element JA" id="bar_element_JA"></div>
-            <div class="bar_element SA" id="bar_element_SA"></div>
-            <div class="bar_element SM" id="bar_element_SM"></div>
-            <div class="bar_element LS" id="bar_element_LS"></div>
-            <div class="bar_element AR" id="bar_element_AR"></div>
-            <div class="bar_element IC" id="bar_element_IC"></div>
-            <div class="bar_element DR" id="bar_element_DR"></div>
-            <div class="bar_element SR" id="bar_element_SR"></div>              
-          </div>          
+          <div id="budget_info" title="This is the budget summary for all showing on the project list below, based on the information gathered so far.">
+          </div>         
         </div>
       </div>
       <div id="main">
         <div id="map-canvas"></div>
           <h4 id="kelurahan_name"></h4>
           <div id="tools_container">
-            <button type="button" id="layers_button"></button>
-            <div id="year_selector">
+            <button type="button" id="layers_button" title="Open this menu to show the possible data layers available."></button>
+            <div id="year_selector" title="Here you can filter the projects by year selecting one or more from the bar.">
                 <p>Tahun penyaring</p>
             </div>
             <div id="layer_tools" style="display:none">
-              <select id="aggregate_data_selector">
+              <select id="aggregate_data_selector" title="Choose which data layer to show.">
                 <option value="" disabled="disabled" selected="selected">Select a data layer</option>
                 <option value="POVERTY_PERCENTAGE">Poverty percentage</option>
                 <option value="NO_SCHOOL_PERCENTAGE">Percentage of children not in school</option>
@@ -280,8 +269,10 @@
         this.filters = document.getElementById("filter_conditions");
         this.GPFilter = new ghostProjectFilters(this);
         this.EPFilter = new executedProjectFilters(this);
-        this.BBar = new budgetBar();
+        this.BBar = new budgetBar("PLANNED_BUDGET", document.getElementById("budget_info"));
         this.kelSelect = null;
+        this.isKelurahanParsed = false;
+        this.isProjectParsed = false;
         this.showMain = function(){
         }
         this.selectKelurahan = function(kelurahanToSelect){
@@ -327,6 +318,20 @@
         }
         this.onProjectsParsed = function(){
           this.initializeYearSelector();
+          this.isProjectParsed = true;
+          if(this.isKelurahanParsed){
+            state = possibleStates.Main;
+            this.filteringChanged();
+          }
+        }
+        this.onKelurahansParsed = function(){
+          drawKelurahans(kelurahans);
+          mapSC.addKelurahanSelector();
+          this.isKelurahanParsed = true;
+          if(this.isProjectParsed){
+            state = possibleStates.Main;  
+            this.filteringChanged();
+          }
         }
         this.initializeYearSelector = function(){
           var minYear = projectDatabase().min("YEAR");
@@ -357,6 +362,7 @@
             case possibleStates.Default :
               break;
             case possibleStates.Main :
+              this.goToMainView();
               break;
             case possibleStates.Kelurahan :
               var years = [];
@@ -374,6 +380,11 @@
               this.BBar.updateBar(cardData);
               break;
           }
+        }
+        this.goToMainView = function(){
+          this.state = possibleStates.Main;
+          emptyProjectCards();
+          fillKelurahanSummaries(projectDatabase);
         }
         this.setSelectedProject = function(projectID){
           if(selectedProjectID != null){
@@ -608,32 +619,47 @@
           return selectedSubcategories;
         }
       }
-      function budgetBar(){
-        this.budgetView = document.getElementById("total_budget");
-        this.budgetBar = document.getElementById("budget_bar");
+      function budgetBar(key_name, div){
+        this.div = div;
+        this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>Planned budget: <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="Jalan"></div><div class="bar_element SA" title="Sanitasi"></div><div class="bar_element SM" title="Mannakemen sampah"></div><div class="bar_element LS" title="Listrik"></div><div class="bar_element AR" title="Air Bersih"></div><div class="bar_element IC" title="Informasi dan komunicasi"></div><div class="bar_element DR" title="Drainase"></div><div class="bar_element SR" title="Saran lainnyn"></div></div>  '
+        this.budgetView = this.div.getElementsByClassName("total_budget")[0];
+        this.budgetBar = this.div.getElementsByClassName("budget_bar")[0];
+        this.projectNumber = this.div.getElementsByClassName("total_projects")[0];
         this.budgetBars = [];
         this.percentages = [];
+        this.projectCounts = [];
+        this.totalBudget = 0;
+        this.budgets = [];
+        this.key_name = key_name;
         for (var key in subcategories){
-          this.budgetBars.push(document.getElementById("bar_element_" + key));
+          this.budgetBars.push(this.div.getElementsByClassName(key)[0]);
         }
         this.updateBar = function(projects){
           this.projects = projects;
-          var totalBudget = projects().sum("PLANNED_BUDGET");
-          this.budgetView.innerHTML = totalBudget;
+          this.totalBudget = projects().sum(this.key_name);
+          this.budgetView.innerHTML = " " + numberWithCommas(this.totalBudget);
+          this.projectNumber.innerHTML = this.projects().count();
+          this.budgets = [];
           this.percentages = [];
+          this.projectCounts = [];
           this.budgetBar.innerHTML = "";
           var i = 0;
           for (var key in subcategories){
-            if(totalBudget == 0){
+            if(this.totalBudget == 0){
+              this.budgets.push(0);
               this.percentages.push(100*(1/Object.keys(subcategories).length));
+              this.projectCounts.push(0);
             } else {
-              this.percentages.push(100*((this.projects({SUBCATEGORY : key}).sum("PLANNED_BUDGET"))/totalBudget));
+              this.budgets.push(this.projects({SUBCATEGORY : key}).sum(this.key_name));
+              this.percentages.push((100*(this.budgets[i]/this.totalBudget)).toFixed(1));
+              this.projectCounts.push(this.projects({SUBCATEGORY : key}).count());
             }
-            this.budgetBars[i].style.width = this.percentages[i] + "%";
+            this.budgetBars[i].style.width = Math.floor(this.percentages[i]) + "%";
             this.budgetBars[i].percentage = this.percentages[i];
+            this.budgetBars[i].title = subcategories[key].name + ": " + this.projectCounts[i] + " projects, " +  numberWithCommas(this.budgets[i]) + " IDR, " + this.percentages[i] + " %";
             i++;
           }
-          this.percentages.sort(sortNumber);    
+          this.percentages.sort(sortNumber);  
           for (var i = this.percentages.length - 1; i >= 0; i--) {
             for (var j = 0; j < this.budgetBars.length; j++) {
               if(this.budgetBars[j].percentage == this.percentages[i]){
@@ -659,8 +685,7 @@
           }
           kelurahans[i] = new kelurahan(kelurahan_name, newCoordinates, center, i);
         }
-        drawKelurahans(kelurahans);
-        mapSC.addKelurahanSelector();
+        mapSC.onKelurahansParsed();
       }
       function parseSubdivisions(data){
         var rows = data['rows'];
@@ -813,8 +838,13 @@
         pointCoordinates = new L.LatLng(pointFromSource[1], pointFromSource[0]);
         return pointCoordinates;
       }
+      function numberWithCommas(x) {
+        var parts = x.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".");
+      }
       function sortNumber(a,b) {
-        return a > b ? 1 : a < b ? -1 : 0;
+        return a - b;
       }
       // Fisher–Yates shuffle
       function shuffle(array) {
@@ -865,7 +895,7 @@
               if(rows[j][i] == ""){
                 tempObj[projectFields[i].KEY] = 0;
               } else {
-                tempObj[projectFields[i].KEY] = parseInt(rows[j][i]);
+                tempObj[projectFields[i].KEY] = isNaN(parseInt(rows[j][i])) ? 0 : parseInt(rows[j][i]);
               }
             } else {
                 tempObj[projectFields[i].KEY] = rows[j][i];
@@ -879,6 +909,7 @@
       }
       function projectCard(project, parent){
         var li = document.createElement('li');
+        li.title = "Project ID: " + project.ID;
         var input = document.createElement("input");
         input.id = project.ID;
         input.name = "accordion-1";
@@ -898,17 +929,14 @@
         li.appendChild(label);
         var article = document.createElement("article");
         article.className = "ac-small";
-        var projectID = document.createElement("p");
-        projectID.innerHTML = project.ID;
-        article.appendChild(projectID);
-        var year = document.createElement("p");
-        year.innerHTML = "Year: " + project.YEAR;
-        article.appendChild(year);
+        var processPriority = document.createElement("p");
+        processPriority.innerHTML = "Project priority: " + project.PRIORITY;
+        article.appendChild(processPriority);
         var plannedBudget = document.createElement("p");
-        plannedBudget.innerHTML = "Planned budget: " + project.PLANNED_BUDGET + " IDR";
+        plannedBudget.innerHTML = "Planned budget: " + numberWithCommas(project.PLANNED_BUDGET) + " IDR";
         article.appendChild(plannedBudget);
         var executedBudget = document.createElement("p");
-        executedBudget.innerHTML = "Executed budget: " + project.EXECUTED_BUDGET + " IDR";
+        executedBudget.innerHTML = "Executed budget: " + numberWithCommas(project.EXECUTED_BUDGET) + " IDR";
         article.appendChild(executedBudget);        
         li.appendChild(article);  
         label.onclick = function(){
@@ -940,6 +968,28 @@
         }
         return projectTAFFY;
       }
+
+      function fillKelurahanSummaries(projects){
+        this.projects = projects;
+        this.list = document.getElementById("list");
+        for(var i = 0; i < kelurahans.length; i++){
+          var kelurahanSummary = document.createElement("div");
+          kelurahanSummary.kelurahanName =  kelurahans[i].getName();
+          var kname = document.createElement("h6");
+          kname.innerHTML = kelurahans[i].getName();
+          kelurahanSummary.appendChild(kname);
+          var budgetdiv = document.createElement("div");
+          var bb = new budgetBar("PLANNED_BUDGET", budgetdiv);
+          bb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName()}).get()));
+          kelurahanSummary.appendChild(budgetdiv);
+          kelurahanSummary.onclick = function(){
+            mapSC.selectKelurahanByName(this.kelurahanName);
+          }
+          this.list.appendChild(kelurahanSummary);
+        }
+      }
+
+
       function showDataLayer(key){
         this.normalStyle = {};
         this.onHoverStyle = {};
