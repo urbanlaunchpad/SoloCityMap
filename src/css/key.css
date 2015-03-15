@@ -1,0 +1,46 @@
+#key-container {
+	margin: 20px 10px;
+	padding: 16px;
+	border: 1px dotted #999;
+	background-color: #fff;
+}
+#label-container div, #plabel-container div {
+	display: inline-block;
+}
+#label-container h5 {
+	/*text-align: center;*/
+}
+#bar-container {
+	height: 25px;
+	border-left: 1px solid #000;
+	border-right: 2px solid #000;
+}
+#tick-container {
+	position: relative;
+	top: -25px;
+}
+#plabel-container {
+	position: relative;
+	top: -25px;			
+}
+div.bar {
+	display: inline-block;
+	width: 240px;
+	height: 16px;
+	background-color: teal;
+	margin-bottom: 3px;
+}
+div.tick {
+	display: inline-block;
+	float: left;
+	width: 0px;
+	height: 25px;
+	border-left: 1px solid #000;
+	margin-left: -1px;
+}
+/*div.tick:nth-child(1) {
+	border-left: 2px solid #000;
+}
+div.tick:nth-last-child(1) {
+	border-right: 2px solid #000;
+}*/

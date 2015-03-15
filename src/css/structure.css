@@ -131,6 +131,18 @@
     padding: 8px 16px;
 }
 
+#key_bar_container {
+    height: auto;
+    margin: 1em;
+    border: 1px solid #bdbdbd;
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 8px 16px;
+}
+
+
 /* Make the navigation 100% width on phones */
 
 #nav {

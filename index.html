@@ -32,6 +32,10 @@
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/menus-min.css">
     <link rel="stylesheet" href="src/css/structure.css">
     <!--<![endif]-->   
+    <!-- D3 and SK's key -->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="src/css/key-fonts.css" />
+    <link rel="stylesheet" type="text/css" href="src/css/key.css" />
   </head>
   <body>
     <div id="layout" class="content pure-g">
@@ -88,6 +92,7 @@
               </select>
             </div>
           </div>
+          <div id="key_bar_container"></div>
         </div>  
         <div id="list" class="pure-u"> 
       </div>  
@@ -573,7 +578,7 @@
         this.no = document.getElementById("is_it_executed_filter_NO");
         this.all.checked = true;
         this.yes.checked = false;
-        this.no.checked = false;
+        this.no.checked = false ;
         this.all.onchange = this.callback;
         this.no.onchange = this.callback;
         this.yes.onchange = this.callback; 
@@ -870,6 +875,78 @@
         }
         return array;
       }
+      function mapKey(){
+        var data_value = [ 50, 30, 20 ];
+        var data_color = [ "e5e2d5", "adbfc6", "789cad" ];
+        var data_label = [ "LMA", "MMA", "HMA" ];
+        var data_description = [ "Low Minority Areas", "Mixed Minority Areas", "High Minority Areas" ];
+        var data_plabel = [ "0%", "50%", "80%" ];
+        d3.select("body #key_bar_container")
+          .append("div")
+          .attr("id","key-container")
+          .append("h3")
+          .text("Percent Minority by Census Tract")
+          .style("margin-bottom", "0.5em");
+        d3.select("body #key-container")
+          .append("div")
+          .attr("id","label-container");
+        d3.select("body #key-container")
+          .append("div")
+          .attr("id","bar-container");
+        d3.select("body #key-container")
+          .append("div")
+          .attr("id","tick-container");
+        d3.select("body #key-container")
+          .append("div")
+          .attr("id","plabel-container");
+        d3.select("body #label-container").selectAll("div.bar")
+          .data(data_value)
+          .enter()
+          .append("div")
+          .style("width", function(d) {
+            return d + "%";
+            })
+          .data(data_label)
+          .append("h5").text(function(d) { return d; });
+        d3.select("body #bar-container").selectAll("div.bar")
+          .data(data_value)
+          .enter()
+          .append("div")
+          .attr("class","bar")
+          .style("width", function(d) {
+            return d + "%";
+            });
+        d3.select("body").selectAll("div.bar")
+          .data(data_color)
+          .style("background-color", function(d) {
+            return "#" + d;
+            });
+        d3.select("body #tick-container").selectAll("div")
+          .data(data_value)
+          .enter()
+          .append("div")
+          .attr("class","tick")
+          .style("padding-left", function(d) {
+            return d + "%";
+            });
+          // .style("margin-left", function(d) {
+          //  return "-2px";
+          //  });
+        d3.select("body #plabel-container").selectAll("div.bar")
+          .data(data_value)
+          .enter()
+          .append("div")
+          .style("width", function(d) {
+            return d + "%";
+            })
+          .data(data_plabel)
+          .append("h6").text(function(d) { return d; });
+      }
+      mapKey();
+
+
+
+
       //***********************************************************************
       //***************Here goes the stuff for the  info***********************
       //***********************************************************************
