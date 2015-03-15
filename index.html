@@ -545,13 +545,26 @@
         this.parent = parent;
         var that = this;
         this.callback = function(){
-          if(!this.checked){
-            that.all.checked = false;
-            $(that.all).button("refresh")
-          }
-          if ((that.no.checked) && (that.yes.checked)){
-            that.all.checked = true;
-            $(that.all).button("refresh")
+          if(this.checked){
+            if(this == that.no){
+              that.yes.checked = false;
+              that.all.checked = false;
+              $(that.yes).button("refresh");
+              $(that.all).button("refresh");
+            } else if(this == that.yes){
+              that.no.checked = false;
+              that.all.checked = false;
+              $(that.no).button("refresh");
+              $(that.all).button("refresh");
+            } else if(this == that.all){
+              that.no.checked = false;
+              that.yes.checked = false;
+              $(that.no).button("refresh");
+              $(that.yes).button("refresh");
+            }
+          } else {
+            this.checked = true;
+            $(this).button("refresh");
           }
           that.parent.filteringChanged();
         }
@@ -559,22 +572,9 @@
         this.yes = document.getElementById("is_it_executed_filter_YES");
         this.no = document.getElementById("is_it_executed_filter_NO");
         this.all.checked = true;
-        this.yes.checked = true;
-        this.no.checked = true;
-        this.all.onchange = function(){
-          if(this.checked){
-            that.no.checked = true;
-            $(that.no).button("refresh")
-            that.yes.checked = true;
-            $(that.yes).button("refresh")
-          } else {
-            that.no.checked = false;
-            $(that.no).button("refresh")
-            that.yes.checked = false;
-            $(that.yes).button("refresh")
-          }
-          that.parent.filteringChanged();
-        };
+        this.yes.checked = false;
+        this.no.checked = false;
+        this.all.onchange = this.callback;
         this.no.onchange = this.callback;
         this.yes.onchange = this.callback; 
         this.getActiveFilter = function(){
@@ -584,6 +584,10 @@
           }
           if(this.yes.checked){
             filterArray.push("YES")
+          }
+          if(this.all.checked){
+            filterArray.push("YES");
+            filterArray.push("NO");
           }
           return filterArray;
         }
