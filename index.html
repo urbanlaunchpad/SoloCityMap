@@ -123,28 +123,28 @@
 
       var dataFields = [
         {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text"},
-        {KEY:"TOTAL_HH", NAME:"Total Households", TYPE:"number"},
-        {KEY:"TOTAL_CITIZENS", NAME:"Total Citizens", TYPE:"number"},
-        {KEY:"AVERAGE_HH_SIZE", NAME:"Average household size", TYPE:"number"},
-        {KEY:"TOTAL_7_18", NAME:"Total children between 7 and 18", TYPE:"number"},
-        {KEY:"NO_SCHOOL", NAME:"Total children not in school", TYPE:"number"},
-        {KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"number"},
-        {KEY:"TOTAL_HH_WC", NAME:"Total households with private WC", TYPE:"number"},
-        {KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"number"},
-        {KEY:"TOTAL_HH_WC_PUBLIC", NAME:"Total households with private WC", TYPE:"number"},
-        {KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"number"},
-        {KEY:"TOTAL_PDAM", NAME:"Total PDAM", TYPE:"number"},
-        {KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"number"},
-        {KEY:"TOTAL_HH_PUBLIC_WELLS", NAME:"Total households with public wells", TYPE:"number"},
-        {KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"number"},
-        {KEY:"TOTAL_HH_PRIVATE_WELLS", NAME:"Total household with private wells", TYPE:"number"},
-        {KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"number"},
-        {KEY:"TOTAL_HOUSES", NAME:"Total houses", TYPE:"number"},
-        {KEY:"TOTAL_LAND_TENURE", NAME:"Total land tenure", TYPE:"number"},
-        {KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"number"},
-        {KEY:"HOUSES_HH_RATIO", NAME:"Houses household ratio", TYPE:"number"},
-        {KEY:"TOTAL_POOR_HH", NAME:"Total poor households", TYPE:"number"},
-        {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"number"}
+        {KEY:"TOTAL_HH", NAME:"Total Households", TYPE:"TOTAL"},
+        {KEY:"TOTAL_CITIZENS", NAME:"Total Citizens", TYPE:"TOTAL"},
+        {KEY:"AVERAGE_HH_SIZE", NAME:"Average household size", TYPE:"TOTAL"},
+        {KEY:"TOTAL_7_18", NAME:"Total children between 7 and 18", TYPE:"TOTAL"},
+        {KEY:"NO_SCHOOL", NAME:"Total children not in school", TYPE:"TOTAL"},
+        {KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE"},
+        {KEY:"TOTAL_HH_WC", NAME:"Total households with private WC", TYPE:"TOTAL"},
+        {KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE"},
+        {KEY:"TOTAL_HH_WC_PUBLIC", NAME:"Total households with private WC", TYPE:"TOTAL"},
+        {KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE"},
+        {KEY:"TOTAL_PDAM", NAME:"Total PDAM", TYPE:"TOTAL"},
+        {KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE"},
+        {KEY:"TOTAL_HH_PUBLIC_WELLS", NAME:"Total households with public wells", TYPE:"TOTAL"},
+        {KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE"},
+        {KEY:"TOTAL_HH_PRIVATE_WELLS", NAME:"Total household with private wells", TYPE:"TOTAL"},
+        {KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE"},
+        {KEY:"TOTAL_HOUSES", NAME:"Total houses", TYPE:"TOTAL"},
+        {KEY:"TOTAL_LAND_TENURE", NAME:"Total land tenure", TYPE:"TOTAL"},
+        {KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE"},
+        {KEY:"HOUSES_HH_RATIO", NAME:"Houses household ratio", TYPE:"TOTAL"},
+        {KEY:"TOTAL_POOR_HH", NAME:"Total poor households", TYPE:"TOTAL"},
+        {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"PERCENTAGE"}
       ];   
       var projectDatabase =  TAFFY();
       var aggregateDataDatabase = TAFFY();
@@ -234,7 +234,8 @@
         aggregateDataLayerSelector.onchange = function(){
           var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
           var selectedLayer = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].value;
-          showDataLayer(selectedLayer);
+          var selectedType = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].type;
+          showDataLayer(selectedLayer, selectedType);
         }
       }
       function toggleLayerToolbar(){
@@ -1082,21 +1083,28 @@
       }
 
 
-      function showDataLayer(key){
+      function showDataLayer(key, type){
         this.normalStyle = {};
         this.onHoverStyle = {};
         this.selectedStyle = {};
         this.normalStyle = originalKelurahanShapeOptions;
         this.onHoverStyle = onHoverKelurahanShapeOptions;
         this.selectedStyle = activeKelurahanShapeOptions;
+        if(type == "PERCENTAGE"){
+          this.reference = 100;
+        } else {
+          this.reference = aggregateDataDatabase().max(key);
+        }
+
+
         for (var i = kelurahans.length - 1; i >= 0; i--) {
           var info = aggregateDataDatabase({KELURAHAN: kelurahans[i].getName()}).get()[0];
           this.normalStyle.fillColor = percentageColor;
           this.onHoverStyle.fillColor = percentageColor;
           this.selectedStyle.fillColor = percentageColor;
-          this.normalStyle.fillOpacity = info[key]/100;
-          this.onHoverStyle.fillOpacity = info[key]/100;
-          this.selectedStyle.fillOpacity = info[key]/100;
+          this.normalStyle.fillOpacity = info[key]/this.reference;
+          this.onHoverStyle.fillOpacity = info[key]/this.reference;
+          this.selectedStyle.fillOpacity = info[key]/this.reference;
           kelurahans[i].setStyles(this.normalStyle, this.selectedStyle, this.onHoverStyle);
         };
       }
