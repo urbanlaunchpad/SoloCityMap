@@ -56,7 +56,7 @@
         <select id="kelurahan_selector" style="width: 320px;" data-placeholder="Select a kelurahan" title="Select a Kelurahan to see its projects."></select>
         <div id="filter_conditions" style= "display: none">
           <select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none" title="Here you can toggle which categories you want to show."></select>
-          <div id="was_voted_filter" title="Filter if you want to show the projects that went trough the complete musrenbang process and the projects that were executed without voting.">            
+          <div id="was_voted_filter" class="filter-buttons" title="Filter if you want to show the projects that went trough the complete musrenbang process and the projects that were executed without voting.">            
             <input type="checkbox" id="was_voted_filter_ALL" value="ALL"></input>
             <label for="was_voted_filter_ALL" title="Toggle to show all the categories.">All</label>
             <input type="checkbox" id="was_voted_filter_VO" value="VO"></input>
@@ -64,7 +64,7 @@
             <input type="checkbox" id="was_voted_filter_NV" value="NV"></input>
             <label for="was_voted_filter_NV">Not voted</label>
           </div>
-          <div id="is_it_executed_filter" title="Filter if you want to show the projects that were executed and the projects that were proposed, but not executed.">
+          <div id="is_it_executed_filter" class="filter-buttons" title="Filter if you want to show the projects that were executed and the projects that were proposed, but not executed.">
             <input type="checkbox" id="is_it_executed_filter_ALL" value="ALL"></input>
             <label for="is_it_executed_filter_ALL" title="Toggle to show all the categories.">All</label>
             <input type="checkbox" id="is_it_executed_filter_YES" value="YES"></input>
@@ -78,22 +78,22 @@
       </div>
       <div id="main">
         <div id="map-canvas"></div>
-          <h4 id="kelurahan_name"></h4>
-          <div id="tools_container">
-            <button type="button" id="layers_button" title="Open this menu to show the possible data layers available."></button>
-            <div id="year_selector" title="Here you can filter the projects by year selecting one or more from the bar.">
-                <p>Tahun penyaring</p>
-            </div>
-            <div id="layer_tools" style="display:none">
-              <select id="aggregate_data_selector" title="Choose which data layer to show.">
-                <option value="" disabled="disabled" selected="selected">Select a data layer</option>
-              </select>
-            </div>
+        <h4 id="kelurahan_name"></h4>
+        <div id="tools_container">
+          <button type="button" id="layers_button" title="Open this menu to show the possible data layers available."></button>
+          <div id="year_selector" title="Here you can filter the projects by year selecting one or more from the bar.">
+              <p>Tahun penyaring</p>
           </div>
-          <div id="key_bar_container"></div>
+          <div id="layer_tools" style="display:none">
+            <select id="aggregate_data_selector" title="Choose which data layer to show.">
+              <option value="" disabled="disabled" selected="selected">Select a data layer</option>
+            </select>
+          </div>
+        </div>
+        <div id="key_bar_container"></div>
         </div>  
-        <div id="list" class="pure-u"> 
-      </div>  
+        <div id="list" class="pure-u"></div>  
+      </div>
     </div>
      <script type="text/javascript">
       //***********************************************************************
