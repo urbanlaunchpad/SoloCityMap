@@ -1,7 +1,8 @@
 .bar_element{
     width: 12.5%;
-    height: 25px;
+    height: 16px;
     float: left;
+    margin-top: 8px;
     margin-left:0px;
     margin-right:0px;
     padding-left:0px;
