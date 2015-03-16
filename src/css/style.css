@@ -216,9 +216,19 @@ p {
     float: left;
 }
 
+.state_icons_container {
+    display: inline-block;
+    float: right;
+    width: 3em;
+    padding-top: 0.25em;
+}
+.state_icons_container img {
+    width: 1.5em;
+}
+
 #list ul li label .text-block {
     display: inline-block;
-    max-width: 260px;
+    max-width: 230px;
     height: 60px;
     padding-left: 0.5em;
 }
