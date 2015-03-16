@@ -211,6 +211,7 @@
       };   
       function initialize() {
         subcategoryIcons = new getSubcategoryIcons();
+        projectStateIcons = new getProjectStateIcons();
         getSubdivisions();
         getProjects();
         getKelurahans();
@@ -834,6 +835,23 @@
           }
         }, 50)
       }
+      function getProjectStateIcons(){
+        this.NV = new Image();
+        this.NV.src = "src/img/png/status_NV.png";
+        this.NV.title = "Not voted";
+        this.VO = new Image();
+        this.VO.src = "src/img/png/status_VO.png";
+        this.VO.title = "Voted";
+        this.YES = new Image();
+        this.YES.src = "src/img/png/executed_YES.png";
+        this.YES.title = "Executed";
+        this.NO = new Image();
+        this.NO.src = "src/img/png/executed_NO.png";
+        this.NO.title = "Not xecuted";
+        this.getIcon = function(code){
+          return this[code].cloneNode();
+        }
+      }
       function getSubcategoryIcons(){
         this.icons = {};
         for(var name in subcategories) {
@@ -1050,6 +1068,11 @@
         h6.innerHTML = project.PROJECT_NAME;
         div.appendChild(h6);
         label.appendChild(div);
+        var stateIconsContainer = document.createElement("div");
+        stateIconsContainer.className = "state_icons_container";
+        stateIconsContainer.appendChild(projectStateIcons.getIcon(project.VOTED));
+        stateIconsContainer.appendChild(projectStateIcons.getIcon(project.IS_IT_EXECUTED));
+        label.appendChild(stateIconsContainer);
         li.appendChild(label);
         var article = document.createElement("article");
         article.className = "ac-small";
