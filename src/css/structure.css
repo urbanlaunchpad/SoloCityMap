@@ -41,27 +41,6 @@
     background-color: #C0B58F;  
 }
 
-#layout {
-    background-color: #444;
-}
-
-#nav {
-    background-color: #bdbdbd;
-}
-
-#list {
-    background-color: #e9e9e9;
-}
-
-#list-header {
-    background-color: #dbdbdb;
-    z-index: 2;
-}
-
-#main {
-    background-color: #777;
-}
-
 /*
  * -- LAYOUT STYLES --
  * This layout consists of three main elements, `#nav` (navigation bar), `#list` (email list), and `#main` (email content). All 3 elements are within `#layout`
