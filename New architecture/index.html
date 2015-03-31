@@ -10,15 +10,12 @@
 	<title>Solo City Map / Structure</title>
 
 	<!-- STYLE -->
-	<link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="src/css/style.css">
+	<link href='https://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 
 	<link rel="stylesheet" href="src/css/bootstrap.css">
 	<link rel="stylesheet" href="src/css/structure.css">
-
-	<!-- TEMPORARY MAP -->
-	<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
-	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
 
 </head>
 
@@ -53,9 +50,10 @@
 						"This is where the nav and title go"
 					</div>
 					<div id="kelurahan_search">
-						<h1>Kelurahan Title</h5>
+						<h1 id="kelurahan_name">Solo City Map</h5>
 						</div>
 						<div id="filter_conditions" class="hidden-xs hidden-sm">
+							<select id="kelurahan_selector" style="width: 320px;" data-placeholder="Select a kelurahan" title="Select a Kelurahan to see its projects."></select>
 							<select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none" title="Here you can toggle which categories you want to show."></select>
 							<div id="was_voted_filter" class="filter-buttons" title="Filter if you want to show the projects that went trough the complete musrenbang process and the projects that were executed without voting.">			
 								<input type="checkbox" id="was_voted_filter_ALL" value="ALL"></input>
@@ -91,19 +89,25 @@
 								<div class="bar_element JA" title="Jalan: 1 projects, 15,000,000 IDR, 7.3 %" style="width: 7.3%;"></div>
 							</div>
 						</div>
-						<div id="project_list">
-							<h3>Project 1</h3>
-							<h3>Project 2</h3>
-							<h3>Project 3</h3>
-							<h3>Project 4</h3>
+						<div id="list">
 						</div>
 					</div>
 				</div>
 			</div>
 
 		</div>
+	<!-- jquery and jquery UI -->
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">	
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<!-- MAPBOX -->
+	<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
+	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
     <!-- Taffy DB -->
     <script type="text/javascript" src="src/js/taffy-min.js"></script>
+    <!-- Chosen -->
+    <script type="text/javascript" src="src/js/chosen.jquery.min.js"></script>
+    <link rel="stylesheet" href="src/css/chosen.min.css">    
 	<script type="text/javascript">
 	  //***********************************************************************
 	  //***********************Here goes the stuff for the map*****************
@@ -298,6 +302,7 @@
 	  	this.kelSelect = null;
 	  	this.isKelurahanParsed = false;
 	  	this.isProjectParsed = false;
+	  	this.originalKelurahanTitle = document.getElementById("kelurahan_name").innerHTML;
 	  	this.showMain = function(){
 	  	}
 	  	this.selectKelurahan = function(kelurahanToSelect){
@@ -338,7 +343,7 @@
 	    	if(selectedKelurahan != null){
 	    		document.getElementById("kelurahan_name").innerHTML = selectedKelurahan.name;
 	    	} else {
-	    		document.getElementById("kelurahan_name").innerHTML = "";
+	    		document.getElementById("kelurahan_name").innerHTML = this.originalKelurahanTitle;
 	    	}
 	    }
 	    this.onProjectsParsed = function(){
@@ -1130,6 +1135,7 @@ d3.select("body #plabel-container").selectAll("div.bar")
 		this.list = document.getElementById("list");
 		for(var i = 0; i < kelurahans.length; i++){
 			var kelurahanSummary = document.createElement("div");
+			kelurahanSummary.style.cursor = 'pointer';
 			kelurahanSummary.kelurahanName =  kelurahans[i].getName();
 			var kname = document.createElement("h6");
 			kname.innerHTML = kelurahans[i].getName();
