@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Basic site structure buildout.">
+
+	<title>Solo City Map / Structure</title>
+
+	<!-- STYLE -->
+	<link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="src/css/bootstrap.css">
+	<link rel="stylesheet" href="src/css/structure.css">
+
+	<!-- TEMPORARY MAP -->
+	<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
+	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+	<div class="row">
+		<div id="nav-bar" class="hidden-md hidden-lg">
+			"This is where the nav and title go"
+		</div>
+		<div id="map-canvas" class="col-md-8 col-lg-9 col-md-push-4 col-lg-push-3">
+			<div id="map-panel">
+				"Map key here, please!"
+			</div>
+			<div id="map">
+			</div>
+		</div>
+		<div class="clearfix visible-sm-block visible-xs-block"></div>
+		<div id="left-panel" class="col-md-4 col-lg-3 col-md-pull-8 col-lg-pull-9">
+			<div class="row">
+				<div id="nav-bar" class="hidden-xs hidden-sm">
+					"This is where the nav and title go"
+				</div>
+				<div id="kelurahan_search">
+					<h1>Kelurahan Title</h5>
+				</div>
+				<div id="filter_conditions" class="hidden-xs hidden-sm">
+					<select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none" title="Here you can toggle which categories you want to show."></select>
+					<div id="was_voted_filter" class="filter-buttons" title="Filter if you want to show the projects that went trough the complete musrenbang process and the projects that were executed without voting.">			
+						<input type="checkbox" id="was_voted_filter_ALL" value="ALL"></input>
+						<label for="was_voted_filter_ALL" title="Toggle to show all the categories.">All</label>
+						<input type="checkbox" id="was_voted_filter_VO" value="VO"></input>
+						<label for="was_voted_filter_VO">Voted</label>
+						<input type="checkbox" id="was_voted_filter_NV" value="NV"></input>
+						<label for="was_voted_filter_NV">Not voted</label>
+					</div>
+					<div id="is_it_executed_filter" class="filter-buttons" title="Filter if you want to show the projects that were executed and the projects that were proposed, but not executed.">
+						<input type="checkbox" id="is_it_executed_filter_ALL" value="ALL"></input>
+						<label for="is_it_executed_filter_ALL" title="Toggle to show all the categories.">All</label>
+						<input type="checkbox" id="is_it_executed_filter_YES" value="YES"></input>
+						<label for="is_it_executed_filter_YES">Implemented</label>
+						<input type="checkbox" id="is_it_executed_filter_NO" value="NO"></input>
+						<label for="is_it_executed_filter_NO">Not Implemented</label>
+					</div>		 
+				</div>
+				<div id="budget_info">
+					<div class="budget_data">
+						<div class="budget_amount">
+							<h6>Planned budget</h6>
+							<h3><span class="total_budget">204,200,000</span> IDR</h3>
+						</div>
+						<div class="budget_projects">
+							<h6>Projects</h6>
+							<h3>17</h3>
+						</div>
+					</div>
+					<div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category.">
+						<div class="bar_element SR" title="Saran lainnyn: 15 projects, 169,250,000 IDR, 82.9 %" style="width: 82.9%;"></div>
+						<div class="bar_element DR" title="Drainase: 1 projects, 19,950,000 IDR, 9.8 %" style="width: 9.8%;"></div>
+						<div class="bar_element JA" title="Jalan: 1 projects, 15,000,000 IDR, 7.3 %" style="width: 7.3%;"></div>
+					</div>
+				</div>
+				<div id="project_list">
+					<h3>Project 1</h3>
+					<h3>Project 2</h3>
+					<h3>Project 3</h3>
+					<h3>Project 4</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+	<script>
+	L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
+	var map = L.mapbox.map('map', 'stephenkennedy.ad4e43ac')
+		.setView([40, -74.50], 9);
+	</script>
+
+</body>
+
+</html>
