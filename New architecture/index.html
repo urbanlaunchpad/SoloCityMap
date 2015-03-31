@@ -31,7 +31,17 @@
 			</div>
 			<div id="map-canvas" class="col-md-8 col-lg-9 col-md-push-4 col-lg-push-3">
 				<div id="map-panel">
-					"Map key here, please!"
+					<div id="tools_container">
+					  <button type="button" id="layers_button" title="Open this menu to show the possible data layers available."></button>
+					  <div id="year_selector" title="Here you can filter the projects by year selecting one or more from the bar.">
+					      <p>Tahun penyaring</p>
+					  </div>
+					  <div id="layer_tools" style="display:none">
+					    <select id="aggregate_data_selector" title="Choose which data layer to show.">
+					      <option value="" disabled="disabled" selected="selected">Select a data layer</option>
+					    </select>
+					  </div>
+					</div>
 				</div>
 				<div id="map">
 				</div>
@@ -220,7 +230,7 @@
 	  }
 	  function initializeLayerToolbar(){
 	  	var layerButton = document.getElementById("layers_button");
-	  	layers_button.onclick = function(){
+	  	layerButton.onclick = function(){
 	  		toggleLayerToolbar();
 	  	}
 	  	var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
