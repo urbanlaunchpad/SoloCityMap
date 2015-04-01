@@ -134,7 +134,7 @@
 	  {KEY:"NOTES", NAME:"Notes", TYPE:"TEXT"}
 	  ];
 
-	  var dataFields = [
+	/*  var dataFields = [
 	  {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT"},
 	  {KEY:"TOTAL_HH", NAME:"Total Households", TYPE:"TOTAL", KIND:"INTEGER"},
 	  {KEY:"TOTAL_CITIZENS", NAME:"Total Citizens", TYPE:"TOTAL", KIND:"INTEGER"},
@@ -158,7 +158,25 @@
 	  {KEY:"HOUSES_HH_RATIO", NAME:"Houses household ratio", TYPE:"TOTAL", KIND:"FLOAT"},
 	  {KEY:"TOTAL_POOR_HH", NAME:"Total poor households", TYPE:"TOTAL", KIND:"INTEGER"},
 	  {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"}
-	  ];   
+	  ];   */
+
+	  var dataFields = [
+	  {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT"},
+	  {KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"TOTAL_PDAM", NAME:"Total PDAM", TYPE:"TOTAL", KIND:"INTEGER"},
+	  {KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  
+	  ];
+
+
+
 	  var projectDatabase =  TAFFY();
 	  var aggregateDataDatabase = TAFFY();
 	  //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
