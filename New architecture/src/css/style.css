@@ -1,3 +1,10 @@
+#layers_button {
+  height: 2.5em;
+  width: 2.5em;
+  background-size: 100%;
+  background-image: url(../img/png/layer.png);
+  float: right;
+}
 /*============TYPOGRAPHY============*/
 
 h1, h2, h3, h4, h5, h6 {
@@ -81,7 +88,6 @@ p {
 }
 
 #kelurahan_selector_chosen {
-    background-color: #525252;
     padding: 2px 12px 12px 12px;
     width: 100%;
 }
