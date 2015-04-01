@@ -331,15 +331,7 @@ p {
 
 /*============YEAR SELECTOR============*/
 
-.ui-buttonset p {
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.675em;
-    font-weight: 600;
-    color: #222;
-    padding: 0;
-    margin: 1px auto 0;
-}
+
 
 #tools_container {
     background-color: transparent;

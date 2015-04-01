@@ -1,0 +1,1207 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Basic site structure buildout.">
+
+	<title>Solo City Map / Structure</title>
+
+	<!-- STYLE -->
+	<link rel="stylesheet" type="text/css" href="src/css/style.css">
+	<link href='https://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="src/css/bootstrap.css">
+	<link rel="stylesheet" href="src/css/structure.css">
+
+</head>
+
+<body>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div id="nav-bar" class="hidden-md hidden-lg">
+				"This is where the nav and title go"
+			</div>
+			<div id="map-canvas" class="col-md-8 col-lg-9 col-md-push-4 col-lg-push-3">
+				<div id="map-panel">
+					<div id="tools_container">
+					  <button type="button" id="layers_button" title="Open this menu to show the possible data layers available."></button>
+					  <div id="year_selector" title="Here you can filter the projects by year selecting one or more from the bar.">
+					      <p>Tahun penyaring</p>
+					  </div>
+					  <div id="layer_tools" style="display:none">
+					    <select id="aggregate_data_selector" title="Choose which data layer to show.">
+					      <option value="" disabled="disabled" selected="selected">Select a data layer</option>
+					    </select>
+					  </div>
+					</div>
+				</div>
+				<div id="map">
+				</div>
+			</div>
+			<div class="clearfix visible-sm-block visible-xs-block"></div>
+			<div id="left-panel" class="col-md-4 col-lg-3 col-md-pull-8 col-lg-pull-9">
+				<div class="row">
+					<div id="nav-bar" class="hidden-xs hidden-sm">
+						"This is where the nav and title go"
+					</div>
+					<div id="kelurahan_search">
+						<h1 id="kelurahan_name">Solo City Map</h5>
+						</div>
+						<div id="filter_conditions" class="hidden-xs hidden-sm">
+							<select id="kelurahan_selector" style="width: 320px;" data-placeholder="Select a kelurahan" title="Select a Kelurahan to see its projects."></select>
+							<select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none" title="Here you can toggle which categories you want to show."></select>
+							<div id="was_voted_filter" class="filter-buttons" title="Filter if you want to show the projects that went trough the complete musrenbang process and the projects that were executed without voting.">			
+								<input type="checkbox" id="was_voted_filter_ALL" value="ALL"></input>
+								<label for="was_voted_filter_ALL" title="Toggle to show all the categories.">All</label>
+								<input type="checkbox" id="was_voted_filter_VO" value="VO"></input>
+								<label for="was_voted_filter_VO">Voted</label>
+								<input type="checkbox" id="was_voted_filter_NV" value="NV"></input>
+								<label for="was_voted_filter_NV">Not voted</label>
+							</div>
+							<div id="is_it_executed_filter" class="filter-buttons" title="Filter if you want to show the projects that were executed and the projects that were proposed, but not executed.">
+								<input type="checkbox" id="is_it_executed_filter_ALL" value="ALL"></input>
+								<label for="is_it_executed_filter_ALL" title="Toggle to show all the categories.">All</label>
+								<input type="checkbox" id="is_it_executed_filter_YES" value="YES"></input>
+								<label for="is_it_executed_filter_YES">Implemented</label>
+								<input type="checkbox" id="is_it_executed_filter_NO" value="NO"></input>
+								<label for="is_it_executed_filter_NO">Not Implemented</label>
+							</div>		 
+						</div>
+						<div id="budget_info">
+							<div class="budget_data">
+								<div class="budget_amount">
+									<h6>Planned budget</h6>
+									<h3><span class="total_budget">204,200,000</span> IDR</h3>
+								</div>
+								<div class="budget_projects">
+									<h6>Projects</h6>
+									<h3>17</h3>
+								</div>
+							</div>
+							<div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category.">
+								<div class="bar_element SR" title="Saran lainnyn: 15 projects, 169,250,000 IDR, 82.9 %" style="width: 82.9%;"></div>
+								<div class="bar_element DR" title="Drainase: 1 projects, 19,950,000 IDR, 9.8 %" style="width: 9.8%;"></div>
+								<div class="bar_element JA" title="Jalan: 1 projects, 15,000,000 IDR, 7.3 %" style="width: 7.3%;"></div>
+							</div>
+						</div>
+						<div id="list">
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	<!-- jquery and jquery UI -->
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">	
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<!-- MAPBOX -->
+	<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
+	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
+    <!-- Taffy DB -->
+    <script type="text/javascript" src="src/js/taffy-min.js"></script>
+    <!-- Chosen -->
+    <script type="text/javascript" src="src/js/chosen.jquery.min.js"></script>
+    <link rel="stylesheet" href="src/css/chosen.min.css">    
+	<script type="text/javascript">
+	  //***********************************************************************
+	  //***********************Here goes the stuff for the map*****************
+	  //***********************************************************************
+	  var kelurahansFusionTableID = "1jdxsdPlAvCNRair4uv2pOwWTzMNtutDdhfXlp9QO";
+	  var subdivisionsFusionTableID = "158fKZygrAlgGKaYDkT4alniT5ZEeTqPdwtFtEoc-";
+	  var musrenbangFusionTableID = "1yHXZ3Z5yQXl8eEewPUgYSzOvd458RhW9pQ2smFIf";
+	  var data2010FusionTableID = "1oMln7GsJjbGJ9CQK41FP-aq3Xkz7fJPVZof2U5rY";
+	  var projectFields = [
+	  {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"TEXT"},
+	  {KEY:"YEAR", NAME:"Year", TYPE:"NUMBER"},
+	  {KEY:"VOTED", NAME:"Voted", TYPE:"TEXT"},
+	  {KEY:"CATEGORY", NAME:"Category", TYPE:"TEXT"},
+	  {KEY:"SUBCATEGORY", NAME:"Subcategory", TYPE:"TEXT"},
+	  {KEY:"UNIQUE_NUMBER", NAME:"Unique number", TYPE:"NUMBER"},
+	  {KEY:"LEVEL", NAME:"Level", TYPE:"TEXT"},
+	  {KEY:"PRIORITY", NAME:"Priority", TYPE:"NUMBER"},
+	  {KEY:"PROJECT_NAME", NAME:"Project name", TYPE:"TEXT"},
+	  {KEY:"LOCATION", NAME:"Location", TYPE:"TEXT"},
+	  {KEY:"AGENCY", NAME:"Agency", TYPE:"TEXT"},
+	  {KEY:"PLANNED_BUDGET", NAME:"Planned budget", TYPE:"NUMBER"},
+	  {KEY:"EXECUTED_BUDGET", NAME:"Executed budget", TYPE:"NUMBER"},
+	  {KEY:"IS_IT_EXECUTED", NAME:"Is it executed", TYPE:"TEXT"},
+	  {KEY:"NOTES", NAME:"Notes", TYPE:"TEXT"}
+	  ];
+
+	  var dataFields = [
+	  {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT"},
+	  {KEY:"TOTAL_HH", NAME:"Total Households", TYPE:"TOTAL", KIND:"INTEGER"},
+	  {KEY:"TOTAL_CITIZENS", NAME:"Total Citizens", TYPE:"TOTAL", KIND:"INTEGER"},
+	  {KEY:"AVERAGE_HH_SIZE", NAME:"Average household size", TYPE:"TOTAL", KIND:"FLOAT"},
+	  {KEY:"TOTAL_7_18", NAME:"Total children between 7 and 18", TYPE:"TOTAL", KIND:"INTEGER"},
+	  {KEY:"NO_SCHOOL", NAME:"Total children not in school", TYPE:"TOTAL", KIND:"INTEGER"},
+	  {KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"TOTAL_HH_WC", NAME:"Total households with private WC", TYPE:"TOTAL", KIND:"INTEGER"},
+	  {KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"TOTAL_HH_WC_PUBLIC", NAME:"Total households with private WC", TYPE:"TOTAL", KIND:"INTEGER"},
+	  {KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"TOTAL_PDAM", NAME:"Total PDAM", TYPE:"TOTAL", KIND:"INTEGER"},
+	  {KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"TOTAL_HH_PUBLIC_WELLS", NAME:"Total households with public wells", TYPE:"TOTAL", KIND:"INTEGER"},
+	  {KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"TOTAL_HH_PRIVATE_WELLS", NAME:"Total household with private wells", TYPE:"TOTAL", KIND:"INTEGER"},
+	  {KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"TOTAL_HOUSES", NAME:"Total houses", TYPE:"TOTAL", KIND:"INTEGER"},
+	  {KEY:"TOTAL_LAND_TENURE", NAME:"Total land tenure", TYPE:"TOTAL", KIND:"INTEGER"},
+	  {KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
+	  {KEY:"HOUSES_HH_RATIO", NAME:"Houses household ratio", TYPE:"TOTAL", KIND:"FLOAT"},
+	  {KEY:"TOTAL_POOR_HH", NAME:"Total poor households", TYPE:"TOTAL", KIND:"INTEGER"},
+	  {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"}
+	  ];   
+	  var projectDatabase =  TAFFY();
+	  var aggregateDataDatabase = TAFFY();
+	  //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
+	  var colors = ['#BEC1C4']; // More neutral, similar to Kota Kita site
+	  var percentageColor = "#8A0707";
+	  var originalKelurahanShapeOptions = {
+	  	color: "#000000",
+	  	opacity: 1,
+	  	weight: 1,
+	  	fillColor: "#FFFFFF",
+	  	fillOpacity: 0,
+	  };
+	  var onHoverKelurahanShapeOptions = {
+	  	color: "#000000",
+	  	opacity: 1,
+	  	weight: 2,
+	  	fillColor: "#FFFFFF",
+	  	fillOpacity: 0,
+	  };
+	  var activeKelurahanShapeOptions = {
+	  	color: "#FFFF00",
+	  	opacity: 1,
+	  	weight: 4,
+	  	fillColor: "#FFFFFF",
+	  	fillOpacity: 0,        
+	  };      
+	  var originalLocationShapeOptions = {
+	  	color: "#000000",
+	  	opacity: 1,
+	  	weight: 1,
+	  	fillColor: "#BEC1C4",
+	  	fillOpacity: 0.5,
+	  };
+	  var originalKelurahanOpacity = 0.7;
+	  var onHoverKelurahanOpacity = 0.3;
+	  var activeKelurahanOpacity = 0.1;
+	  var map;
+	  var kelurahans = [];
+	  var subdivisions = {};
+	  var projectsArray = [];
+	  var subcategoryIcons;
+	  var mapSC;
+	  var kelurahanLayer;
+	  var projectLocationLayer;
+	  document.addEventListener("DOMContentLoaded", initialize);
+	  var subcategories = {
+	  	JA : {name: "Jalan",
+	  	color: "#4C4320"},
+	  	SA : {name: "Sanitasi",
+	  	color: "#573649"},        
+	  	SM : {name: "Mannakemen sampah",
+	  	color: "#601D00"},        
+	  	LS : {name: "Listrik",
+	  	color: "#E7922A"},        
+	  	AR : {name: "Air Bersih", 
+	  	color: "#003951"},        
+	  	IC : {name: "Informasi dan komunicasi",
+	  	color: "#B65B46"},        
+	  	DR : {name: "Drainase",
+	  	color: "#7FA6B2"},        
+	  	SR : {name: "Saran lainnyn",
+	  	color: "#C0B58F"}        
+	  };   
+	  function initialize() {
+	  	subcategoryIcons = new getSubcategoryIcons();
+	  	projectStateIcons = new getProjectStateIcons();
+	  	getSubdivisions();
+	  	getProjects();
+	  	getKelurahans();
+	  	get2010Data();
+	  	mapSC = new mapStateController();
+	  	initializeLayerToolbar();
+	  }
+	  function initializeLayerToolbar(){
+	  	var layerButton = document.getElementById("layers_button");
+	  	layerButton.onclick = function(){
+	  		toggleLayerToolbar();
+	  	}
+	  	var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
+	  	for (var i = 0; i < dataFields.length; i++) {
+	  		if(!(dataFields[i]["KEY"] == "KELURAHAN")){
+	  			var option = document.createElement("option");
+	  			option.value = dataFields[i]["KEY"];
+	  			option.type = dataFields[i]["TYPE"];
+	  			option.name = dataFields[i]["NAME"];
+	  			option.innerHTML = dataFields[i]["NAME"];
+	  			aggregate_data_selector.appendChild(option);
+	  		}
+	  	};
+	  	aggregateDataLayerSelector.onchange = function(){
+	  		var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
+	  		var selectedLayer = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].value;
+	  		var selectedType = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].type;
+	  		var selectedLabel = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].name;
+	  		showDataLayer(selectedLayer, selectedType, selectedLabel);
+	  	}
+	  }
+	  function toggleLayerToolbar(){
+	  	var layerTools = document.getElementById("layer_tools");
+	  	var displayStyle = window.getComputedStyle(layerTools, null).getPropertyValue("display");
+	  	if(displayStyle === "none"){
+	  		layerTools.style.display = "block";
+	  	} else {
+	  		layerTools.style.display = "none";
+	  	}
+	  }
+	  function getKelurahans(){
+	  	var query = 'SELECT KELURAHAN, geometry, geometry_pos FROM ' + kelurahansFusionTableID;
+	  	getFusionTablesData(query, "parseKelurahans");
+	  }
+	  function getSubdivisions(){
+	  	var query = 'SELECT KELURAHAN, geometry, geometry_pos, RW, RT FROM ' + subdivisionsFusionTableID;
+	  	getFusionTablesData(query, "parseSubdivisions");
+	  }
+	  function get2010Data(){
+	  	var columnNames = getWhatToGet(dataFields);
+	  	var query = 'SELECT ' + columnNames + '  FROM ' + data2010FusionTableID;
+	  	getFusionTablesData(query, "parseData");
+	  }
+	  function mapStateController(){
+	  	L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
+	  	map = L.mapbox.map("map", 'stephenkennedy.ad4e43ac')
+	  	.setView([-7.566667, 110.866667], 13);
+	  	kelurahanLayer =  L.mapbox.featureLayer().addTo(map);
+	  	projectLocationLayer = L.mapbox.featureLayer().addTo(map);
+	  	var state;
+	  	var possibleStates = {
+	  		Default: 0,
+	  		Main: 1,
+	  		Kelurahan: 2,
+	  	};
+	  	state = possibleStates.Default;
+	  	var yearCheckboxes = [];
+	  	var selectedKelurahan = null;
+	  	var selectedProjectID = null;
+	  	var scFilters = new subcategoryFilters(this);
+	  	this.filters = document.getElementById("filter_conditions");
+	  	this.GPFilter = new ghostProjectFilters(this);
+	  	this.EPFilter = new executedProjectFilters(this);
+	  	this.BBar = new budgetBar("PLANNED_BUDGET", document.getElementById("budget_info"));
+	  	this.kelSelect = null;
+	  	this.isKelurahanParsed = false;
+	  	this.isProjectParsed = false;
+	  	this.originalKelurahanTitle = document.getElementById("kelurahan_name").innerHTML;
+	  	this.showMain = function(){
+	  	}
+	  	this.selectKelurahan = function(kelurahanToSelect){
+	  		document.getElementById("kelurahan_name").innerHTML = kelurahanToSelect.name;
+	  		state = possibleStates.Kelurahan;
+	  		map.fitBounds(kelurahanToSelect.kelurahanShape.getBounds());
+	  		kelurahanToSelect.kelurahanShape.bringToFront();
+	  		if(selectedKelurahan != null){
+	  			selectedKelurahan.setDeselected();
+	  		}
+	  		selectedKelurahan = kelurahanToSelect;
+	        //selectedKelurahanIndex = kelurahanIndex;
+	        kelurahanToSelect.setSelected();
+	        this.addFiltersUI();
+	        $("#was_voted_filter").buttonset();
+	        $("#is_it_executed_filter").buttonset();
+	        emptyProjectCards();
+	        this.filteringChanged();
+	        this.kelSelect.selectKelurahan(kelurahanToSelect.name);
+	    }
+	    this.selectKelurahanByName = function(kelurahanName){
+	    	for (var i = kelurahans.length - 1; i >= 0; i--) {
+	    		if (kelurahans[i].name == kelurahanName){
+	    			this.selectKelurahan(kelurahans[i]);
+	    			break;
+	    		}
+	    	};
+	    }
+	    this.onKelurahanMouseOver = function(kelurahan){
+	    	if(kelurahan != selectedKelurahan){
+	    		document.getElementById("kelurahan_name").innerHTML = kelurahan.name;
+	    	}
+	    }
+	    this.onKelurahanClick = function(kelurahan){
+	    	this.selectKelurahan(kelurahan);
+	    }
+	    this.onKelurahanMouseOut = function(kelurahan){
+	    	if(selectedKelurahan != null){
+	    		document.getElementById("kelurahan_name").innerHTML = selectedKelurahan.name;
+	    	} else {
+	    		document.getElementById("kelurahan_name").innerHTML = this.originalKelurahanTitle;
+	    	}
+	    }
+	    this.onProjectsParsed = function(){
+	    	this.initializeYearSelector();
+	    	this.isProjectParsed = true;
+	    	if(this.isKelurahanParsed){
+	    		state = possibleStates.Main;
+	    		this.filteringChanged();
+	    	}
+	    }
+	    this.onKelurahansParsed = function(){
+	    	drawKelurahans(kelurahans);
+	    	mapSC.addKelurahanSelector();
+	    	this.isKelurahanParsed = true;
+	    	if(this.isProjectParsed){
+	    		state = possibleStates.Main;  
+	    		this.filteringChanged();
+	    	}
+	    }
+	    this.initializeYearSelector = function(){
+	    	var minYear = projectDatabase().min("YEAR");
+	    	var maxYear = projectDatabase().max("YEAR");
+	    	var yearSelector = document.getElementById("year_selector");
+	    	yearCheckboxes = [];
+	    	for (var i = minYear; i <= maxYear; i++){
+	    		var input = document.createElement("input");
+	    		input.type = "checkbox";
+	    		input.id = "year_" + i;
+	    		input.year = i;
+	    		var label = document.createElement("label");
+	    		label.htmlFor = "year_" + i;
+	    		label.textContent = i;
+	    		var that = this;
+	    		input.onchange = function(){
+	    			that.filteringChanged();
+	    		}
+	    		yearSelector.appendChild(input);
+	    		yearSelector.appendChild(label);
+	    		yearCheckboxes.push(input);
+	    	}
+	      document.getElementById("year_" + maxYear).checked = true; // Selecting the last year by default.
+	      $("#year_selector").buttonset();
+	  }
+	  this.filteringChanged = function(){
+	  	switch(state){
+	  		case possibleStates.Default :
+	  		break;
+	  		case possibleStates.Main :
+	  		this.goToMainView();
+	  		break;
+	  		case possibleStates.Kelurahan :
+	  		var years = [];
+	  		this.emptyProjectLocationLayer();
+	  		for (var i = 0; i < yearCheckboxes.length; i++){
+	  			if(yearCheckboxes[i].checked){
+	  				years.push(yearCheckboxes[i].year);
+	  			}
+	  		}
+	  		var scSelected = scFilters.getSelected();
+	  		var gpFilterSelected = this.GPFilter.getActiveFilter();
+	  		var exFilterSelected = this.EPFilter.getActiveFilter();
+	  		emptyProjectCards();
+	  		var cardData = fillProjectCards(selectedKelurahan.name, years, scSelected, gpFilterSelected, exFilterSelected, this);
+	  		this.BBar.updateBar(cardData);
+	  		break;
+	  	}
+	  }
+	  this.goToMainView = function(){
+	  	this.state = possibleStates.Main;
+	  	emptyProjectCards();
+	  	fillKelurahanSummaries(projectDatabase);
+	  }
+	  this.setSelectedProject = function(projectID){
+	  	if(selectedProjectID != null){
+	  		this.emptyProjectLocationLayer();
+	  	}
+	  	selectedProjectID = projectID;
+	      //window.alert(selectedProjectID);
+	      var project = projectDatabase({ID: selectedProjectID}).get()[0];
+	      var location = project.LOCATION.split(',');
+	      var kelurahan = project.KELURAHAN;
+	      var subcategory = subcategories[project.SUBCATEGORY];
+	      this.showLocationShapes(kelurahan, subcategory, location);
+	  }
+	  this.emptyProjectLocationLayer = function(){
+	  	map.removeLayer(projectLocationLayer);
+	  	projectLocationLayer = L.mapbox.featureLayer().addTo(map);
+	  	selectedProjectID = null;
+	  }
+	  this.showLocationShapes = function(kelurahan, subcategory, locations){  
+	  	var shapeOptions = originalLocationShapeOptions;
+	  	shapeOptions.fillColor = subcategory.color;
+	  	for (var i=0; i<locations.length; i++){
+	  		if(locations[i].indexOf("-") !=-1){
+	  			var tempLoc = locations[i].split("-");
+	  			var geometry = subdivisions[kelurahan][tempLoc[0].substring(2, tempLoc[0].length)][tempLoc[1].substring(2, tempLoc[1].length)].GEOMETRIES;
+	  			var shape = L.polygon(geometry, shapeOptions);
+	  			shape.addTo(projectLocationLayer);
+	  		} else if(locations[i].indexOf("RW") !=-1){
+	  			var locationsToShow = subdivisions[kelurahan][locations[i].substring(2,locations[i].length)];
+	  			for(var key in locationsToShow){
+	  				var geometry = locationsToShow[key].GEOMETRIES;
+	  				var shape = L.polygon(geometry, shapeOptions);
+	  				shape.addTo(projectLocationLayer);
+	  			}
+	  		} else if(locations[i] == "KELURAHAN"){
+	  			var kelurahanLocations = subdivisions[kelurahan];
+	  			for(var key in kelurahanLocations){
+	  				var rwLocations = kelurahanLocations[key];
+	  				for(var key in rwLocations){
+	  					var rtLocations = rwLocations[key];
+	  					if(rtLocations.hasOwnProperty("GEOMETRIES")){
+	  						var geometry = rtLocations.GEOMETRIES;
+	  						var shape = L.polygon(geometry, shapeOptions);
+	  						shape.addTo(projectLocationLayer);       
+	  					}
+	  				}
+	  			}
+	  		}
+	  	}
+	  }
+	  this.addKelurahanSelector = function(){
+	  	this.kelSelect = new kelurahanSelector(this);
+	  	this.kelSelect.initialize();
+	  }
+	  this.addFiltersUI = function(){
+	  	switch(state){
+	  		case possibleStates.Default :
+	  		break;
+	  		case possibleStates.Main :
+	  		break;
+	  		case possibleStates.Kelurahan :
+	  		this.filters.style.display = "inherit";
+	  		scFilters.show();
+	  		break;
+	  	}
+	  }
+	}
+	function kelurahanSelector(parent){
+		this.parent = parent;
+		this.kelSelector = document.getElementById("kelurahan_selector");
+		this.kelSelector.multiple = false;
+		this.kelOptions = [];
+		var that = this;
+		this.kelSelector.onchange = function(){
+			that.parent.selectKelurahanByName(this.options[this.selectedIndex].value);
+		}
+		this.initialize = function(){
+	        //Adding blank text option
+	        var option = document.createElement("option");
+	        option.innerHTML = "";
+	        option.value = "";
+	        this.kelSelector.appendChild(option);
+	        this.kelOptions.push(option);
+	        for (var i = 0; i < kelurahans.length; i++) {
+	        	var option = document.createElement("option");
+	        	option.innerHTML = kelurahans[i].name;
+	        	option.id = "kel_" + kelurahans[i].name;
+	        	option.value = kelurahans[i].name;
+	        	this.kelSelector.appendChild(option);
+	        	this.kelOptions.push(option);
+	        };
+	        $(this.kelSelector).attr('data-placeholder', "Select a kelurahan").chosen({allow_single_deselect: true});
+	    }
+	    this.selectKelurahan = function(kelurahanName){
+	    	if(this.kelSelector.options[this.kelSelector.selectedIndex].value != kelurahanName){
+	    		for (var i = this.kelOptions.length - 1; i >= 0; i--) {
+	    			if (this.kelOptions[i].value == kelurahanName){
+	    				this.kelSelector.selectedIndex = i;
+	    				$(this.kelSelector).trigger("chosen:updated"); 
+	    				break;
+	    			}
+	    		};
+	    	}
+	    }        
+	}
+	function ghostProjectFilters(parent){
+		this.parent = parent;
+		var that = this;
+		this.callback = function(){
+			if(this.checked){
+				if(this == that.nv){
+					that.vo.checked = false;
+					that.all.checked = false;
+					$(that.vo).button("refresh");
+					$(that.all).button("refresh");
+				} else if(this == that.vo){
+					that.nv.checked = false;
+					that.all.checked = false;
+					$(that.nv).button("refresh");
+					$(that.all).button("refresh");
+				} else if(this == that.all){
+					that.vo.checked = false;
+					that.nv.checked = false;
+					$(that.vo).button("refresh");
+					$(that.nv).button("refresh");
+				}
+			} else {
+				this.checked = true;
+				$(this).button("refresh");
+			}
+			that.parent.filteringChanged();
+		}
+		this.all = document.getElementById("was_voted_filter_ALL");
+		this.nv = document.getElementById("was_voted_filter_NV");
+		this.vo = document.getElementById("was_voted_filter_VO");
+		this.all.checked = true;
+		this.nv.checked = false;
+		this.vo.checked = false;
+		this.all.onchange = this.callback;
+		this.nv.onchange = this.callback;
+		this.vo.onchange = this.callback; 
+		this.getActiveFilter = function(){
+			var filterArray = [];
+			if(this.nv.checked){
+				filterArray.push("NV");
+			}
+			if(this.vo.checked){
+				filterArray.push("VO");
+			}
+			if(this.all.checked){
+				filterArray.push("NV");
+				filterArray.push("VO");
+			}
+			return filterArray;
+		}
+	}
+	function executedProjectFilters(parent){
+		this.parent = parent;
+		var that = this;
+		this.callback = function(){
+			if(this.checked){
+				if(this == that.no){
+					that.yes.checked = false;
+					that.all.checked = false;
+					$(that.yes).button("refresh");
+					$(that.all).button("refresh");
+				} else if(this == that.yes){
+					that.no.checked = false;
+					that.all.checked = false;
+					$(that.no).button("refresh");
+					$(that.all).button("refresh");
+				} else if(this == that.all){
+					that.no.checked = false;
+					that.yes.checked = false;
+					$(that.no).button("refresh");
+					$(that.yes).button("refresh");
+				}
+			} else {
+				this.checked = true;
+				$(this).button("refresh");
+			}
+			that.parent.filteringChanged();
+		}
+		this.all = document.getElementById("is_it_executed_filter_ALL");
+		this.yes = document.getElementById("is_it_executed_filter_YES");
+		this.no = document.getElementById("is_it_executed_filter_NO");
+		this.all.checked = true;
+		this.yes.checked = false;
+		this.no.checked = false ;
+		this.all.onchange = this.callback;
+		this.no.onchange = this.callback;
+		this.yes.onchange = this.callback; 
+		this.getActiveFilter = function(){
+			var filterArray = [];
+			if(this.no.checked){
+				filterArray.push("NO")
+			}
+			if(this.yes.checked){
+				filterArray.push("YES")
+			}
+			if(this.all.checked){
+				filterArray.push("YES");
+				filterArray.push("NO");
+			}
+			return filterArray;
+		}
+	}      
+	function subcategoryFilters(parent) {
+		this.parent = parent;
+		this.scFilters = document.getElementById("subcategory_filter");
+		this.scFilters.multiple = true;
+		this.scOptions =[];
+		this.isActive = false;
+		for (var key in subcategories){
+			var option = document.createElement("option");
+			option.selected = "selected";
+			option.innerHTML = subcategories[key].name;
+			option.id = "filter_" + key;
+			this.scFilters.appendChild(option);
+			this.scOptions.push(option);
+		}
+		var that = this;
+		this.scFilters.onchange = function(){
+			that.parent.filteringChanged();
+		}
+		this.show = function(){
+			if(this.isActive == false){
+				this.scFilters.style.display = "inherit";
+				$(this.scFilters).attr('data-placeholder', "Select Subcategories...").chosen();
+				this.isActive = true;
+			}
+		}
+		this.getSelected = function(){
+			var selectedSubcategories = [];
+			for (var i = 0; i < this.scOptions.length; i++){
+				if (this.scOptions[i].selected){
+					selectedSubcategories.push(this.scOptions[i].id.slice(7,this.scOptions[i].id.length));
+				}
+			}
+			return selectedSubcategories;
+		}
+	}
+	function budgetBar(key_name, div){
+		this.div = div;
+		this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>Planned budget: <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="Jalan"></div><div class="bar_element SA" title="Sanitasi"></div><div class="bar_element SM" title="Mannakemen sampah"></div><div class="bar_element LS" title="Listrik"></div><div class="bar_element AR" title="Air Bersih"></div><div class="bar_element IC" title="Informasi dan komunicasi"></div><div class="bar_element DR" title="Drainase"></div><div class="bar_element SR" title="Saran lainnyn"></div></div>  '
+		this.budgetView = this.div.getElementsByClassName("total_budget")[0];
+		this.budgetBar = this.div.getElementsByClassName("budget_bar")[0];
+		this.projectNumber = this.div.getElementsByClassName("total_projects")[0];
+		this.budgetBars = [];
+		this.percentages = [];
+		this.projectCounts = [];
+		this.totalBudget = 0;
+		this.budgets = [];
+		this.key_name = key_name;
+		for (var key in subcategories){
+			this.budgetBars.push(this.div.getElementsByClassName(key)[0]);
+		}
+		this.updateBar = function(projects){
+			this.projects = projects;
+			this.totalBudget = projects().sum(this.key_name);
+			this.budgetView.innerHTML = " " + numberWithCommas(this.totalBudget);
+			this.projectNumber.innerHTML = this.projects().count();
+			this.budgets = [];
+			this.percentages = [];
+			this.projectCounts = [];
+			this.budgetBar.innerHTML = "";
+			var i = 0;
+			for (var key in subcategories){
+				if(this.totalBudget == 0){
+					this.budgets.push(0);
+					this.percentages.push(100*(1/Object.keys(subcategories).length));
+					this.projectCounts.push(0);
+				} else {
+					this.budgets.push(this.projects({SUBCATEGORY : key}).sum(this.key_name));
+					this.percentages.push((100*(this.budgets[i]/this.totalBudget)).toFixed(1));
+					this.projectCounts.push(this.projects({SUBCATEGORY : key}).count());
+				}
+				this.budgetBars[i].style.width = Math.floor(this.percentages[i]) + "%";
+				this.budgetBars[i].percentage = this.percentages[i];
+				this.budgetBars[i].title = subcategories[key].name + ": " + this.projectCounts[i] + " projects, " +  numberWithCommas(this.budgets[i]) + " IDR, " + this.percentages[i] + " %";
+				i++;
+			}
+			this.percentages.sort(sortNumber);  
+			for (var i = this.percentages.length - 1; i >= 0; i--) {
+				for (var j = 0; j < this.budgetBars.length; j++) {
+					if(this.budgetBars[j].percentage == this.percentages[i]){
+						this.budgetBar.appendChild(this.budgetBars[j]);
+					}
+				};
+			};
+		}
+	}
+	function parseKelurahans(data){
+		var rows = data['rows'];
+		for (var i in rows) {
+			var newCoordinates = [];
+			var kelurahan_name = rows[i][0];
+			var center = constructNewPointCoordinates(rows[i][2]['geometry']);
+			var geometries = rows[i][1]['geometries'];
+			if (geometries) {
+				for (var j in geometries) {
+					newCoordinates.push(constructNewCoordinates(geometries[j]));
+				}
+			} else {
+				newCoordinates = constructNewCoordinates(rows[i][1]['geometry']);
+			}
+			kelurahans[i] = new kelurahan(kelurahan_name, newCoordinates, center, i);
+		}
+		mapSC.onKelurahansParsed();
+	}
+	function parseSubdivisions(data){
+		var rows = data['rows'];
+		subdivisions = {};
+		for (var i in rows) {
+			var newCoordinates = [];
+			var kelurahan_name = rows[i][0];
+			var center = constructNewPointCoordinates(rows[i][2]['geometry']);
+			var geometries = rows[i][1]['geometries'];
+			var rw_name = rows[i][3];
+			var rt_name = rows[i][4];
+			if (geometries) {
+				for (var j in geometries) {
+					newCoordinates.push(constructNewCoordinates(geometries[j]));
+				}
+			} else {
+				newCoordinates = constructNewCoordinates(rows[i][1]['geometry']);
+			}
+			if(!subdivisions.hasOwnProperty(kelurahan_name)){
+				subdivisions[kelurahan_name] = {};
+			}
+			if(!subdivisions[kelurahan_name].hasOwnProperty(rw_name)){
+				subdivisions[kelurahan_name][rw_name] = {};
+			}
+			if(!subdivisions[kelurahan_name][rw_name].hasOwnProperty(rt_name)){
+				subdivisions[kelurahan_name][rw_name][rt_name] = {};
+			}          
+			subdivisions[kelurahan_name][rw_name][rt_name] = {
+				CENTER : center,
+				GEOMETRIES : newCoordinates
+			}
+		}
+	}
+	function kelurahan(name, geometry, center, index) {
+		this.name = name;
+		this.selected = false;
+		this.geometry = geometry;
+		this.index = index;
+		this.center = center;
+		this.onMouseOverStyle = null;
+		this.normalStyle = null;
+		this.selectedStyle = null;
+		var projects = null;
+		var randomnumber = Math.floor(Math.random() * colors.length);
+		this.kelurahanShape = new L.polygon(this.geometry, this.shapeOptions);
+		this.getName = function(){
+			return this.name;
+		}
+		this.drawKelurahan = function() {
+			this.kelurahanShape.setStyle(this.normalStyle);
+			this.kelurahanShape.addTo(kelurahanLayer);
+		}
+		this.initializeShape = function(){
+			this.drawKelurahan();
+			this.addListeners();
+		}
+		this.setStyle = function(style) {
+			this.kelurahanShape.setStyle(style);
+		}
+		this.setOnMouseOverStyle = function(style){
+			this.onMouseOverStyle = style;
+		}
+		this.setNormalStyle = function(style){
+			this.normalStyle = style;
+		}
+		this.setSelectedStyle = function(style){
+			this.selectedStyle = style;
+		}
+		this.setStyles = function(ns,ss,mov){
+			this.normalStyle = JSON.parse(JSON.stringify(ns));
+			this.selectedStyle = JSON.parse(JSON.stringify(ss));
+			this.onMouseOverStyle = JSON.parse(JSON.stringify(mov));
+			if(this.selected){
+				this.setStyle(this.selectedStyle);
+			} else{
+				this.setStyle(this.normalStyle);
+			}
+		}
+		this.setSelected = function(){
+			this.selected = true;
+			this.setStyle(this.selectedStyle);
+		}
+		this.setDeselected = function(){
+			this.selected = false;
+			this.setStyle(this.normalStyle);
+		}
+		this.addListeners = function() {
+			var that = this;
+			this.kelurahanShape.on("click", function(){
+				mapSC.onKelurahanClick(that);
+			});
+			this.kelurahanShape.on('mouseover', function(){
+				if(!that.selected){
+					that.setStyle(that.onMouseOverStyle);
+				}
+				mapSC.onKelurahanMouseOver(that);
+			});
+			this.kelurahanShape.on('mouseout', function(){ 
+				if(!that.selected){
+					that.setStyle(that.normalStyle);
+				} else {
+					that.setStyle(that.selectedStyle);
+				}
+				mapSC.onKelurahanMouseOut(that);
+			});          
+		}
+	}
+	function drawKelurahans(kelurahans) {
+		this.kelurahans = kelurahans;
+		shuffleArray = [];
+		for (var i=0; i < kelurahans.length; i++){
+			shuffleArray[i] = i;
+		}
+		shuffleArray = shuffle(shuffleArray);
+		i = 0;
+		var interval = setInterval(function(){
+			if (i < kelurahans.length){
+				kelurahans[shuffleArray[i]].setStyles(originalKelurahanShapeOptions, activeKelurahanShapeOptions, onHoverKelurahanShapeOptions);
+				kelurahans[shuffleArray[i]].initializeShape();
+				i++;
+			} else{
+				clearInterval(interval);
+			}
+		}, 50)
+	}
+	function getProjectStateIcons(){
+		this.NV = new Image();
+		this.NV.src = "src/img/png/status_NV.png";
+		this.NV.title = "Not voted";
+		this.VO = new Image();
+		this.VO.src = "src/img/png/status_VO.png";
+		this.VO.title = "Voted";
+		this.YES = new Image();
+		this.YES.src = "src/img/png/executed_YES.png";
+		this.YES.title = "Executed";
+		this.NO = new Image();
+		this.NO.src = "src/img/png/executed_NO.png";
+		this.NO.title = "Not xecuted";
+		this.getIcon = function(code){
+			return this[code].cloneNode();
+		}
+	}
+	function getSubcategoryIcons(){
+		this.icons = {};
+		for(var name in subcategories) {
+			var tempIcon = new Image();
+			tempIcon.className = "icon-block";
+			tempIcon.src = "src/img/png/solo_" + name + ".png";
+			tempIcon.innerHTML = subcategories[name].name;
+			this.icons[name] = tempIcon;
+		}
+		this.getIcon = function(code){
+			return this.icons[code].cloneNode();
+		}
+	}
+	function constructNewCoordinates(polygon) {
+		var newCoordinates = [];
+		var coordinates = polygon['coordinates'][0];
+		for (var i in coordinates) {
+			newCoordinates.push(new L.LatLng(coordinates[i][1], coordinates[i][0]));
+		}
+		return newCoordinates;
+	}
+	function constructNewPointCoordinates(originalPoint) {
+		var pointCoordinates;
+		var pointFromSource = originalPoint["coordinates"];
+		pointCoordinates = new L.LatLng(pointFromSource[1], pointFromSource[0]);
+		return pointCoordinates;
+	}
+	function numberWithCommas(x) {
+		var parts = x.toString().split(".");
+		parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		return parts.join(".");
+	}
+	function sortNumber(a,b) {
+		return a - b;
+	}
+	  // Fisher–Yates shuffle
+	  function shuffle(array) {
+	  	var counter = array.length, temp, index;
+	    // While there are elements in the array
+	    while (counter > 0) {
+	      // Pick a random index
+	      index = Math.floor(Math.random() * counter);
+	      // Decrease counter by 1
+	      counter--;
+	      // And swap the last element with it
+	      temp = array[counter];
+	      array[counter] = array[index];
+	      array[index] = temp;
+	  }
+	  return array;
+	}
+	function mapKey(min, max, label){
+		var color = percentageColor.substring(1);
+		document.getElementById("key_bar_container").innerHTML = "";
+		var interval = (max - min)/5;
+		var data_value = [];
+		var data_opacity = [];
+		var data_color = [];
+		var data_plabel = [];
+		for (var i = 0; i < 5; i++) {
+			data_value.push(20);
+			data_opacity.push((interval*i)/(max - min));
+			data_color.push(color);
+			data_plabel.push(Math.round(min + (interval * i)));
+		};
+		data_plabel.push(Math.round(max));
+		data_value.push(0);
+
+
+	    // var data_value = [ 50, 30, 20, 0];
+	    // var data_opacity = [ 0.1, 0.1, 0.1, 0.1];
+	    // var data_plabel = [ "0%", "50%", "80%", "100%" ];
+	    // var data_color = [ "e5e2d5", "adbfc6", "789cad" ];
+	    
+	    //var data_label = [ "LMA", "MMA", "HMA" ];
+	    //var data_description = [ "Low Minority Areas", "Mixed Minority Areas", "High Minority Areas" ];
+	    d3.select("body #key_bar_container")
+	    .append("div")
+	    .attr("id","key-container")
+	    .append("h3")
+	    .text(label)
+	    .style("margin-bottom", "0.5em");
+	    d3.select("body #key-container")
+	    .append("div")
+	    .attr("id","label-container");
+	    d3.select("body #key-container")
+	    .append("div")
+	    .attr("id","bar-container");
+	    d3.select("body #key-container")
+	    .append("div")
+	    .attr("id","tick-container");
+	    d3.select("body #key-container")
+	    .append("div")
+	    .attr("id","plabel-container");
+	    // d3.select("body #label-container").selectAll("div.bar")
+	    //   .data(data_value)
+	    //   .enter()
+	    //   .append("div")
+	    //   .style("width", function(d) {
+	    //     return d + "%";
+	    //     })
+	    //   .data(data_label)
+	    //   .append("h5").text(function(d) { return d; });
+	    d3.select("body #bar-container").selectAll("div.bar")
+	    .data(data_value)
+	    .enter()
+	    .append("div")
+	    .attr("class","bar")
+	    .style("width", function(d) {
+	    	return d + "%";
+	    });
+	    d3.select("body").selectAll("div.bar")
+	    .data(data_color)
+	    .style("background-color", function(d) {
+	    	return "#" + d;
+	    });
+	    d3.select("body").selectAll("div.bar")
+	    .data(data_opacity) 
+	    .style("opacity", function(d) {
+	    	return d;
+	    });  
+	    d3.select("body #tick-container").selectAll("div")
+	    .data(data_value)
+	    .enter()
+	    .append("div")
+	    .attr("class","tick")
+	    .style("padding-left", function(d) {
+	    	return d + "%";
+	    });
+	      // .style("margin-left", function(d) {
+	      //  return "-2px";
+	      //  });
+d3.select("body #plabel-container").selectAll("div.bar")
+.data(data_value)
+.enter()
+.append("div")
+.style("width", function(d) {
+	return d + "%";
+})
+.data(data_plabel)
+.append("h6").text(function(d) { return d; });
+}
+
+
+
+
+	  //***********************************************************************
+	  //***************Here goes the stuff for the  info***********************
+	  //***********************************************************************
+	  function getProjects() {
+	  	columnNames = getWhatToGet(projectFields);
+	  	var query = 'SELECT ' + columnNames + '  FROM ' + musrenbangFusionTableID;
+	  	getFusionTablesData(query, "parseProjects");
+	  }
+
+	  function parseData(data){
+	  	var rows = data['rows'];
+	    // Filling a TaffyDB with the information of the projects.
+	    for (var j in rows){
+	    	var tempObj = {};
+	    	tempObj["INDEX"] = j;
+	    	for (var i=0; i < dataFields.length; i++){
+	    		if(dataFields[i].KIND == "TEXT"){
+	    			tempObj[dataFields[i].KEY] = rows[j][i];
+	    		} else if(dataFields[i].KIND == "INTEGER") {
+	    			tempObj[dataFields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
+	    		} else {
+	    			tempObj[dataFields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
+	    		}
+	    	}
+	    	aggregateDataDatabase.insert(tempObj);
+	    }
+	}
+
+	function parseProjects(data){
+		var rows = data['rows'];
+	    // Filling a TaffyDB with the information of the projects.
+	    for (var j in rows){
+	    	var tempObj = {};
+	    	tempObj["INDEX"] = j;
+	    	for (var i=0; i < projectFields.length; i++){
+	    		if((projectFields[i].KEY == "PLANNED_BUDGET") || (projectFields[i].KEY == " EXECUTED_BUDGET")){
+	    			if(rows[j][i] == ""){
+	    				tempObj[projectFields[i].KEY] = 0;
+	    			} else {
+	    				tempObj[projectFields[i].KEY] = isNaN(parseInt(rows[j][i])) ? 0 : parseInt(rows[j][i]);
+	    			}
+	    		} else {
+	    			tempObj[projectFields[i].KEY] = rows[j][i];
+	    		}
+	    	}
+	    	tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
+	    	tempObj["SUBCATEGORY_TEXT"] = subcategories[tempObj.SUBCATEGORY].name;
+	    	projectDatabase.insert(tempObj);
+	    }
+	    mapSC.onProjectsParsed();
+	}
+	function projectCard(project, parent){
+		var li = document.createElement('li');
+		li.title = "Project ID: " + project.ID;
+		var input = document.createElement("input");
+		input.id = project.ID;
+		input.name = "accordion-1";
+		input.type = "radio"
+		li.appendChild(input);
+		var label = document.createElement("label");
+		label.htmlFor = project.ID;
+		label.className = "pc-" + project.SUBCATEGORY;
+		var icon = subcategoryIcons.getIcon(project.SUBCATEGORY);
+		label.appendChild(icon);
+		var div = document.createElement("div");
+		div.className = "text-block";
+		var h6 = document.createElement("h6");
+		h6.innerHTML = project.PROJECT_NAME;
+		div.appendChild(h6);
+		label.appendChild(div);
+		var stateIconsContainer = document.createElement("div");
+		stateIconsContainer.className = "state_icons_container";
+		stateIconsContainer.appendChild(projectStateIcons.getIcon(project.VOTED));
+		stateIconsContainer.appendChild(projectStateIcons.getIcon(project.IS_IT_EXECUTED));
+		label.appendChild(stateIconsContainer);
+		li.appendChild(label);
+		var article = document.createElement("article");
+		article.className = "ac-small";
+		var processPriority = document.createElement("p");
+		processPriority.innerHTML = "Project priority: " + project.PRIORITY;
+		article.appendChild(processPriority);
+		var plannedBudget = document.createElement("p");
+		plannedBudget.innerHTML = "Planned budget: " + numberWithCommas(project.PLANNED_BUDGET) + " IDR";
+		article.appendChild(plannedBudget);
+		var executedBudget = document.createElement("p");
+		executedBudget.innerHTML = "Executed budget: " + numberWithCommas(project.EXECUTED_BUDGET) + " IDR";
+		article.appendChild(executedBudget);        
+		li.appendChild(article);  
+		label.onclick = function(){
+			parent.setSelectedProject(project.ID);
+		};
+		this.getView = function(){
+			return li;
+		};
+	}
+	function fillProjectCards(kelurahan, years, subcategories, ghostOrNot, executedOrNot, parent){
+		var list = document.getElementById("list");
+		var ul = document.createElement("ul");
+		var projectTAFFY = TAFFY();
+		var projectCardArray = [];
+		for (var j=0; j < years.length; j++){
+			for (var k=0; k < subcategories.length; k++){
+				for (var l = 0; l < ghostOrNot.length; l++) {
+					for (var m = 0; m < executedOrNot.length; m++){
+						var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : subcategories[k], VOTED : ghostOrNot[l], IS_IT_EXECUTED : executedOrNot[m]}).get();
+						for (var i=0; i < projectsToShow.length; i++){
+							projectCardArray[i] = new projectCard(projectsToShow[i], parent);
+							ul.appendChild(projectCardArray[i].getView());
+							projectTAFFY.insert(projectsToShow[i]);
+						}
+						list.appendChild(ul);
+					}
+				}
+			}
+		}
+		return projectTAFFY;
+	}
+
+	function fillKelurahanSummaries(projects){
+		this.projects = projects;
+		this.list = document.getElementById("list");
+		for(var i = 0; i < kelurahans.length; i++){
+			var kelurahanSummary = document.createElement("div");
+			kelurahanSummary.style.cursor = 'pointer';
+			kelurahanSummary.kelurahanName =  kelurahans[i].getName();
+			var kname = document.createElement("h6");
+			kname.innerHTML = kelurahans[i].getName();
+			kelurahanSummary.appendChild(kname);
+			var budgetdiv = document.createElement("div");
+			var bb = new budgetBar("PLANNED_BUDGET", budgetdiv);
+			bb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName()}).get()));
+			kelurahanSummary.appendChild(budgetdiv);
+			kelurahanSummary.onclick = function(){
+				mapSC.selectKelurahanByName(this.kelurahanName);
+			}
+			this.list.appendChild(kelurahanSummary);
+		}
+	}
+
+
+	function showDataLayer(key, type, label){
+		this.label = label;
+		this.normalStyle = {};
+		this.onHoverStyle = {};
+		this.selectedStyle = {};
+		this.normalStyle = originalKelurahanShapeOptions;
+		this.onHoverStyle = onHoverKelurahanShapeOptions;
+		this.selectedStyle = activeKelurahanShapeOptions;
+		this.max = aggregateDataDatabase().max(key);
+		this.min = aggregateDataDatabase().min(key);
+		for (var i = kelurahans.length - 1; i >= 0; i--) {
+			var info = aggregateDataDatabase({KELURAHAN: kelurahans[i].getName()}).get()[0];
+			this.normalStyle.fillColor = percentageColor;
+			this.onHoverStyle.fillColor = percentageColor;
+			this.selectedStyle.fillColor = percentageColor;
+			this.normalStyle.fillOpacity = (info[key] - this.min)/(this.max - this.min);
+			this.onHoverStyle.fillOpacity = (info[key] - this.min)/(this.max - this.min);
+			this.selectedStyle.fillOpacity = (info[key] - this.min)/(this.max - this.min);
+			kelurahans[i].setStyles(this.normalStyle, this.selectedStyle, this.onHoverStyle);
+		};
+		mapKey(this.min, this.max, this.label); 
+	}
+	function emptyProjectCards(){
+		var list = document.getElementById("list");
+		list.innerHTML = "";
+	}
+	  //***********************************************************************
+	  //*************Here goes the stuff related to Fusion Tables**************
+	  //***********************************************************************
+	  function getFusionTablesData(query, callback){
+	  	var script = document.createElement('script');
+	  	var url = ['https://www.googleapis.com/fusiontables/v1/query?'];
+	  	url.push('sql=');
+	  	var encodedQuery = encodeURIComponent(query);
+	  	url.push(encodedQuery);
+	  	url.push('&callback=' + callback);
+	  	url.push('&key=AIzaSyAhX7a_0uyiA8DfW-4XJ6ZN_ay8GkAGrz0');
+	  	script.src = url.join('');
+	  	var body = document.getElementsByTagName('body')[0];
+	  	body.appendChild(script);
+	  }  
+	  function getWhatToGet(columnNames){
+	  	var whatToGet = "";
+	  	for (var i = 0; i < columnNames.length; i++){
+	  		whatToGet = whatToGet + columnNames[i].KEY + ", ";
+	  	}
+	  	whatToGet = whatToGet.substring(0, whatToGet.length - 2);
+	  	return whatToGet;
+	  }
+	  </script>
+	</body>
+
+	</html>
