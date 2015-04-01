@@ -81,7 +81,8 @@ p {
 }
 
 #kelurahan_selector_chosen {
-    margin-bottom: 12px;
+    background-color: #525252;
+    padding: 2px 12px 12px 12px;
     width: 100%;
 }
 #subcategory_filter_chosen {
