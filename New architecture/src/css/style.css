@@ -1,6 +1,95 @@
+/*============TYPOGRAPHY============*/
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Raleway', Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4 {
+    font-weight: 400;
+}
+
+h5, h6 {
+    font-weight: 500;
+}
+
+h1.pcaps, h2.pcaps, h3.pcaps, h4.pcaps, h5.pcaps, h6.pcaps {
+    text-transform: uppercase;
+    letter-spacing: 5px;    
+}
+
+h1 {
+    font-size: 2.5000em; /* 40px */
+    line-height: 1.0500em; /* 42px */
+}
+h2 {
+    font-size: 2.0000em; /* 32px */
+    line-height: 1.3125em; /* 42px */
+}
+h3 {
+    font-size: 1.7500em; /* 28px */
+    line-height: 1.5000em; /* 42px */
+}
+h4 {
+    font-size: 1.5000em; /* 24px */
+    line-height: 1.7500em; /* 42px */
+}
+h5 {
+    font-size: 1.1250em; /* 18px */
+    line-height: 1.5em; /* 21px */
+}
+h6 {
+    font-size: 1.0000em; /* 16px */
+    line-height: 1.3125em; /* 21px */
+}
+
+h1.serif, h2.serif, h3.serif, h4.serif, h5.serif, h6.serif {
+    font-family: 'Lora', Georgia, serif;
+}
+
+p {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 400;
+    font-size: 1em;
+    line-height: 1.5em;
+    color: #808080;
+}
+
+/*===============COLORS=================*/
+.pc-AR {
+    background-color: #003951;
+ }
+.pc-DR {
+    background-color: #7FA6B2;
+}
+.pc-IC {
+    background-color: #B65B46;
+}
+.pc-JA {
+    background-color: #4C4320;
+}
+.pc-LS { 
+    background-color: #E7922A;
+}
+.pc-SM {
+    background-color: #601D00;
+}
+.pc-SA {
+    background-color: #573649;
+}
+.pc-SR {
+    background-color: #C0B58F;
+}
+
+#kelurahan_selector_chosen {
+    margin-bottom: 12px;
+    width: 100%;
+}
+#subcategory_filter_chosen {
+    display: none;
+}
+
+
 /*============YEAR SELECTOR============*/
-
-
 
 #tools_container {
     background-color: transparent;
@@ -29,6 +118,10 @@
     background-color: #111;
 }*/
 
+.ui-buttonset .ui-button {
+  margin-left: 0;
+  margin-right: -.3em;
+}
 .ui-helper-hidden-accessible {
     border: 0;
     clip: rect(0 0 0 0);
@@ -43,12 +136,49 @@
     font-family: "Raleway",Verdana,Arial,sans-serif;
     font-size: 1em;
 }
+.ui-button .ui-button-text {
+  display: block;
+  line-height: normal;
+}
 .ui-button-text-only .ui-button-text {
-    padding: .25em 0.75em;
+    padding: .35em 0.75em;
+}
+.ui-button {
+  display: inline-block;
+  position: relative;
+  padding: 0;
+  line-height: normal;
+  margin-right: .1em;
+  cursor: pointer;
+  vertical-align: middle;
+  text-align: center;
+  overflow: visible;
 }
 
-/* Interaction states (for the year selector)
+/* Interaction states (for the filter selectors)
 ----------------------------------*/
+
+.filter-buttons > label {
+    font-size: 0.75em;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.filter-buttons > .ui-state-default {
+    background: #636363; 
+    color: #303030;
+    border-left: 0px solid #525252;
+    border-right: 1px solid #525252;
+}
+.filter-buttons > .ui-state-default:hover {
+    background: #444444; 
+    color: #ffffff;
+}
+.filter-buttons > .ui-state-active {
+    background: #303030; 
+    color: #ffffff;
+}
+
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
@@ -84,6 +214,20 @@
     border-top-right-radius: 0px;
 }
 
+/*=== KELURAHAN LIST ===*/
+#list > div {
+    padding: 10px 10px 40px 10px;
+    border-bottom: 1px solid #b6b6b6;
+}
+#list > div:hover {
+    background-color: #e1e1e1;
+    cursor:pointer;
+}
+#list > div p {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+
 /*============PROJECT LIST ACCORDION============*/
 
 #list-header h4 {
@@ -115,6 +259,7 @@
     z-index: 20;
     cursor: pointer;
     opacity: 0.85;
+    margin-bottom: 0px;
 }
 
 #list ul li label:hover{
@@ -140,7 +285,7 @@
 
 #list ul li label .text-block {
     display: inline-block;
-    max-width: 230px;
+    max-width: 210px;
     height: 60px;
     padding-left: 0.5em;
 }
@@ -207,7 +352,8 @@
 }
 
 #list ul li input:checked ~ article.ac-small{
-    height: 140px;
+    height: 100px;
+    padding-top: 0.5em;
 }
 .icon-block {
     background: rgba(0,0,0,0.1);

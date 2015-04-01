@@ -1,8 +1,15 @@
 #left-panel {
 	top: 300px;
 }
-#left-panel .row > div {
+#nav-bar, #kelurahan_search, #budget_info {
 	padding: 2px 12px;
+}
+#filter_conditions {
+	padding: 2px 12px 12px 12px;
+}
+#list {
+	margin: 0;
+	padding: 0;
 }
 #nav-bar {
 	background-color: #303030;
@@ -116,7 +123,7 @@
 	position: absolute;
     right: 10px;
     top: 10px;
-    width: 200px;
+    width: 240px;
     background-color: #f8f8f8;
     border: 1px solid #525252;
     padding: 0 15px;

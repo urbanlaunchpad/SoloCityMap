@@ -10,12 +10,13 @@
 	<title>Solo City Map / Structure</title>
 
 	<!-- STYLE -->
-	<link rel="stylesheet" type="text/css" href="src/css/style.css">
 	<link href='https://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 
-	<link rel="stylesheet" href="src/css/bootstrap.css">
-	<link rel="stylesheet" href="src/css/structure.css">
+    <link rel="stylesheet" href="./src/css/normalize.css">
+	<link rel="stylesheet" href="./src/css/bootstrap.css">
+	<link rel="stylesheet" href="./src/css/structure.css">
+	<link rel="stylesheet" href="./src/css/style.css">
 
 </head>
 
@@ -24,7 +25,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div id="nav-bar" class="hidden-md hidden-lg">
-				"This is where the nav and title go"
+				Solo City Map
 			</div>
 			<div id="map-canvas" class="col-md-8 col-lg-9 col-md-push-4 col-lg-push-3">
 				<div id="map-panel">
@@ -47,14 +48,14 @@
 			<div id="left-panel" class="col-md-4 col-lg-3 col-md-pull-8 col-lg-pull-9">
 				<div class="row">
 					<div id="nav-bar" class="hidden-xs hidden-sm">
-						"This is where the nav and title go"
+						Solo City Map
 					</div>
 					<div id="kelurahan_search">
 						<h1 id="kelurahan_name">Solo City Map</h5>
 						</div>
 						<div id="filter_conditions" class="hidden-xs hidden-sm">
-							<select id="kelurahan_selector" style="width: 320px;" data-placeholder="Select a kelurahan" title="Select a Kelurahan to see its projects."></select>
-							<select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none" title="Here you can toggle which categories you want to show."></select>
+							<select id="kelurahan_selector" style="width: 100%;" data-placeholder="Select a kelurahan" title="Select a Kelurahan to see its projects."></select>
+							<select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 320px; display:none;" title="Here you can toggle which categories you want to show."></select>
 							<div id="was_voted_filter" class="filter-buttons" title="Filter if you want to show the projects that went trough the complete musrenbang process and the projects that were executed without voting.">			
 								<input type="checkbox" id="was_voted_filter_ALL" value="ALL"></input>
 								<label for="was_voted_filter_ALL" title="Toggle to show all the categories.">All</label>
@@ -97,7 +98,7 @@
 
 		</div>
 	<!-- jquery and jquery UI -->
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">	
+	<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">	 -->
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<!-- MAPBOX -->
