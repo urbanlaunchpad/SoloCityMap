@@ -1,4 +1,10 @@
-
+body {
+  color: black;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 100%;
+  line-height: 1.375;
+  background-color: #f1f1f1;
+}
 h1,
 .h1,
 h2,

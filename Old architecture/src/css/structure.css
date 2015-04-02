@@ -1,0 +1,288 @@
+.bar_element{
+    width: 12.5%;
+    height: 16px;
+    float: left;
+    margin-top: 8px;
+    margin-left:0px;
+    margin-right:0px;
+    padding-left:0px;
+    padding-right:0px
+}
+
+.JA {
+    background-color: #4C4320;
+}
+
+.SA {
+    background-color: #573649;
+}
+
+.SM {
+    background-color: #601D00;
+}
+
+.LS {
+    background-color: #E7922A;
+}
+
+.AR {
+    background-color: #003951;
+}
+
+.IC {
+    background-color: #B65B46;
+}
+
+.DR {
+    background-color: #7FA6B2;
+}
+
+.SR {
+    background-color: #C0B58F;  
+}
+
+/*
+ * -- LAYOUT STYLES --
+ * This layout consists of three main elements, `#nav` (navigation bar), `#list` (email list), and `#main` (email content). All 3 elements are within `#layout`
+ */
+
+#layout,
+#nav,
+#list,
+#list-header,
+#tools_container,
+#main {
+    margin: 0;
+    padding: 0;
+}
+
+#main {
+    width: 100%;
+    height: 24em;
+    position: relative;
+}
+
+#list-header {
+    width: 100%;
+    height: 2.5em;
+    position: relative;
+    border-bottom: 2px solid #bdbdbd;
+}
+
+#list {
+    top: 29em;
+    height: 100%;
+    border-top: 1px solid #bdbdbd;
+}
+
+#layers_button {
+    height: 2.5em;
+    width: 2.5em;
+    background-size: 100%; 
+    background-image: url(../img/png/layer.png);
+    float: right;
+}
+
+#year_selector{
+    float: right;
+}
+
+#kelurahan_name {
+    pointer-events: none;   
+    height: auto;
+    position: relative;
+    margin: 1em;
+    display: block;
+    position: absolute;
+    padding: 8px 16px;
+    top: 10px;
+    left: 10px;
+}
+
+
+#tools_container {
+    height: auto;
+    margin: 1em;
+    border: 1px solid #bdbdbd;
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 8px 16px;
+}
+
+#key_bar_container {
+    height: auto;
+    margin: 1em;
+    border: 1px solid #bdbdbd;
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 8px 16px;
+}
+
+
+/* Make the navigation 100% width on phones */
+
+#nav {
+    width: 100%;
+    height: 2.5em;
+    position: relative;
+    text-align: center;
+}
+
+/* Show the "Menu" button on phones */
+
+#nav .nav-menu-button {
+    display: block;
+    top: 0.5em;
+    right: 0.5em;
+    position: absolute;
+}
+
+/* When "Menu" is clicked, the navbar should be 80% height */
+
+#nav.active {
+    height: 80%;
+}
+
+/* Don't show the navigation items... */
+
+.nav-inner {
+    display: none;
+}
+
+/* ...until the "Menu" button is clicked */
+
+#nav.active .nav-inner {
+    display: block;
+    padding: 2em 0;
+}
+
+/*
+ * -- NAV BAR STYLES --
+ * Styling the default .pure-menu to look a little more unique.
+ */
+
+#nav .pure-menu.pure-menu-open {
+    background: transparent;
+    border: none;
+    text-align: left;
+}
+
+#nav .pure-menu a:hover,
+#nav .pure-menu a:focus {
+    background: rgb(55, 60, 90);
+}
+
+#nav .pure-menu a {
+    color: #fff;
+    margin-left: 0.5em;
+}
+
+#nav .pure-menu-heading {
+    border-bottom: none;
+    font-size: 110%;
+    color: rgb(75, 113, 151);
+}
+
+/*
+ * -- TABLET (AND UP) MEDIA QUERIES --
+ * On tablets and other medium-sized devices, we want to customize some
+ * of the mobile styles.
+ */
+@media (min-width: 40em) {
+
+    /* Move the layout over so we can fit the nav + list in on the left */
+    #layout {
+        padding-left:500px; /* "left col (nav + list)" width */
+        position: relative;
+    }
+
+    /* These are position:fixed; elements that will be in the left 500px of the screen */
+    #nav, #list, #list-header {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        overflow: auto;
+    }
+    #nav {
+        margin-left:-500px; /* "left col (nav + list)" width */
+        width:150px;
+        height: 100%;
+    }
+
+    /* Show the menu items on the larger screen */
+    .nav-inner {
+        display: block;
+        padding: 2em 0;
+    }
+
+    /* Hide the "Menu" button on larger screens */
+    #nav .nav-menu-button {
+        display: none;
+    }
+
+    #list, #list-header {
+        margin-left: -350px;
+        width: 100%;
+    }
+
+    #list {
+        height: 160px;
+        top: 4em;
+        border-bottom: 1px solid #bdbdbd;
+    }
+
+    #list-header {
+        height: 4em;
+    }
+
+    #main {
+        position: fixed;
+        top: 30%;
+        right: 0;
+        bottom: 0;
+        margin-bottom: 0;
+        left: 150px;
+        overflow: auto;
+        width: auto; /* so that it's not 100% */
+        height: 70%;
+    }
+
+}
+
+/*
+ * -- DESKTOP (AND UP) MEDIA QUERIES --
+ * On desktops and other large-sized devices, we want to customize some
+ * of the mobile styles.
+ */
+@media (min-width: 60em) {
+
+    /* This will take up the entire height, and be a little thinner */
+    #list, #list-header {
+        margin-left: -350px;
+        width:350px;
+    }
+
+    #list {
+        top: 20em;
+        height: auto;        
+    }
+
+    #list-header {
+        height: 18em;
+        padding-top: 2em;
+    }
+
+    /* This will now take up it's own column, so don't need position: fixed; */
+    #main {
+        /*position: static;*/
+        top: 0;
+        margin: 0;
+        padding: 0;
+        margin-left: 350px;
+        height: 100%;
+    }
+}
