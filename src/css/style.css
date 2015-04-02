@@ -90,11 +90,8 @@ p {
 #kelurahan_selector_chosen {
     padding: 2px 12px 12px 12px;
     width: 100%;
+    background-color: #525252;
 }
-#subcategory_filter_chosen {
-    display: none;
-}
-
 
 /*============YEAR SELECTOR============*/
 
