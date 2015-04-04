@@ -1185,8 +1185,8 @@ d3.select("body #plabel-container").selectAll("div.bar")
       var executedName = getNameFromKey(projectFields, "EXECUTED_BUDGET", "NAME");
 			var pb = new budgetBar("PLANNED_BUDGET", plannedName, planned_budgetdiv);
       var eb = new budgetBar("EXECUTED_BUDGET", executedName, executed_budgetdiv); 
-			pb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName()}).get()));
-      eb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName()}).get()));
+			pb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName(), "VOTED" : "VO"}).get()));
+      eb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName(), "IS_IT_EXECUTED" : "YES"}).get()));
 			kelurahanSummary.appendChild(planned_budgetdiv);
       kelurahanSummary.appendChild(executed_budgetdiv);
 			kelurahanSummary.onclick = function(){
