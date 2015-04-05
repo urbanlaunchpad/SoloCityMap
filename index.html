@@ -320,7 +320,7 @@
 	  	this.filters = document.getElementById("filter_conditions");
 	  	this.GPFilter = new ghostProjectFilters(this);
 	  	this.EPFilter = new executedProjectFilters(this);
-	  	this.BBar = new budgetBar("PLANNED_BUDGET", document.getElementById("budget_info"));
+	  	this.BBar = new budgetBar("PLANNED_BUDGET", getNameFromKey(projectFields, "PLANNED_BUDGET", "NAME"), document.getElementById("budget_info"));
 	  	this.kelSelect = null;
 	  	this.isKelurahanParsed = false;
 	  	this.isProjectParsed = false;
@@ -679,9 +679,12 @@
 			return selectedSubcategories;
 		}
 	}
-	function budgetBar(key_name, div){
+	function budgetBar(key_name, name, div){
 		this.div = div;
-		this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>Planned budget: <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="Jalan"></div><div class="bar_element SA" title="Sanitasi"></div><div class="bar_element SM" title="Mannakemen sampah"></div><div class="bar_element LS" title="Listrik"></div><div class="bar_element AR" title="Air Bersih"></div><div class="bar_element IC" title="Informasi dan komunicasi"></div><div class="bar_element DR" title="Drainase"></div><div class="bar_element SR" title="Saran lainnyn"></div></div>  '
+    this.key_name = key_name;
+    this.name = name;
+    console.log(this.name);
+		this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>' + this.name + ': <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="Jalan"></div><div class="bar_element SA" title="Sanitasi"></div><div class="bar_element SM" title="Mannakemen sampah"></div><div class="bar_element LS" title="Listrik"></div><div class="bar_element AR" title="Air Bersih"></div><div class="bar_element IC" title="Informasi dan komunicasi"></div><div class="bar_element DR" title="Drainase"></div><div class="bar_element SR" title="Saran lainnyn"></div></div>  '
 		this.budgetView = this.div.getElementsByClassName("total_budget")[0];
 		this.budgetBar = this.div.getElementsByClassName("budget_bar")[0];
 		this.projectNumber = this.div.getElementsByClassName("total_projects")[0];
@@ -690,7 +693,6 @@
 		this.projectCounts = [];
 		this.totalBudget = 0;
 		this.budgets = [];
-		this.key_name = key_name;
 		for (var key in subcategories){
 			this.budgetBars.push(this.div.getElementsByClassName(key)[0]);
 		}
@@ -901,6 +903,21 @@
 			return this.icons[code].cloneNode();
 		}
 	}
+  this.getNameFromKey = function(JSONelement, key_name, name_name){
+    this.JSONelement =JSONelement;
+    this.key_name = key_name;
+    this.name_name = name_name;
+    this.name_value = null;
+    for (var key in JSONelement) {
+      if (JSONelement.hasOwnProperty(key)) {
+          if (JSONelement[key].KEY == this.key_name) {
+            this.name_value = JSONelement[key][this.name_name];
+            break;
+        }
+      }
+    }
+    return this.name_value;
+  }
 	function constructNewCoordinates(polygon) {
 		var newCoordinates = [];
 		var coordinates = polygon['coordinates'][0];
@@ -1069,7 +1086,7 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	    	var tempObj = {};
 	    	tempObj["INDEX"] = j;
 	    	for (var i=0; i < projectFields.length; i++){
-	    		if((projectFields[i].KEY == "PLANNED_BUDGET") || (projectFields[i].KEY == " EXECUTED_BUDGET")){
+	    		if((projectFields[i].KEY == "PLANNED_BUDGET") || (projectFields[i].KEY == "EXECUTED_BUDGET")){
 	    			if(rows[j][i] == ""){
 	    				tempObj[projectFields[i].KEY] = 0;
 	    			} else {
@@ -1162,10 +1179,16 @@ d3.select("body #plabel-container").selectAll("div.bar")
 			var kname = document.createElement("h6");
 			kname.innerHTML = kelurahans[i].getName();
 			kelurahanSummary.appendChild(kname);
-			var budgetdiv = document.createElement("div");
-			var bb = new budgetBar("PLANNED_BUDGET", budgetdiv);
-			bb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName()}).get()));
-			kelurahanSummary.appendChild(budgetdiv);
+			var planned_budgetdiv = document.createElement("div");
+      var executed_budgetdiv = document.createElement("div");
+      var plannedName = getNameFromKey(projectFields, "PLANNED_BUDGET", "NAME");
+      var executedName = getNameFromKey(projectFields, "EXECUTED_BUDGET", "NAME");
+			var pb = new budgetBar("PLANNED_BUDGET", plannedName, planned_budgetdiv);
+      var eb = new budgetBar("EXECUTED_BUDGET", executedName, executed_budgetdiv); 
+			pb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName(), "VOTED" : "VO"}).get()));
+      eb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName(), "IS_IT_EXECUTED" : "YES"}).get()));
+			kelurahanSummary.appendChild(planned_budgetdiv);
+      kelurahanSummary.appendChild(executed_budgetdiv);
 			kelurahanSummary.onclick = function(){
 				mapSC.selectKelurahanByName(this.kelurahanName);
 			}
