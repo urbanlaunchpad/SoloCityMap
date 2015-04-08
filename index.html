@@ -346,16 +346,24 @@
 	        this.kelSelect.selectKelurahan(kelurahanToSelect.name);
 	    }
 	    this.selectKelurahanByName = function(kelurahanName){
-	    	for (var i = kelurahans.length - 1; i >= 0; i--) {
+	    	this.kelurahanName = kelurahanName;
+	    	this.selectKelurahan(this.getKelurahanByName(this.kelurahanName));
+	    }
+	    this.getKelurahanByName = function(kelurahanName){
+	    	this.kelurahanName = kelurahanName;
+	    	this.kelurahan = null;
+	    		    	for (var i = kelurahans.length - 1; i >= 0; i--) {
 	    		if (kelurahans[i].name == kelurahanName){
-	    			this.selectKelurahan(kelurahans[i]);
+	    			this.kelurahan = kelurahans[i];
 	    			break;
 	    		}
 	    	};
+	    	return this.kelurahan;
 	    }
 	    this.onKelurahanMouseOver = function(kelurahan){
 	    	if(kelurahan != selectedKelurahan){
 	    		document.getElementById("kelurahan_name").innerHTML = kelurahan.name;
+	    		kelurahan.setStyle(kelurahan.onMouseOverStyle);
 	    	}
 	    }
 	    this.onKelurahanClick = function(kelurahan){
@@ -367,6 +375,11 @@
 	    	} else {
 	    		document.getElementById("kelurahan_name").innerHTML = this.originalKelurahanTitle;
 	    	}
+	    	if(!kelurahan.selected){
+					kelurahan.setStyle(kelurahan.normalStyle);
+				} else {
+					kelurahan.setStyle(kelurahan.selectedStyle);
+				}
 	    }
 	    this.onProjectsParsed = function(){
 	    	this.initializeYearSelector();
@@ -683,7 +696,6 @@
 		this.div = div;
     this.key_name = key_name;
     this.name = name;
-    console.log(this.name);
 		this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>' + this.name + ': <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="Jalan"></div><div class="bar_element SA" title="Sanitasi"></div><div class="bar_element SM" title="Mannakemen sampah"></div><div class="bar_element LS" title="Listrik"></div><div class="bar_element AR" title="Air Bersih"></div><div class="bar_element IC" title="Informasi dan komunicasi"></div><div class="bar_element DR" title="Drainase"></div><div class="bar_element SR" title="Saran lainnyn"></div></div>  '
 		this.budgetView = this.div.getElementsByClassName("total_budget")[0];
 		this.budgetBar = this.div.getElementsByClassName("budget_bar")[0];
@@ -840,17 +852,9 @@
 				mapSC.onKelurahanClick(that);
 			});
 			this.kelurahanShape.on('mouseover', function(){
-				if(!that.selected){
-					that.setStyle(that.onMouseOverStyle);
-				}
 				mapSC.onKelurahanMouseOver(that);
 			});
 			this.kelurahanShape.on('mouseout', function(){ 
-				if(!that.selected){
-					that.setStyle(that.normalStyle);
-				} else {
-					that.setStyle(that.selectedStyle);
-				}
 				mapSC.onKelurahanMouseOut(that);
 			});          
 		}
@@ -1191,6 +1195,12 @@ d3.select("body #plabel-container").selectAll("div.bar")
       kelurahanSummary.appendChild(executed_budgetdiv);
 			kelurahanSummary.onclick = function(){
 				mapSC.selectKelurahanByName(this.kelurahanName);
+			}
+			kelurahanSummary.onmouseover = function(){
+				mapSC.onKelurahanMouseOver(mapSC.getKelurahanByName(this.kelurahanName));
+			}
+			kelurahanSummary.onmouseout = function(){
+				mapSC.onKelurahanMouseOut(mapSC.getKelurahanByName(this.kelurahanName));
 			}
 			this.list.appendChild(kelurahanSummary);
 		}
