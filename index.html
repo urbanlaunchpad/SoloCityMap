@@ -373,8 +373,6 @@
 	    	if(this.isKelurahanParsed){
 	    		state = possibleStates.Main;
 	    		this.filteringChanged();
-	    		this.PBBar.updateBar(projectDatabase);
-	    		this.EBBar.updateBar(projectDatabase);
 	    	}
 	    }
 	    this.onKelurahansParsed = function(){
@@ -384,8 +382,6 @@
 	    	if(this.isProjectParsed){
 	    		state = possibleStates.Main;  
 	    		this.filteringChanged();
-	    		this.PBBar.updateBar(projectDatabase);
-	    		this.EBBar.updateBar(projectDatabase);
 	    	}
 	    }
 	    this.initializeYearSelector = function(){
@@ -436,11 +432,19 @@
 	  		this.EBBar.updateBar(cardData);
 	  		break;
 	  	}
-	  }
+	  }	
 	  this.goToMainView = function(){
 	  	this.state = possibleStates.Main;
 	  	emptyProjectCards();
 	  	fillKelurahanSummaries(projectDatabase);
+	  	var projectsToSummarize = TAFFY();
+	  	for (var i = 0; i < yearCheckboxes.length; i++){
+	  		if(yearCheckboxes[i].checked){
+	  				projectsToSummarize.insert(projectDatabase({ YEAR : ("" + yearCheckboxes[i].year)}).get())
+	  			}
+	  		}
+	  		this.PBBar.updateBar(TAFFY(projectsToSummarize({"VOTED" : "VO"}).get()));
+      	this.EBBar.updateBar(TAFFY(projectsToSummarize({"IS_IT_EXECUTED" : "YES"}).get()));
 	  }
 	  this.setSelectedProject = function(projectID){
 	  	if(selectedProjectID != null){
