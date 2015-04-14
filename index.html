@@ -428,15 +428,21 @@
 	  		var exFilterSelected = this.EPFilter.getActiveFilter();
 	  		emptyProjectCards();
 	  		var cardData = fillProjectCards(selectedKelurahan.name, years, scSelected, gpFilterSelected, exFilterSelected, this);
-	  		this.PBBar.updateBar(cardData);
-	  		this.EBBar.updateBar(cardData);
+	  		this.PBBar.updateBar(TAFFY(cardData({"VOTED" : "VO"}).get()));
+      	this.EBBar.updateBar(TAFFY(cardData({"IS_IT_EXECUTED" : "YES"}).get()));
 	  		break;
 	  	}
 	  }	
 	  this.goToMainView = function(){
 	  	this.state = possibleStates.Main;
 	  	emptyProjectCards();
-	  	fillKelurahanSummaries(projectDatabase);
+	  	var projectsToSummarize = TAFFY();
+	  	for (var i = 0; i < yearCheckboxes.length; i++){
+	  		if(yearCheckboxes[i].checked){
+	  			projectsToSummarize.insert(projectDatabase({ YEAR : ("" + yearCheckboxes[i].year)}).get())
+	  		}
+	  	}
+	  	fillKelurahanSummaries(projectsToSummarize);
 	  	var projectsToSummarize = TAFFY();
 	  	for (var i = 0; i < yearCheckboxes.length; i++){
 	  		if(yearCheckboxes[i].checked){
@@ -1183,7 +1189,7 @@ d3.select("body #plabel-container").selectAll("div.bar")
       var plannedName = getNameFromKey(projectFields, "PLANNED_BUDGET", "NAME");
       var executedName = getNameFromKey(projectFields, "EXECUTED_BUDGET", "NAME");
 			var pb = new budgetBar("PLANNED_BUDGET", plannedName, planned_budgetdiv);
-      var eb = new budgetBar("EXECUTED_BUDGET", executedName, executed_budgetdiv); 
+      var eb = new budgetBar("EXECUTED_BUDGET", executedName, executed_budgetdiv);
 			pb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName(), "VOTED" : "VO"}).get()));
       eb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName(), "IS_IT_EXECUTED" : "YES"}).get()));
 			kelurahanSummary.appendChild(planned_budgetdiv);
