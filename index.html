@@ -73,23 +73,8 @@
 								<label for="is_it_executed_filter_NO">Not Implemented</label>
 							</div>		 
 						</div>
-						<div id="budget_info">
-							<div class="budget_data">
-								<div class="budget_amount">
-									<h6>Planned budget</h6>
-									<h3><span class="total_budget">204,200,000</span> IDR</h3>
-								</div>
-								<div class="budget_projects">
-									<h6>Projects</h6>
-									<h3>17</h3>
-								</div>
-							</div>
-							<div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category.">
-								<div class="bar_element SR" title="Saran lainnyn: 15 projects, 169,250,000 IDR, 82.9 %" style="width: 82.9%;"></div>
-								<div class="bar_element DR" title="Drainase: 1 projects, 19,950,000 IDR, 9.8 %" style="width: 9.8%;"></div>
-								<div class="bar_element JA" title="Jalan: 1 projects, 15,000,000 IDR, 7.3 %" style="width: 7.3%;"></div>
-							</div>
-						</div>
+						<div id="planned_budget_info"></div>
+						<div id="executed_budget_info"></div>
 						<div id="list">
 						</div>
 					</div>
@@ -320,7 +305,8 @@
 	  	this.filters = document.getElementById("filter_conditions");
 	  	this.GPFilter = new ghostProjectFilters(this);
 	  	this.EPFilter = new executedProjectFilters(this);
-	  	this.BBar = new budgetBar("PLANNED_BUDGET", getNameFromKey(projectFields, "PLANNED_BUDGET", "NAME"), document.getElementById("budget_info"));
+	  	this.PBBar = new budgetBar("PLANNED_BUDGET", getNameFromKey(projectFields, "PLANNED_BUDGET", "NAME"), document.getElementById("planned_budget_info"));
+	  	this.EBBar = new budgetBar("EXECUTED_BUDGET", getNameFromKey(projectFields, "EXECUTED_BUDGET", "NAME"), document.getElementById("executed_budget_info"));
 	  	this.kelSelect = null;
 	  	this.isKelurahanParsed = false;
 	  	this.isProjectParsed = false;
@@ -442,14 +428,29 @@
 	  		var exFilterSelected = this.EPFilter.getActiveFilter();
 	  		emptyProjectCards();
 	  		var cardData = fillProjectCards(selectedKelurahan.name, years, scSelected, gpFilterSelected, exFilterSelected, this);
-	  		this.BBar.updateBar(cardData);
+	  		this.PBBar.updateBar(TAFFY(cardData({"VOTED" : "VO"}).get()));
+      	this.EBBar.updateBar(TAFFY(cardData({"IS_IT_EXECUTED" : "YES"}).get()));
 	  		break;
 	  	}
-	  }
+	  }	
 	  this.goToMainView = function(){
 	  	this.state = possibleStates.Main;
 	  	emptyProjectCards();
-	  	fillKelurahanSummaries(projectDatabase);
+	  	var projectsToSummarize = TAFFY();
+	  	for (var i = 0; i < yearCheckboxes.length; i++){
+	  		if(yearCheckboxes[i].checked){
+	  			projectsToSummarize.insert(projectDatabase({ YEAR : ("" + yearCheckboxes[i].year)}).get())
+	  		}
+	  	}
+	  	fillKelurahanSummaries(projectsToSummarize);
+	  	var projectsToSummarize = TAFFY();
+	  	for (var i = 0; i < yearCheckboxes.length; i++){
+	  		if(yearCheckboxes[i].checked){
+	  				projectsToSummarize.insert(projectDatabase({ YEAR : ("" + yearCheckboxes[i].year)}).get())
+	  			}
+	  		}
+	  		this.PBBar.updateBar(TAFFY(projectsToSummarize({"VOTED" : "VO"}).get()));
+      	this.EBBar.updateBar(TAFFY(projectsToSummarize({"IS_IT_EXECUTED" : "YES"}).get()));
 	  }
 	  this.setSelectedProject = function(projectID){
 	  	if(selectedProjectID != null){
@@ -1079,7 +1080,7 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	    			tempObj[dataFields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
 	    		}
 	    	}
-	    	aggregateDataDatabase.insert(tempObj);
+	    	aggregateDataDatabase	.insert(tempObj);
 	    }
 	}
 
@@ -1188,7 +1189,7 @@ d3.select("body #plabel-container").selectAll("div.bar")
       var plannedName = getNameFromKey(projectFields, "PLANNED_BUDGET", "NAME");
       var executedName = getNameFromKey(projectFields, "EXECUTED_BUDGET", "NAME");
 			var pb = new budgetBar("PLANNED_BUDGET", plannedName, planned_budgetdiv);
-      var eb = new budgetBar("EXECUTED_BUDGET", executedName, executed_budgetdiv); 
+      var eb = new budgetBar("EXECUTED_BUDGET", executedName, executed_budgetdiv);
 			pb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName(), "VOTED" : "VO"}).get()));
       eb.updateBar(TAFFY(projects({"KELURAHAN" : kelurahans[i].getName(), "IS_IT_EXECUTED" : "YES"}).get()));
 			kelurahanSummary.appendChild(planned_budgetdiv);
