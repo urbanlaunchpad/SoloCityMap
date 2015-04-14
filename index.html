@@ -73,23 +73,8 @@
 								<label for="is_it_executed_filter_NO">Not Implemented</label>
 							</div>		 
 						</div>
-						<div id="budget_info">
-							<div class="budget_data">
-								<div class="budget_amount">
-									<h6>Planned budget</h6>
-									<h3><span class="total_budget">204,200,000</span> IDR</h3>
-								</div>
-								<div class="budget_projects">
-									<h6>Projects</h6>
-									<h3>17</h3>
-								</div>
-							</div>
-							<div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category.">
-								<div class="bar_element SR" title="Saran lainnyn: 15 projects, 169,250,000 IDR, 82.9 %" style="width: 82.9%;"></div>
-								<div class="bar_element DR" title="Drainase: 1 projects, 19,950,000 IDR, 9.8 %" style="width: 9.8%;"></div>
-								<div class="bar_element JA" title="Jalan: 1 projects, 15,000,000 IDR, 7.3 %" style="width: 7.3%;"></div>
-							</div>
-						</div>
+						<div id="planned_budget_info"></div>
+						<div id="executed_budget_info"></div>
 						<div id="list">
 						</div>
 					</div>
@@ -320,7 +305,8 @@
 	  	this.filters = document.getElementById("filter_conditions");
 	  	this.GPFilter = new ghostProjectFilters(this);
 	  	this.EPFilter = new executedProjectFilters(this);
-	  	this.BBar = new budgetBar("PLANNED_BUDGET", getNameFromKey(projectFields, "PLANNED_BUDGET", "NAME"), document.getElementById("budget_info"));
+	  	this.PBBar = new budgetBar("PLANNED_BUDGET", getNameFromKey(projectFields, "PLANNED_BUDGET", "NAME"), document.getElementById("planned_budget_info"));
+	  	this.EBBar = new budgetBar("EXECUTED_BUDGET", getNameFromKey(projectFields, "EXECUTED_BUDGET", "NAME"), document.getElementById("executed_budget_info"));
 	  	this.kelSelect = null;
 	  	this.isKelurahanParsed = false;
 	  	this.isProjectParsed = false;
@@ -387,7 +373,8 @@
 	    	if(this.isKelurahanParsed){
 	    		state = possibleStates.Main;
 	    		this.filteringChanged();
-	    		this.BBar.updateBar(projectDatabase);
+	    		this.PBBar.updateBar(projectDatabase);
+	    		this.EBBar.updateBar(projectDatabase);
 	    	}
 	    }
 	    this.onKelurahansParsed = function(){
@@ -397,7 +384,8 @@
 	    	if(this.isProjectParsed){
 	    		state = possibleStates.Main;  
 	    		this.filteringChanged();
-	    		this.BBar.updateBar(projectDatabase);
+	    		this.PBBar.updateBar(projectDatabase);
+	    		this.EBBar.updateBar(projectDatabase);
 	    	}
 	    }
 	    this.initializeYearSelector = function(){
@@ -444,7 +432,8 @@
 	  		var exFilterSelected = this.EPFilter.getActiveFilter();
 	  		emptyProjectCards();
 	  		var cardData = fillProjectCards(selectedKelurahan.name, years, scSelected, gpFilterSelected, exFilterSelected, this);
-	  		this.BBar.updateBar(cardData);
+	  		this.PBBar.updateBar(cardData);
+	  		this.EBBar.updateBar(cardData);
 	  		break;
 	  	}
 	  }
