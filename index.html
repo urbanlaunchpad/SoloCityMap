@@ -245,11 +245,13 @@
 	  				var opDiv = document.createElement("option");
 	  				opDiv.innerHTML = dataFields[i]["CLASS_NAME"];
 	  				opDiv.disabled = true;
+	  				opDiv.className = "data_divider";
 	  				aggregate_data_selector.appendChild(opDiv);
 	  			} else if ((i > 0)&&((dataFields[i]["CLASS_NAME"] != "KEY")&&(dataFields[i]["CLASS_NAME"] != dataFields[i-1]["CLASS_NAME"]))) {
 	  				var opDiv = document.createElement("option");
 	  				opDiv.innerHTML = dataFields[i]["CLASS_NAME"];
 	  				opDiv.disabled = true;
+	  				opDiv.className = "data_divider";
 	  				aggregate_data_selector.appendChild(opDiv);
 	  			}
 	  			var option = document.createElement("option");
