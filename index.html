@@ -241,6 +241,17 @@
 	  	var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
 	  	for (var i = 0; i < dataFields.length; i++) {
 	  		if(!(dataFields[i]["CLASS_NAME"] == "KEY")){
+	  			if((i == 0)&&(dataFields[i]["CLASS_NAME"] != "KEY")){
+	  				var opDiv = document.createElement("option");
+	  				opDiv.innerHTML = dataFields[i]["CLASS_NAME"];
+	  				opDiv.disabled = true;
+	  				aggregate_data_selector.appendChild(opDiv);
+	  			} else if ((i > 0)&&((dataFields[i]["CLASS_NAME"] != "KEY")&&(dataFields[i]["CLASS_NAME"] != dataFields[i-1]["CLASS_NAME"]))) {
+	  				var opDiv = document.createElement("option");
+	  				opDiv.innerHTML = dataFields[i]["CLASS_NAME"];
+	  				opDiv.disabled = true;
+	  				aggregate_data_selector.appendChild(opDiv);
+	  			}
 	  			var option = document.createElement("option");
 	  			option.value = dataFields[i]["KEY"];
 	  			option.type = dataFields[i]["TYPE"];
