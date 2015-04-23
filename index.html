@@ -1,57 +1,44 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Basic site structure buildout.">
-
-	<title>Solo City Map / Structure</title>
-
-	<!-- STYLE -->
-	<link href='https://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>
-	<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-
-    <link rel="stylesheet" href="./src/css/normalize.css">
-	<link rel="stylesheet" href="./src/css/bootstrap.css">
-	<link rel="stylesheet" href="./src/css/structure.css">
-	<link rel="stylesheet" href="./src/css/style.css">
-</head>
-
-<body>
-
-	<div class="container-fluid">
-		<div class="row">
-			<div id="nav-bar" class="hidden-md hidden-lg">
-				Solo City Map
-			</div>
-			<div id="map-canvas" class="col-md-8 col-lg-9 col-md-push-4 col-lg-push-3">
-				<div id="map-panel">
-					<div id="tools_container">
-					  <button type="button" id="layers_button" title="Open this menu to show the possible data layers available."></button>
-					  <div id="year_selector" title="Here you can filter the projects by year selecting one or more from the bar.">
-					      <p>Tahun penyaring</p>
-					  </div>
-					  <div id="layer_tools" style="display:none">
-					    <select id="aggregate_data_selector" title="Choose which data layer to show.">
-					      <option value="" disabled="disabled" selected="selected">Select a data layer</option>
-					    </select>
-					  </div>
-					</div>
-					<div id="key_bar_container"></div>
-				</div>
-				<div id="map">
-				</div>
-			</div>
-			<div class="clearfix visible-sm-block visible-xs-block"></div>
-			<div id="left-panel" class="col-md-4 col-lg-3 col-md-pull-8 col-lg-pull-9">
-				<div class="row">
-					<div id="nav-bar" class="hidden-xs hidden-sm">
-						Solo City Map
-					</div>
-					<div id="kelurahan_search">
-						<h1 id="kelurahan_name">Solo City Map</h5>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Basic site structure buildout.">
+        <title>Solo City Map / Structure</title>
+        <!-- STYLE -->
+        <link href='https://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="./src/css/normalize.css">
+        <link rel="stylesheet" href="./src/css/bootstrap.css">
+        <link rel="stylesheet" href="./src/css/structure.css">
+        <link rel="stylesheet" href="./src/css/style.css"> </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div id="nav-bar" class="hidden-md hidden-lg"> Solo City Map </div>
+                <div id="map-canvas" class="col-md-8 col-lg-9 col-md-push-4 col-lg-push-3">
+                    <div id="map-panel">
+                        <div id="tools_container">
+                            <button type="button" id="layers_button" title="Open this menu to show the possible data layers available."></button>
+                            <div id="year_selector" title="Here you can filter the projects by year selecting one or more from the bar.">
+                                <p>Tahun penyaring</p>
+                            </div>
+                            <div id="layer_tools" style="display:none">
+                                <select id="aggregate_data_selector" title="Choose which data layer to show.">
+                                    <option value="" disabled="disabled" selected="selected">Select a data layer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="key_bar_container"></div>
+                    </div>
+                    <div id="map"> </div>
+                </div>
+                <div class="clearfix visible-sm-block visible-xs-block"></div>
+                <div id="left-panel" class="col-md-4 col-lg-3 col-md-pull-8 col-lg-pull-9">
+                    <div class="row">
+                        <div id="nav-bar" class="hidden-xs hidden-sm"> Solo City Map </div>
+                        <div id="kelurahan_search">
+                            <h1 id="kelurahan_name">Solo City Map</h5>
 						</div>
 						<select id="kelurahan_selector" style="width: 98.75%;" class="hidden-xs hidden-sm" data-placeholder="Select a kelurahan" title="Select a Kelurahan to see its projects."></select>
 						<div id="filter_conditions" class="hidden-xs hidden-sm" style="display:none;">
@@ -80,7 +67,6 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 	<!-- jquery and jquery UI -->
 	<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">	 -->
@@ -123,7 +109,6 @@
 	  {KEY:"IS_IT_EXECUTED", NAME:"Is it executed", TYPE:"TEXT"},
 	  {KEY:"NOTES", NAME:"Notes", TYPE:"TEXT"}
 	  ];
-
 	/*  var dataFields = [
 	  {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT"},
 	  {KEY:"TOTAL_HH", NAME:"Total Households", TYPE:"TOTAL", KIND:"INTEGER"},
@@ -159,7 +144,7 @@
 			{KEY:"POVERTY_PERCENTAGE", NAME:" % of households in Poverty", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Poverty"},
 			{KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
 			{KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Housing"}
-	  ]
+	  ];
 	  var projectDatabase =  TAFFY();
 	  var aggregateDataDatabase = TAFFY();
 	  //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
@@ -704,7 +689,7 @@
 		this.div = div;
     this.key_name = key_name;
     this.name = name;
-		this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>' + this.name + ': <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="Jalan"></div><div class="bar_element SA" title="Sanitasi"></div><div class="bar_element SM" title="Mannakemen sampah"></div><div class="bar_element LS" title="Listrik"></div><div class="bar_element AR" title="Air Bersih"></div><div class="bar_element IC" title="Informasi dan komunicasi"></div><div class="bar_element DR" title="Drainase"></div><div class="bar_element SR" title="Saran lainnyn"></div></div>  '
+		this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>' + this.name + ': <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="Jalan"></div><div class="bar_element SA" title="Sanitasi"></div><div class="bar_element SM" title="Mannakemen sampah"></div><div class="bar_element LS" title="Listrik"></div><div class="bar_element AR" title="Air Bersih"></div><div class="bar_element IC" title="Informasi dan komunicasi"></div><div class="bar_element DR" title="Drainase"></div><div class="bar_element SR" title="Saran lainnyn"></div></div>'
 		this.budgetView = this.div.getElementsByClassName("total_budget")[0];
 		this.budgetBar = this.div.getElementsByClassName("budget_bar")[0];
 		this.projectNumber = this.div.getElementsByClassName("total_projects")[0];
@@ -1059,10 +1044,6 @@ d3.select("body #plabel-container").selectAll("div.bar")
 .data(data_plabel)
 .append("h6").text(function(d) { return d; });
 }
-
-
-
-
 	  //***********************************************************************
 	  //***************Here goes the stuff for the  info***********************
 	  //***********************************************************************
@@ -1090,7 +1071,6 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	    	aggregateDataDatabase	.insert(tempObj);
 	    }
 	}
-
 	function parseProjects(data){
 		var rows = data['rows'];
 	    // Filling a TaffyDB with the information of the projects.
@@ -1180,7 +1160,6 @@ d3.select("body #plabel-container").selectAll("div.bar")
 		}
 		return projectTAFFY;
 	}
-
 	function fillKelurahanSummaries(projects){
 		this.projects = projects;
 		this.list = document.getElementById("list");
@@ -1213,8 +1192,6 @@ d3.select("body #plabel-container").selectAll("div.bar")
 			this.list.appendChild(kelurahanSummary);
 		}
 	}
-
-
 	function showDataLayer(key, type, label){
 		this.label = label;
 		this.normalStyle = {};
@@ -1266,5 +1243,4 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	  }
 	  </script>
 	</body>
-
 	</html>
