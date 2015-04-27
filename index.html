@@ -1,57 +1,53 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Basic site structure buildout.">
-
-	<title>Solo City Map / Structure</title>
-
-	<!-- STYLE -->
-	<link href='https://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>
-	<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-
-    <link rel="stylesheet" href="./src/css/normalize.css">
-	<link rel="stylesheet" href="./src/css/bootstrap.css">
-	<link rel="stylesheet" href="./src/css/structure.css">
-	<link rel="stylesheet" href="./src/css/style.css">
-</head>
-
-<body>
-
-	<div class="container-fluid">
-		<div class="row">
-			<div id="nav-bar" class="hidden-md hidden-lg">
-				Solo City Map
-			</div>
-			<div id="map-canvas" class="col-md-8 col-lg-9 col-md-push-4 col-lg-push-3">
-				<div id="map-panel">
-					<div id="tools_container">
-					  <button type="button" id="layers_button" title="Open this menu to show the possible data layers available."></button>
-					  <div id="year_selector" title="Here you can filter the projects by year selecting one or more from the bar.">
-					      <p>Tahun penyaring</p>
-					  </div>
-					  <div id="layer_tools" style="display:none">
-					    <select id="aggregate_data_selector" title="Choose which data layer to show.">
-					      <option value="" disabled="disabled" selected="selected">Select a data layer</option>
-					    </select>
-					  </div>
-					</div>
-					<div id="key_bar_container"></div>
-				</div>
-				<div id="map">
-				</div>
-			</div>
-			<div class="clearfix visible-sm-block visible-xs-block"></div>
-			<div id="left-panel" class="col-md-4 col-lg-3 col-md-pull-8 col-lg-pull-9">
-				<div class="row">
-					<div id="nav-bar" class="hidden-xs hidden-sm">
-						Solo City Map
-					</div>
-					<div id="kelurahan_search">
-						<h1 id="kelurahan_name">Solo City Map</h5>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Basic site structure buildout.">
+        <title>Solo City Map / Structure</title>
+        <!-- STYLE -->
+        <link href='https://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="./src/css/normalize.css">
+        <link rel="stylesheet" href="./src/css/bootstrap.css">
+        <link rel="stylesheet" href="./src/css/structure.css">
+        <link rel="stylesheet" href="./src/css/style.css"> </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div id="nav-bar" class="hidden-md hidden-lg"> Solo City Map </div>
+                <div id="map-canvas" class="col-md-8 col-lg-9 col-md-push-4 col-lg-push-3">
+                    <div id="map-panel">
+                        <div id="tools_container">
+                            <button type="button" id="layers_button" title="Open this menu to show the possible data layers available."></button>
+                            <div id="year_selector" title="Here you can filter the projects by year selecting one or more from the bar.">
+                                <p>Tahun penyaring</p>
+                            </div>
+                            <div id="layer_tools" style="display:none">
+                            		<div id="data_layer_year_selector" title="Here you can select which year of the data layers to show">
+                            			<p>Data layer years</p>
+                            			<input type="radio" id="data_2010" name="data_layer_year" checked="checked"><label for="data_2011">2010</label>
+                            			<input type="radio" id="data_2012" name="data_layer_year"><label for="data_2012">2012</label>
+                        				</div>
+                            		<div id="data_layer_scope" title="Here you can select if you want to show RT or Kelurahan data">
+                            			<input type="radio" id="data_KEL" name="data_layer_scope" checked="checked"><label for="data_KEL">Kelurahan</label>
+                            			<input type="radio" id="data_RT" name="data_layer_scope"><label for="data_RT">RT</label>
+                        				</div>                        				
+                                <select id="aggregate_data_selector" title="Choose which data layer to show.">
+                                    <option value="" disabled="disabled" selected="selected">Select a data layer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="key_bar_container"></div>
+                    </div>
+                    <div id="map"> </div>
+                </div>
+                <div class="clearfix visible-sm-block visible-xs-block"></div>
+                <div id="left-panel" class="col-md-4 col-lg-3 col-md-pull-8 col-lg-pull-9">
+                    <div class="row">
+                        <div id="nav-bar" class="hidden-xs hidden-sm"> Solo City Map </div>
+                        <div id="kelurahan_search">
+                            <h1 id="kelurahan_name">Solo City Map</h5>
 						</div>
 						<select id="kelurahan_selector" style="width: 98.75%;" class="hidden-xs hidden-sm" data-placeholder="Select a kelurahan" title="Select a Kelurahan to see its projects."></select>
 						<div id="filter_conditions" class="hidden-xs hidden-sm" style="display:none;">
@@ -80,7 +76,6 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 	<!-- jquery and jquery UI -->
 	<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">	 -->
@@ -123,7 +118,6 @@
 	  {KEY:"IS_IT_EXECUTED", NAME:"Is it executed", TYPE:"TEXT"},
 	  {KEY:"NOTES", NAME:"Notes", TYPE:"TEXT"}
 	  ];
-
 	/*  var dataFields = [
 	  {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT"},
 	  {KEY:"TOTAL_HH", NAME:"Total Households", TYPE:"TOTAL", KIND:"INTEGER"},
@@ -149,23 +143,34 @@
 	  {KEY:"TOTAL_POOR_HH", NAME:"Total poor households", TYPE:"TOTAL", KIND:"INTEGER"},
 	  {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"}
 	  ];   */
-
-	  var dataFields = [
-	  {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT"},
-	  {KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  
+	  var dataFields =  [
+	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
+			{KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
+			{KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
+			{KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
+			{KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
+			{KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
+			{KEY:"POVERTY_PERCENTAGE", NAME:" % of households in Poverty", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Poverty"},
+			{KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
+			{KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Housing"}
 	  ];
-
-
-
+	  var kelDdataFields2012 = [
+	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
+			{KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
+			{KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
+			{KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
+			{KEY:"POVERTY_PERCENTAGE", NAME:" % of households in Poverty", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Poverty"},
+			{KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
+			{KEY:"2010_2012_HH_PERCENTAGE_CHANGE", NAME:"% change of household", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"2010_2012_POPULATION_PERCENTAGE_CHANGE", NAME:"% change of population", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"2010_2012_7_18_PERCENTAGE_CHANGE", NAME:"% change of ages 7 - 18 years", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"2010_2012_7_18_NO_SCHOOL_PERCENTAGE_CHANGE", NAME:" % change of 7-18 years old not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"2010_2012_PRIV_WC_PERCENTAGE_CHANGE", NAME:"% change of HH with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"2010_2012_PUB_WC_PERCENTAGE_CHANGE", NAME:"% change of HH with public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"2010_2012_PDAM_PERCENTAGE_CHANGE", NAME:"% change of HH with access to PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"2010_2012_POVERTY_PERCENTAGE_CHANGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"}
+	  ];
+	  var drawDelay = 20;
 	  var projectDatabase =  TAFFY();
 	  var aggregateDataDatabase = TAFFY();
 	  //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
@@ -243,10 +248,25 @@
 	  	var layerButton = document.getElementById("layers_button");
 	  	layerButton.onclick = function(){
 	  		toggleLayerToolbar();
+
+
 	  	}
 	  	var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
 	  	for (var i = 0; i < dataFields.length; i++) {
-	  		if(!(dataFields[i]["KEY"] == "KELURAHAN")){
+	  		if(!(dataFields[i]["CLASS_NAME"] == "KEY")){
+	  			if((i == 0)&&(dataFields[i]["CLASS_NAME"] != "KEY")){
+	  				var opDiv = document.createElement("option");
+	  				opDiv.innerHTML = dataFields[i]["CLASS_NAME"];
+	  				opDiv.disabled = true;
+	  				opDiv.className = "data_divider";
+	  				aggregate_data_selector.appendChild(opDiv);
+	  			} else if ((i > 0)&&((dataFields[i]["CLASS_NAME"] != "KEY")&&(dataFields[i]["CLASS_NAME"] != dataFields[i-1]["CLASS_NAME"]))) {
+	  				var opDiv = document.createElement("option");
+	  				opDiv.innerHTML = dataFields[i]["CLASS_NAME"];
+	  				opDiv.disabled = true;
+	  				opDiv.className = "data_divider";
+	  				aggregate_data_selector.appendChild(opDiv);
+	  			}
 	  			var option = document.createElement("option");
 	  			option.value = dataFields[i]["KEY"];
 	  			option.type = dataFields[i]["TYPE"];
@@ -697,7 +717,7 @@
 		this.div = div;
     this.key_name = key_name;
     this.name = name;
-		this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>' + this.name + ': <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="Jalan"></div><div class="bar_element SA" title="Sanitasi"></div><div class="bar_element SM" title="Mannakemen sampah"></div><div class="bar_element LS" title="Listrik"></div><div class="bar_element AR" title="Air Bersih"></div><div class="bar_element IC" title="Informasi dan komunicasi"></div><div class="bar_element DR" title="Drainase"></div><div class="bar_element SR" title="Saran lainnyn"></div></div>  '
+		this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>' + this.name + ': <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="Jalan"></div><div class="bar_element SA" title="Sanitasi"></div><div class="bar_element SM" title="Mannakemen sampah"></div><div class="bar_element LS" title="Listrik"></div><div class="bar_element AR" title="Air Bersih"></div><div class="bar_element IC" title="Informasi dan komunicasi"></div><div class="bar_element DR" title="Drainase"></div><div class="bar_element SR" title="Saran lainnyn"></div></div>'
 		this.budgetView = this.div.getElementsByClassName("total_budget")[0];
 		this.budgetBar = this.div.getElementsByClassName("budget_bar")[0];
 		this.projectNumber = this.div.getElementsByClassName("total_projects")[0];
@@ -876,7 +896,7 @@
 			} else{
 				clearInterval(interval);
 			}
-		}, 50)
+		}, drawDelay)
 	}
 	function getProjectStateIcons(){
 		this.NV = new Image();
@@ -977,15 +997,6 @@
 		};
 		data_plabel.push(Math.round(max));
 		data_value.push(0);
-
-
-	    // var data_value = [ 50, 30, 20, 0];
-	    // var data_opacity = [ 0.1, 0.1, 0.1, 0.1];
-	    // var data_plabel = [ "0%", "50%", "80%", "100%" ];
-	    // var data_color = [ "e5e2d5", "adbfc6", "789cad" ];
-	    
-	    //var data_label = [ "LMA", "MMA", "HMA" ];
-	    //var data_description = [ "Low Minority Areas", "Mixed Minority Areas", "High Minority Areas" ];
 	    d3.select("body #key_bar_container")
 	    .append("div")
 	    .attr("id","key-container")
@@ -1052,10 +1063,6 @@ d3.select("body #plabel-container").selectAll("div.bar")
 .data(data_plabel)
 .append("h6").text(function(d) { return d; });
 }
-
-
-
-
 	  //***********************************************************************
 	  //***************Here goes the stuff for the  info***********************
 	  //***********************************************************************
@@ -1083,7 +1090,6 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	    	aggregateDataDatabase	.insert(tempObj);
 	    }
 	}
-
 	function parseProjects(data){
 		var rows = data['rows'];
 	    // Filling a TaffyDB with the information of the projects.
@@ -1173,7 +1179,6 @@ d3.select("body #plabel-container").selectAll("div.bar")
 		}
 		return projectTAFFY;
 	}
-
 	function fillKelurahanSummaries(projects){
 		this.projects = projects;
 		this.list = document.getElementById("list");
@@ -1206,8 +1211,6 @@ d3.select("body #plabel-container").selectAll("div.bar")
 			this.list.appendChild(kelurahanSummary);
 		}
 	}
-
-
 	function showDataLayer(key, type, label){
 		this.label = label;
 		this.normalStyle = {};
@@ -1259,5 +1262,4 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	  }
 	  </script>
 	</body>
-
 	</html>
