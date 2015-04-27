@@ -24,6 +24,11 @@
                                 <p>Tahun penyaring</p>
                             </div>
                             <div id="layer_tools" style="display:none">
+                            		<div id="data_layer_year_selector" title="Here you can select which year of the data layers to show">
+                            			<p>Data layer years</p>
+                            			<input type="radio" id="data_2010" name="data_layer_year" checked="checked"><label for="data_2011">2010</label>
+                            			<input type="radio" id="data_2012" name="data_layer_year"><label for="data_2012">2012</label>
+                        				</div>
                                 <select id="aggregate_data_selector" title="Choose which data layer to show.">
                                     <option value="" disabled="disabled" selected="selected">Select a data layer</option>
                                 </select>
@@ -160,7 +165,8 @@
 			{KEY:"2010_2012_PUB_WC_PERCENTAGE_CHANGE", NAME:"% change of HH with public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
 			{KEY:"2010_2012_PDAM_PERCENTAGE_CHANGE", NAME:"% change of HH with access to PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
 			{KEY:"2010_2012_POVERTY_PERCENTAGE_CHANGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"}
-	  ]
+	  ];
+
 	  var projectDatabase =  TAFFY();
 	  var aggregateDataDatabase = TAFFY();
 	  //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
