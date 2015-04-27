@@ -170,7 +170,7 @@
 			{KEY:"2010_2012_PDAM_PERCENTAGE_CHANGE", NAME:"% change of HH with access to PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
 			{KEY:"2010_2012_POVERTY_PERCENTAGE_CHANGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"}
 	  ];
-
+	  var drawDelay = 20;
 	  var projectDatabase =  TAFFY();
 	  var aggregateDataDatabase = TAFFY();
 	  //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
@@ -248,6 +248,8 @@
 	  	var layerButton = document.getElementById("layers_button");
 	  	layerButton.onclick = function(){
 	  		toggleLayerToolbar();
+
+
 	  	}
 	  	var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
 	  	for (var i = 0; i < dataFields.length; i++) {
@@ -894,7 +896,7 @@
 			} else{
 				clearInterval(interval);
 			}
-		}, 50)
+		}, drawDelay)
 	}
 	function getProjectStateIcons(){
 		this.NV = new Image();
@@ -995,15 +997,6 @@
 		};
 		data_plabel.push(Math.round(max));
 		data_value.push(0);
-
-
-	    // var data_value = [ 50, 30, 20, 0];
-	    // var data_opacity = [ 0.1, 0.1, 0.1, 0.1];
-	    // var data_plabel = [ "0%", "50%", "80%", "100%" ];
-	    // var data_color = [ "e5e2d5", "adbfc6", "789cad" ];
-	    
-	    //var data_label = [ "LMA", "MMA", "HMA" ];
-	    //var data_description = [ "Low Minority Areas", "Mixed Minority Areas", "High Minority Areas" ];
 	    d3.select("body #key_bar_container")
 	    .append("div")
 	    .attr("id","key-container")
