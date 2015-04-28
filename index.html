@@ -26,7 +26,7 @@
                             <div id="layer_tools" style="display:none">
                             		<div id="data_layer_year_selector" title="Here you can select which year of the data layers to show">
                             			<p>Data layer years</p>
-                            			<input type="radio" id="data_2010" name="data_layer_year" checked="checked"><label for="data_2011">2010</label>
+                            			<input type="radio" id="data_2010" name="data_layer_year" checked="checked"><label for="data_2010">2010</label>
                             			<input type="radio" id="data_2012" name="data_layer_year"><label for="data_2012">2012</label>
                         				</div>
                             		<div id="data_layer_scope" title="Here you can select if you want to show RT or Kelurahan data">
@@ -143,7 +143,7 @@
 	  {KEY:"TOTAL_POOR_HH", NAME:"Total poor households", TYPE:"TOTAL", KIND:"INTEGER"},
 	  {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"}
 	  ];   */
-	  var dataFields =  [
+	  var kelDataFields2010 =  [
 	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
 			{KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
 			{KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
@@ -248,8 +248,8 @@
 	  	var layerButton = document.getElementById("layers_button");
 	  	layerButton.onclick = function(){
 	  		toggleLayerToolbar();
-
-
+	  		$("#data_layer_year_selector").buttonset();
+	  		$("#data_layer_scope").buttonset();
 	  	}
 	  	var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
 	  	for (var i = 0; i < dataFields.length; i++) {
@@ -305,6 +305,11 @@
 	  	var query = 'SELECT ' + columnNames + '  FROM ' + data2010FusionTableID;
 	  	getFusionTablesData(query, "parseData");
 	  }
+	  function getData(tableID, fields, callbackName) {
+	  	var columnNames = getWhatToGet(fields);
+	  	var query = 'SELECT ' + columnNames + '  FROM ' + tableID;
+	  	getFusionTablesData(query, "parseData");
+	  }
 	  function mapStateController(){
 	  	L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
 	  	map = L.mapbox.map("map", 'stephenkennedy.ad4e43ac')
@@ -330,6 +335,10 @@
 	  	this.kelSelect = null;
 	  	this.isKelurahanParsed = false;
 	  	this.isProjectParsed = false;
+	  	this.isKel2010DataParsed = false;
+	  	this.isKel2012DataParsed = false;
+	  	this.isRT2010DataParsed = false;
+	  	this.isRT2012DataParsed = false;
 	  	this.originalKelurahanTitle = document.getElementById("kelurahan_name").innerHTML;
 	  	this.showMain = function(){
 	  	}
@@ -397,7 +406,7 @@
 	    }
 	    this.onKelurahansParsed = function(){
 	    	drawKelurahans(kelurahans);
-	    	mapSC.addKelurahanSelector();
+	    	this.addKelurahanSelector();
 	    	this.isKelurahanParsed = true;
 	    	if(this.isProjectParsed){
 	    		state = possibleStates.Main;  
@@ -477,7 +486,6 @@
 	  		this.emptyProjectLocationLayer();
 	  	}
 	  	selectedProjectID = projectID;
-	      //window.alert(selectedProjectID);
 	      var project = projectDatabase({ID: selectedProjectID}).get()[0];
 	      var location = project.LOCATION.split(',');
 	      var kelurahan = project.KELURAHAN;
@@ -1087,7 +1095,7 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	    			tempObj[dataFields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
 	    		}
 	    	}
-	    	aggregateDataDatabase	.insert(tempObj);
+	    	aggregateDataDatabase.insert(tempObj);
 	    }
 	}
 	function parseProjects(data){
