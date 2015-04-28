@@ -1147,14 +1147,13 @@ d3.select("body #plabel-container").selectAll("div.bar")
 
 		var commentIcon = projectStateIcons.getIcon("COMMENT");
 		commentIcon.onclick = function(){
+			$( "#modal" ).dialog();
 			window.alert(project.ID);
 		}
 		var stateIconsContainer = document.createElement("div");
 		stateIconsContainer.className = "state_icons_container";
 		stateIconsContainer.appendChild(projectStateIcons.getIcon(project.VOTED));
 		stateIconsContainer.appendChild(projectStateIcons.getIcon(project.IS_IT_EXECUTED));
-		
-
 		stateIconsContainer.appendChild(commentIcon);
 		label.appendChild(stateIconsContainer);
 		li.appendChild(label);
@@ -1282,4 +1281,8 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	  }
 	  </script>
 	</body>
+
+	<div id="modal" title="Comments">
+  	<p>Here we put the facebook commenting scheme</p>
+	</div>
 	</html>
