@@ -98,7 +98,8 @@
 #layer_tools > div > label {
 	margin-right: 16px;
 }
-#aggregate_data_selector {
+#aggrega
+te_data_selector {
 	width: 230px;
 	margin-bottom: 10px;
 }
@@ -112,3 +113,50 @@
 		height:100%;
 	}
 }
+
+ /* Dialog */
+
+.ui-widget {
+    font-family: Verdana,Arial,sans-serif;
+    font-size: .8em;
+}
+
+.ui-widget-content {
+    background: #F9F9F9;
+    border: 1px solid #90d93f;
+    color: #222222;
+}
+
+.ui-dialog {
+    left: 0;
+    outline: 0 none;
+    padding: 0 !important;
+    position: absolute;
+    top: 0;
+}
+
+
+.ui-dialog .ui-dialog-content {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    overflow: auto;
+    position: relative;
+    padding: 0 !important;
+}
+
+.ui-dialog-titlebar-close {
+	background-color: white;
+}
+
+.ui-widget-header {
+    background: #b0de78;
+    border: 0;
+    color: #fff;
+    font-weight: normal;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    padding: 0.1em .5em;
+    position: relative;
+    font-size: 1em;
+}	

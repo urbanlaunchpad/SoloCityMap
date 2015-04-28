@@ -10,8 +10,6 @@
         <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="./src/css/normalize.css">
         <link rel="stylesheet" href="./src/css/bootstrap.css">
-        <link rel="stylesheet" href="./src/css/structure.css">
-        <link rel="stylesheet" href="./src/css/style.css">
     </head>
     <body>
         <div class="container-fluid">
@@ -79,9 +77,9 @@
 			</div>
 		</div>
 	<!-- jquery and jquery UI -->
-	<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">	 -->
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<!-- MAPBOX -->
 	<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
 	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
@@ -94,6 +92,9 @@
     <script src="src/js/d3.v3.min.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="src/css/key-fonts.css" />
     <link rel="stylesheet" type="text/css" href="src/css/key.css" />
+
+    <link rel="stylesheet" href="./src/css/structure.css">
+    <link rel="stylesheet" href="./src/css/style.css">	
 	<script type="text/javascript">
 	  //***********************************************************************
 	  //***********************Here goes the stuff for the map*****************
@@ -1147,7 +1148,14 @@ d3.select("body #plabel-container").selectAll("div.bar")
 
 		var commentIcon = projectStateIcons.getIcon("COMMENT");
 		commentIcon.onclick = function(){
-			$( "#modal" ).dialog();
+			var modal = document.createElement("div");
+			modal.className = "modal";
+			modal.title = "Comments";
+			modal.innerHTML = "<p>Here we put the facebook commenting scheme</p>"
+			$(modal).dialog({
+  			minWidth: 600,
+  			minHeight: 400,
+			});
 			window.alert(project.ID);
 		}
 		var stateIconsContainer = document.createElement("div");
@@ -1281,8 +1289,4 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	  }
 	  </script>
 	</body>
-
-	<div id="modal" title="Comments">
-  	<p>Here we put the facebook commenting scheme</p>
-	</div>
 	</html>
