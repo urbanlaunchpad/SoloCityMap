@@ -180,7 +180,7 @@
 			{KEY:"2010_2012_PDAM_PERCENTAGE_CHANGE", NAME:"% change of HH with access to PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
 			{KEY:"2010_2012_POVERTY_PERCENTAGE_CHANGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"}
 	  ];
-	  var drawDelay = 20;
+	  var drawDelay = 50;
 	  var projectDatabase =  TAFFY();
 	  var aggregateDataDatabase = TAFFY();
 	  //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
@@ -245,13 +245,14 @@
 	  	color: "#C0B58F"}        
 	  };   
 	  function initialize() {
+	  	sounds = new getSounds("pop");
 	  	subcategoryIcons = new getSubcategoryIcons();
 	  	projectStateIcons = new getProjectStateIcons();
+	  	mapSC = new mapStateController();
 	  	getSubdivisions();
 	  	getProjects();
 	  	getKelurahans();
 	  	get2010Data();
-	  	mapSC = new mapStateController();
 	  	initializeLayerToolbar();
 	  }
 	  function initializeLayerToolbar(){
@@ -910,6 +911,7 @@
 			if (i < kelurahans.length){
 				kelurahans[shuffleArray[i]].setStyles(originalKelurahanShapeOptions, activeKelurahanShapeOptions, onHoverKelurahanShapeOptions);
 				kelurahans[shuffleArray[i]].initializeShape();
+				sounds.getRandomPop().play();
 				i++;
 			} else{
 				clearInterval(interval);
@@ -934,6 +936,20 @@
 		this.COMMENT.title = "Comment";
 		this.getIcon = function(code){
 			return this[code].cloneNode();
+		}
+	}
+	function getSounds(key){
+		this.key = key;
+		this.sounds = [];
+		var popTotal = 4;
+		for (var i = popTotal; i >= 0; i--) {
+			this.sounds[i] = new Audio('src/audio/'+ this.key + '/' + this.key + i +'.wav');
+			this.sounds[i].volume = 0;
+		};
+		this.getRandomPop = function(){
+			var sound = this.sounds[Math.floor(Math.random() * this.sounds.length)].cloneNode();
+			sound.volume = 0.01;
+			return sound;
 		}
 	}
 	function getSubcategoryIcons(){
