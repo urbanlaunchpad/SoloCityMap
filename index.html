@@ -252,26 +252,26 @@
 	  		$("#data_layer_scope").buttonset();
 	  	}
 	  	var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
-	  	for (var i = 0; i < dataFields.length; i++) {
-	  		if(!(dataFields[i]["CLASS_NAME"] == "KEY")){
-	  			if((i == 0)&&(dataFields[i]["CLASS_NAME"] != "KEY")){
+	  	for (var i = 0; i < kelDataFields2010.length; i++) {
+	  		if(!(kelDataFields2010[i]["CLASS_NAME"] == "KEY")){
+	  			if((i == 0)&&(kelDataFields2010[i]["CLASS_NAME"] != "KEY")){
 	  				var opDiv = document.createElement("option");
-	  				opDiv.innerHTML = dataFields[i]["CLASS_NAME"];
+	  				opDiv.innerHTML = kelDataFields2010[i]["CLASS_NAME"];
 	  				opDiv.disabled = true;
 	  				opDiv.className = "data_divider";
 	  				aggregate_data_selector.appendChild(opDiv);
-	  			} else if ((i > 0)&&((dataFields[i]["CLASS_NAME"] != "KEY")&&(dataFields[i]["CLASS_NAME"] != dataFields[i-1]["CLASS_NAME"]))) {
+	  			} else if ((i > 0)&&((kelDataFields2010[i]["CLASS_NAME"] != "KEY")&&(kelDataFields2010[i]["CLASS_NAME"] != kelDataFields2010[i-1]["CLASS_NAME"]))) {
 	  				var opDiv = document.createElement("option");
-	  				opDiv.innerHTML = dataFields[i]["CLASS_NAME"];
+	  				opDiv.innerHTML = kelDataFields2010[i]["CLASS_NAME"];
 	  				opDiv.disabled = true;
 	  				opDiv.className = "data_divider";
 	  				aggregate_data_selector.appendChild(opDiv);
 	  			}
 	  			var option = document.createElement("option");
-	  			option.value = dataFields[i]["KEY"];
-	  			option.type = dataFields[i]["TYPE"];
-	  			option.name = dataFields[i]["NAME"];
-	  			option.innerHTML = dataFields[i]["NAME"];
+	  			option.value = kelDataFields2010[i]["KEY"];
+	  			option.type = kelDataFields2010[i]["TYPE"];
+	  			option.name = kelDataFields2010[i]["NAME"];
+	  			option.innerHTML = kelDataFields2010[i]["NAME"];
 	  			aggregate_data_selector.appendChild(option);
 	  		}
 	  	};
@@ -301,7 +301,7 @@
 	  	getFusionTablesData(query, "parseSubdivisions");
 	  }
 	  function get2010Data(){
-	  	var columnNames = getWhatToGet(dataFields);
+	  	var columnNames = getWhatToGet(kelDataFields2010);
 	  	var query = 'SELECT ' + columnNames + '  FROM ' + data2010FusionTableID;
 	  	getFusionTablesData(query, "parseData");
 	  }
@@ -1086,13 +1086,13 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	    for (var j in rows){
 	    	var tempObj = {};
 	    	tempObj["INDEX"] = j;
-	    	for (var i=0; i < dataFields.length; i++){
-	    		if(dataFields[i].KIND == "TEXT"){
-	    			tempObj[dataFields[i].KEY] = rows[j][i];
-	    		} else if(dataFields[i].KIND == "INTEGER") {
-	    			tempObj[dataFields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
+	    	for (var i=0; i < kelDataFields2010.length; i++){
+	    		if(kelDataFields2010[i].KIND == "TEXT"){
+	    			tempObj[kelDataFields2010[i].KEY] = rows[j][i];
+	    		} else if(kelDataFields2010[i].KIND == "INTEGER") {
+	    			tempObj[kelDataFields2010[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
 	    		} else {
-	    			tempObj[dataFields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
+	    			tempObj[kelDataFields2010[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
 	    		}
 	    	}
 	    	aggregateDataDatabase.insert(tempObj);
