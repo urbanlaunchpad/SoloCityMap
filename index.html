@@ -920,6 +920,9 @@
 		this.NO = new Image();
 		this.NO.src = "src/img/png/executed_NO.png";
 		this.NO.title = "Not xecuted";
+		this.COMMENT = new Image();
+		this.COMMENT.src = "src/img/png/comment.png";
+		this.COMMENT.title = "Comment";
 		this.getIcon = function(code){
 			return this[code].cloneNode();
 		}
@@ -1141,10 +1144,18 @@ d3.select("body #plabel-container").selectAll("div.bar")
 		h6.innerHTML = project.PROJECT_NAME;
 		div.appendChild(h6);
 		label.appendChild(div);
+
+		var commentIcon = projectStateIcons.getIcon("COMMENT");
+		commentIcon.onclick = function(){
+			window.alert(project.ID);
+		}
 		var stateIconsContainer = document.createElement("div");
 		stateIconsContainer.className = "state_icons_container";
 		stateIconsContainer.appendChild(projectStateIcons.getIcon(project.VOTED));
 		stateIconsContainer.appendChild(projectStateIcons.getIcon(project.IS_IT_EXECUTED));
+		
+
+		stateIconsContainer.appendChild(commentIcon);
 		label.appendChild(stateIconsContainer);
 		li.appendChild(label);
 		var article = document.createElement("article");
