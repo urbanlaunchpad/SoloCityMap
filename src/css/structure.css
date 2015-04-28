@@ -63,46 +63,6 @@
 
 
 
-/*-----BUDGET BAR-----*/
-
-#left-panel .row > #budget_info {
-	background-color: #eeeeee;
-	padding-top: 1em;
-	padding-bottom: 1.125em;
-	border-bottom: 1px solid #dddddd;
-}
-.budget_data > div {
-	display:inline-block;
-}
-.budget_data div.budget_amount {
-	float:left;
-}
-.budget_data div.budget_projects {
-	float:right;
-	text-align: right;
-}
-.budget_data h3 {
-	margin:0;
-}
-.budget_data h6 {
-	margin:0;
-	opacity: 0.5;
-}
-.budget_bar {
-	height: 60px;
-}
-.bar_element {
-  width: 12.5%;
-  height: 16px;
-  float: left;
-  margin-top: 8px;
-  margin-left: 0px;
-  margin-right: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-}
-
-
 #map-window {
     top: 0;
     margin: 0;
@@ -123,12 +83,26 @@
 	position: absolute;
     right: 10px;
     top: 10px;
-    width: 240px;
+    width: 260px;
     background-color: #f8f8f8;
     border: 1px solid #525252;
-    padding: 0 15px;
+    /*padding: 0 15px;*/
     z-index: 1;
 }
+#tools_container {
+	padding: 0 15px;
+}
+#layer_tools > div > input {
+	margin-right: 8px;
+}
+#layer_tools > div > label {
+	margin-right: 16px;
+}
+#aggregate_data_selector {
+	width: 230px;
+	margin-bottom: 10px;
+}
+
 @media (min-width: 992px) {
 	#left-panel {
 		top: 0;
