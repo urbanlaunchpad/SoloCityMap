@@ -1175,7 +1175,7 @@ d3.select("body #plabel-container").selectAll("div.bar")
 		commentIcon.onclick = function(){
 			var modal = document.createElement("div");
 			modal.className = "modal";
-			modal.title = "Comments";
+			modal.title = "Comments for " + project.PROJECT_NAME;
 			modal.innerHTML = '<fb:comments class="fb-comments" data-href="https://github.com/urbanlaunchpad/SoloCityMap#' + project.ID + '" data-width="550" data-numposts="5" data-colorscheme="light"></fb:comments>'
 			FB.XFBML.parse(modal);
 			$(modal).dialog({
