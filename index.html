@@ -1144,7 +1144,8 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	    			tempObj[projectFields[i].KEY] = rows[j][i];
 	    		}
 	    	}
-	    	tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
+	    	var tempKelName = tempObj.KELURAHAN.replace(/ /g,"_");
+	    	tempObj["ID"] = tempKelName + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
 	    	tempObj["SUBCATEGORY_TEXT"] = subcategories[tempObj.SUBCATEGORY].name;
 	    	projectDatabase.insert(tempObj);
 	    }
