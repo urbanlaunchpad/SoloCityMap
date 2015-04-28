@@ -93,6 +93,51 @@ p {
     background-color: #525252;
 }
 
+#planned_budget_info, #executed_budget_info {
+    padding: 10px 10px 0 10px;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #dddddd;
+}
+
+/*-----BUDGET BAR-----*/
+
+#left-panel .row > #budget_info {
+    background-color: #eeeeee;
+    padding-top: 1em;
+    padding-bottom: 1.125em;
+    border-bottom: 1px solid #dddddd;
+}
+.budget_data > div {
+    display:inline-block;
+}
+.budget_data div.budget_amount {
+    float:left;
+}
+.budget_data div.budget_projects {
+    float:right;
+    text-align: right;
+}
+.budget_data h3 {
+    margin:0;
+}
+.budget_data h6 {
+    margin:0;
+    opacity: 0.5;
+}
+.budget_bar {
+    height: 40px;
+}
+.bar_element {
+  width: 12.5%;
+  height: 16px;
+  float: left;
+  margin-top: 8px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 /*============YEAR SELECTOR============*/
 
 #tools_container {
@@ -220,7 +265,8 @@ p {
 
 /*=== KELURAHAN LIST ===*/
 #list > div {
-    padding: 10px 10px 40px 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
     border-bottom: 1px solid #b6b6b6;
 }
 #list > div:hover {
