@@ -1144,7 +1144,8 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	    			tempObj[projectFields[i].KEY] = rows[j][i];
 	    		}
 	    	}
-	    	tempObj["ID"] = tempObj.KELURAHAN + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
+	    	var tempKelName = tempObj.KELURAHAN.replace(/ /g,"_");
+	    	tempObj["ID"] = tempKelName + "-" + tempObj.YEAR + "-" + tempObj.CATEGORY + "-" + tempObj.SUBCATEGORY + "-" + tempObj.VOTED + "-" + tempObj.UNIQUE_NUMBER;
 	    	tempObj["SUBCATEGORY_TEXT"] = subcategories[tempObj.SUBCATEGORY].name;
 	    	projectDatabase.insert(tempObj);
 	    }
@@ -1175,7 +1176,7 @@ d3.select("body #plabel-container").selectAll("div.bar")
 			var modal = document.createElement("div");
 			modal.className = "modal";
 			modal.title = "Comments";
-			modal.innerHTML = '<fb:comments class="fb-comments" data-href="https://github.com/urbanlaunchpad/SoloCityMap" data-width="550" data-numposts="5" data-colorscheme="light"></fb:comments>'
+			modal.innerHTML = '<fb:comments class="fb-comments" data-href="https://github.com/urbanlaunchpad/SoloCityMap#' + project.ID + '" data-width="550" data-numposts="5" data-colorscheme="light"></fb:comments>'
 			FB.XFBML.parse(modal);
 			$(modal).dialog({
   			minWidth: 600,
