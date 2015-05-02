@@ -159,7 +159,7 @@
 			{KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
 			{KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
 			{KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
-			{KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
+			{KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households using public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
 			{KEY:"POVERTY_PERCENTAGE", NAME:" % of households in Poverty", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Poverty"},
 			{KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
 			{KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Housing"}
@@ -179,6 +179,26 @@
 			{KEY:"2010_2012_PUB_WC_PERCENTAGE_CHANGE", NAME:"% change of HH with public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
 			{KEY:"2010_2012_PDAM_PERCENTAGE_CHANGE", NAME:"% change of HH with access to PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
 			{KEY:"2010_2012_POVERTY_PERCENTAGE_CHANGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"}
+	  ];
+	  var rtDdataFields2010 = [
+	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
+	  	{KEY:"RT", NAME:"RT", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
+	  	{KEY:"RW", NAME:"RW", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
+	  	{KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
+	  	{KEY:"PUBLIC_WELL_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
+	  	{KEY:"PRIVATE_WELL_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
+	  	{KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
+			{KEY:"PUBLIC_WC_PERCENTAGE", NAME:"Percentage of households using public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
+			{KEY:"POVERTY_PERCENTAGE", NAME:" % of households in Poverty", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Poverty"},
+			{KEY:"DEPENDENT_PEOPLE_PERCENTAGE", NAME:"Percentage of dependent people", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
+			{KEY:"NEAREST_SCHOOL_DISTANCE", NAME:"Distance to the nearest school (meters)", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
+			{KEY:"DEPENDENT_PEOPLE_PERCENTAGE", NAME:"Percentage of dependent people", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
+			{KEY:"CHILDREN_PERCENTAGE", NAME:"Percentage of 7 - 18 years old children", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
+			{KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of 7 - 18 years old children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
+			{KEY:"PARK_DISTANCE", NAME:"Distance to nearest park (meters)", TYPE:"TOTAL", KIND:"FLOAT", CLASS_NAME:"Health"},
+			{KEY:"CLINIC_DISTANCE", NAME:"Distance to nearest clinic or hospital (meters)", TYPE:"TOTAL", KIND:"FLOAT", CLASS_NAME:"Health"},
+			{KEY:"POP_DENSITY", NAME:"Population density (ppl/hectare)", TYPE:"TOTAL", KIND:"FLOAT", CLASS_NAME:"Housing"},
+			{KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Housing"}
 	  ];
 	  var drawDelay = 50;
 	  var projectDatabase =  TAFFY();
@@ -511,6 +531,37 @@
 	  this.showLocationShapes = function(kelurahan, subcategory, locations){  
 	  	var shapeOptions = originalLocationShapeOptions;
 	  	shapeOptions.fillColor = subcategory.color;
+	  	for (var i=0; i<locations.length; i++){
+	  		if(locations[i].indexOf("-") !=-1){
+	  			var tempLoc = locations[i].split("-");
+	  			var geometry = subdivisions[kelurahan][tempLoc[0].substring(2, tempLoc[0].length)][tempLoc[1].substring(2, tempLoc[1].length)].GEOMETRIES;
+	  			var shape = L.polygon(geometry, shapeOptions);
+	  			shape.addTo(projectLocationLayer);
+	  		} else if(locations[i].indexOf("RW") !=-1){
+	  			var locationsToShow = subdivisions[kelurahan][locations[i].substring(2,locations[i].length)];
+	  			for(var key in locationsToShow){
+	  				var geometry = locationsToShow[key].GEOMETRIES;
+	  				var shape = L.polygon(geometry, shapeOptions);
+	  				shape.addTo(projectLocationLayer);
+	  			}
+	  		} else if(locations[i] == "KELURAHAN"){
+	  			var kelurahanLocations = subdivisions[kelurahan];
+	  			for(var key in kelurahanLocations){
+	  				var rwLocations = kelurahanLocations[key];
+	  				for(var key in rwLocations){
+	  					var rtLocations = rwLocations[key];
+	  					if(rtLocations.hasOwnProperty("GEOMETRIES")){
+	  						var geometry = rtLocations.GEOMETRIES;
+	  						var shape = L.polygon(geometry, shapeOptions);
+	  						shape.addTo(projectLocationLayer);       
+	  					}
+	  				}
+	  			}
+	  		}
+	  	}
+	  }
+	  this.addShape = function(locations, layer, style){  
+	  	var shapeOptions = style;
 	  	for (var i=0; i<locations.length; i++){
 	  		if(locations[i].indexOf("-") !=-1){
 	  			var tempLoc = locations[i].split("-");
