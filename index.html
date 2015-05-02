@@ -214,7 +214,8 @@
 	  ];
 	  var drawDelay = 50;
 	  var projectDatabase =  TAFFY();
-	  var aggregateDataDatabase = TAFFY();
+	  var aggregateDataDatabase = {};
+	 	aggregateDataDatabase["KEL2010"] = TAFFY();
 	  //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
 	  var colors = ['#BEC1C4']; // More neutral, similar to Kota Kita site
 	  var percentageColor = "#8A0707";
@@ -1187,7 +1188,7 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	    			tempObj[kelDataFields2010[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
 	    		}
 	    	}
-	    	aggregateDataDatabase.insert(tempObj);
+	    	aggregateDataDatabase["KEL2010"].insert(tempObj);
 	    }
 	}
 	function parseProjects(data){
@@ -1334,10 +1335,10 @@ d3.select("body #plabel-container").selectAll("div.bar")
 		this.normalStyle = originalKelurahanShapeOptions;
 		this.onHoverStyle = onHoverKelurahanShapeOptions;
 		this.selectedStyle = activeKelurahanShapeOptions;
-		this.max = aggregateDataDatabase().max(key);
-		this.min = aggregateDataDatabase().min(key);
+		this.max = aggregateDataDatabase["KEL2010"]().max(key);
+		this.min = aggregateDataDatabase["KEL2010"]().min(key);
 		for (var i = kelurahans.length - 1; i >= 0; i--) {
-			var info = aggregateDataDatabase({KELURAHAN: kelurahans[i].getName()}).get()[0];
+			var info = aggregateDataDatabase["KEL2010"]({KELURAHAN: kelurahans[i].getName()}).get()[0];
 			this.normalStyle.fillColor = percentageColor;
 			this.onHoverStyle.fillColor = percentageColor;
 			this.selectedStyle.fillColor = percentageColor;
