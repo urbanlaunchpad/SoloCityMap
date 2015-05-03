@@ -1,108 +1,138 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Basic site structure buildout.">
-        <title>Solo City Map / Structure</title>
-        <!-- STYLE -->
-        <link href='https://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>
-        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="./src/css/normalize.css">
-        <link rel="stylesheet" href="./src/css/bootstrap.css">
-    </head>
-    <body>
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Basic site structure buildout.">
+<title>Solo City Map / Structure</title>
+<!-- STYLE -->
+<link href='https://fonts.googleapis.com/css?family=Raleway:300,400,500'
+	rel='stylesheet' type='text/css'>
+<link
+	href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic'
+	rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="./src/css/normalize.css">
+<link rel="stylesheet" href="./src/css/bootstrap.css">
+</head>
+<body>
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
   js.src = "https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.3&appId=1648943068662525";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-        <div class="container-fluid">
-            <div class="row">
-                <div id="nav-bar" class="hidden-md hidden-lg"> Solo City Map </div>
-                <div id="map-canvas" class="col-md-8 col-lg-9 col-md-push-4 col-lg-push-3">
-                    <div id="map-panel">
-                        <div id="tools_container">
-                            <button type="button" id="layers_button" title="Open this menu to show the possible data layers available."></button>
-                            <div id="year_selector" title="Here you can filter the projects by year selecting one or more from the bar.">
-                                <p>Tahun penyaring</p>
-                            </div>
-                            <div id="layer_tools" style="display:none">
-                            		<div id="data_layer_year_selector" title="Here you can select which year of the data layers to show">
-                            			<p>Data layer years</p>
-                            			<input type="radio" id="data_2010" name="data_layer_year" checked="checked"><label for="data_2010">2010</label>
-                            			<input type="radio" id="data_2012" name="data_layer_year"><label for="data_2012">2012</label>
-                        				</div>
-                            		<div id="data_layer_scope" title="Here you can select if you want to show RT or Kelurahan data">
-                            			<input type="radio" id="data_KEL" name="data_layer_scope" checked="checked"><label for="data_KEL">Kelurahan</label>
-                            			<input type="radio" id="data_RT" name="data_layer_scope"><label for="data_RT">RT</label>
-                        				</div>                        				
-                                <select id="aggregate_data_selector" title="Choose which data layer to show.">
-                                    <option value="" disabled="disabled" selected="selected">Select a data layer</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div id="key_bar_container"></div>
-                    </div>
-                    <div id="map"> </div>
-                </div>
-                <div class="clearfix visible-sm-block visible-xs-block"></div>
-                <div id="left-panel" class="col-md-4 col-lg-3 col-md-pull-8 col-lg-pull-9">
-                    <div class="row">
-                        <div id="nav-bar" class="hidden-xs hidden-sm"> Solo City Map </div>
-                        <div id="kelurahan_search">
-                            <h1 id="kelurahan_name">Solo City Map</h5>
+	<div class="container-fluid">
+		<div class="row">
+			<div id="nav-bar" class="hidden-md hidden-lg">Solo City Map</div>
+			<div id="map-canvas"
+				class="col-md-8 col-lg-9 col-md-push-4 col-lg-push-3">
+				<div id="map-panel">
+					<div id="tools_container">
+						<button type="button" id="layers_button"
+							title="Open this menu to show the possible data layers available."></button>
+						<div id="year_selector"
+							title="Here you can filter the projects by year selecting one or more from the bar.">
+							<p>Tahun penyaring</p>
 						</div>
-						<select id="kelurahan_selector" style="width: 98.75%;" class="hidden-xs hidden-sm" data-placeholder="Select a kelurahan" title="Select a Kelurahan to see its projects."></select>
-						<div id="filter_conditions" class="hidden-xs hidden-sm" style="display:none;">
-							<select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 290px; margin-bottom: 10px;" title="Here you can toggle which categories you want to show."></select>
-							<div id="was_voted_filter" class="filter-buttons" title="Filter if you want to show the projects that went trough the complete musrenbang process and the projects that were executed without voting.">			
-								<input type="checkbox" id="was_voted_filter_ALL" value="ALL"></input>
-								<label for="was_voted_filter_ALL" title="Toggle to show all the categories.">All</label>
-								<input type="checkbox" id="was_voted_filter_VO" value="VO"></input>
-								<label for="was_voted_filter_VO">Voted</label>
-								<input type="checkbox" id="was_voted_filter_NV" value="NV"></input>
-								<label for="was_voted_filter_NV">Not voted</label>
+						<div id="layer_tools" style="display: none">
+							<div id="data_layer_year_selector"
+								title="Here you can select which year of the data layers to show">
+								<p>Data layer years</p>
+								<input type="radio" id="data_2010" name="data_layer_year"
+									checked="checked"><label for="data_2010">2010</label> <input
+									type="radio" id="data_2012" name="data_layer_year"><label
+									for="data_2012">2012</label>
 							</div>
-							<div id="is_it_executed_filter" class="filter-buttons" title="Filter if you want to show the projects that were executed and the projects that were proposed, but not executed.">
-								<input type="checkbox" id="is_it_executed_filter_ALL" value="ALL"></input>
-								<label for="is_it_executed_filter_ALL" title="Toggle to show all the categories.">All</label>
-								<input type="checkbox" id="is_it_executed_filter_YES" value="YES"></input>
-								<label for="is_it_executed_filter_YES">Implemented</label>
-								<input type="checkbox" id="is_it_executed_filter_NO" value="NO"></input>
-								<label for="is_it_executed_filter_NO">Not Implemented</label>
-							</div>		 
-						</div>
-						<div id="planned_budget_info"></div>
-						<div id="executed_budget_info"></div>
-						<div id="list">
+							<div id="data_layer_scope"
+								title="Here you can select if you want to show RT or Kelurahan data">
+								<input type="radio" id="data_KEL" name="data_layer_scope"
+									checked="checked"><label for="data_KEL">Kelurahan</label>
+								<input type="radio" id="data_RT" name="data_layer_scope"><label
+									for="data_RT">RT</label>
+							</div>
+							<select id="aggregate_data_selector"
+								title="Choose which data layer to show.">
+								<option value="" disabled="disabled" selected="selected">Select
+									a data layer</option>
+							</select>
 						</div>
 					</div>
+					<div id="key_bar_container"></div>
+				</div>
+				<div id="map"></div>
+			</div>
+			<div class="clearfix visible-sm-block visible-xs-block"></div>
+			<div id="left-panel"
+				class="col-md-4 col-lg-3 col-md-pull-8 col-lg-pull-9">
+				<div class="row">
+					<div id="nav-bar" class="hidden-xs hidden-sm">Solo City Map</div>
+					<div id="kelurahan_search">
+						<h1 id="kelurahan_name">
+							Solo City Map
+							</h5>
+					</div>
+					<select id="kelurahan_selector" style="width: 98.75%;"
+						class="hidden-xs hidden-sm" data-placeholder="Select a kelurahan"
+						title="Select a Kelurahan to see its projects."></select>
+					<div id="filter_conditions" class="hidden-xs hidden-sm"
+						style="display: none;">
+						<select id="subcategory_filter"
+							data-placeholder="Select Subcategories..."
+							style="width: 290px; margin-bottom: 10px;"
+							title="Here you can toggle which categories you want to show."></select>
+						<div id="was_voted_filter" class="filter-buttons"
+							title="Filter if you want to show the projects that went trough the complete musrenbang process and the projects that were executed without voting.">
+							<input type="checkbox" id="was_voted_filter_ALL" value="ALL"></input>
+							<label for="was_voted_filter_ALL"
+								title="Toggle to show all the categories.">All</label> <input
+								type="checkbox" id="was_voted_filter_VO" value="VO"></input> <label
+								for="was_voted_filter_VO">Voted</label> <input type="checkbox"
+								id="was_voted_filter_NV" value="NV"></input> <label
+								for="was_voted_filter_NV">Not voted</label>
+						</div>
+						<div id="is_it_executed_filter" class="filter-buttons"
+							title="Filter if you want to show the projects that were executed and the projects that were proposed, but not executed.">
+							<input type="checkbox" id="is_it_executed_filter_ALL" value="ALL"></input>
+							<label for="is_it_executed_filter_ALL"
+								title="Toggle to show all the categories.">All</label> <input
+								type="checkbox" id="is_it_executed_filter_YES" value="YES"></input>
+							<label for="is_it_executed_filter_YES">Implemented</label> <input
+								type="checkbox" id="is_it_executed_filter_NO" value="NO"></input>
+							<label for="is_it_executed_filter_NO">Not Implemented</label>
+						</div>
+					</div>
+					<div id="planned_budget_info"></div>
+					<div id="executed_budget_info"></div>
+					<div id="list"></div>
 				</div>
 			</div>
 		</div>
+	</div>
 	<!-- jquery and jquery UI -->
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<link rel="stylesheet"
+		href="https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+	<script type="text/javascript"
+		src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script type="text/javascript"
+		src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<!-- MAPBOX -->
 	<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
-	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
-    <!-- Taffy DB -->
-    <script type="text/javascript" src="src/js/taffy-min.js"></script>
-    <!-- Chosen -->
-    <script type="text/javascript" src="src/js/chosen.jquery.min.js"></script>
-    <link rel="stylesheet" href="src/css/chosen.min.css">    
-    <!-- D3 and SK's key -->
-    <script src="src/js/d3.v3.min.js" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="src/css/key-fonts.css" />
-    <link rel="stylesheet" type="text/css" href="src/css/key.css" />
+	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css'
+		rel='stylesheet' />
+	<!-- Taffy DB -->
+	<script type="text/javascript" src="src/js/taffy-min.js"></script>
+	<!-- Chosen -->
+	<script type="text/javascript" src="src/js/chosen.jquery.min.js"></script>
+	<link rel="stylesheet" href="src/css/chosen.min.css">
+	<!-- D3 and SK's key -->
+	<script src="src/js/d3.v3.min.js" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="src/css/key-fonts.css" />
+	<link rel="stylesheet" type="text/css" href="src/css/key.css" />
 
-    <link rel="stylesheet" href="./src/css/structure.css">
-    <link rel="stylesheet" href="./src/css/style.css">	
+	<link rel="stylesheet" href="./src/css/structure.css">
+	<link rel="stylesheet" href="./src/css/style.css">
 	<script type="text/javascript">
 	  //***********************************************************************
 	  //***********************Here goes the stuff for the map*****************
@@ -110,7 +140,7 @@
 	  var kelurahansFusionTableID = "1jdxsdPlAvCNRair4uv2pOwWTzMNtutDdhfXlp9QO";
 	  var subdivisionsFusionTableID = "158fKZygrAlgGKaYDkT4alniT5ZEeTqPdwtFtEoc-";
 	  var musrenbangFusionTableID = "1yHXZ3Z5yQXl8eEewPUgYSzOvd458RhW9pQ2smFIf";
-	  var data2010FusionTableID = "1oMln7GsJjbGJ9CQK41FP-aq3Xkz7fJPVZof2U5rY";
+	  var kel2010FusionTableID = "1oMln7GsJjbGJ9CQK41FP-aq3Xkz7fJPVZof2U5rY";
 	  var projectFields = [
 	  {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"TEXT"},
 	  {KEY:"YEAR", NAME:"Year", TYPE:"NUMBER"},
@@ -216,6 +246,9 @@
 	  var projectDatabase =  TAFFY();
 	  var aggregateDataDatabase = {};
 	 	aggregateDataDatabase["KEL2010"] = TAFFY();
+	 	aggregateDataDatabase["KEL2012"] = TAFFY();
+	 	aggregateDataDatabase["RT2010"] = TAFFY();
+	 	aggregateDataDatabase["RT2012"] = TAFFY();
 	  //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
 	  var colors = ['#BEC1C4']; // More neutral, similar to Kota Kita site
 	  var percentageColor = "#8A0707";
@@ -346,8 +379,8 @@
 	  }
 	  function get2010Data(){
 	  	var columnNames = getWhatToGet(kelDataFields2010);
-	  	var query = 'SELECT ' + columnNames + '  FROM ' + data2010FusionTableID;
-	  	getFusionTablesData(query, "parseData");
+	  	var query = 'SELECT ' + columnNames + '  FROM ' + kel2010FusionTableID;
+	  	getFusionTablesData(query, "parseKel2010Data");
 	  }
 	  function getData(tableID, fields, callbackName) {
 	  	var columnNames = getWhatToGet(fields);
@@ -1173,23 +1206,37 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	  	getFusionTablesData(query, "parseProjects");
 	  }
 
-	  function parseData(data){
+	  function parseData(data, fields, keyToSave){
 	  	var rows = data['rows'];
+	  	this.fields = fields;
 	    // Filling a TaffyDB with the information of the projects.
 	    for (var j in rows){
 	    	var tempObj = {};
 	    	tempObj["INDEX"] = j;
-	    	for (var i=0; i < kelDataFields2010.length; i++){
-	    		if(kelDataFields2010[i].KIND == "TEXT"){
-	    			tempObj[kelDataFields2010[i].KEY] = rows[j][i];
-	    		} else if(kelDataFields2010[i].KIND == "INTEGER") {
-	    			tempObj[kelDataFields2010[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
+	    	for (var i=0; i < this.fields.length; i++){
+	    		if(this.fields[i].KIND == "TEXT"){
+	    			tempObj[this.fields[i].KEY] = rows[j][i];
+	    		} else if(this.fields[i].KIND == "INTEGER") {
+	    			tempObj[this.fields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
 	    		} else {
-	    			tempObj[kelDataFields2010[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
+	    			tempObj[this.fields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
 	    		}
 	    	}
-	    	aggregateDataDatabase["KEL2010"].insert(tempObj);
+	    	aggregateDataDatabase[keyToSave].insert(tempObj);
 	    }
+	}
+	function parseKel2010Data(data){
+		this.data = data;
+		parseData(this.data, kelDataFields2010, "KEL2010");
+	}
+	function parseKel2012Data(data){
+
+	}
+	function parsert2010Data(data){
+
+	}
+	function parsert2012Data(data){
+
 	}
 	function parseProjects(data){
 		var rows = data['rows'];
@@ -1377,5 +1424,5 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	  	return whatToGet;
 	  }
 	  </script>
-	</body>
-	</html>
+</body>
+</html>
