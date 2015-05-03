@@ -180,14 +180,14 @@
 			{KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
 			{KEY:"POVERTY_PERCENTAGE", NAME:" % of households in Poverty", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Poverty"},
 			{KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
-			{KEY:"2010_2012_HH_PERCENTAGE_CHANGE", NAME:"% change of household", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_POPULATION_PERCENTAGE_CHANGE", NAME:"% change of population", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_7_18_PERCENTAGE_CHANGE", NAME:"% change of ages 7 - 18 years", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_7_18_NO_SCHOOL_PERCENTAGE_CHANGE", NAME:" % change of 7-18 years old not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_PRIV_WC_PERCENTAGE_CHANGE", NAME:"% change of HH with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_PUB_WC_PERCENTAGE_CHANGE", NAME:"% change of HH with public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_PDAM_PERCENTAGE_CHANGE", NAME:"% change of HH with access to PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_POVERTY_PERCENTAGE_CHANGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"}
+			{KEY:"HH_PERCENTAGE_CHANGE_2010_2012", NAME:"% change of household", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"POPULATION_PERCENTAGE_CHANGE_2010_2012", NAME:"% change of population", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"CHILDREN_7_18_PERCENTAGE_CHANGE_2010_2012", NAME:"% change of ages 7 - 18 years", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"NO_SCHOOL_7_18_PERCENTAGE_CHANGE_2010_2012", NAME:" % change of 7-18 years old not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"PRIV_WC_PERCENTAGE_CHANGE_2010_2012", NAME:"% change of HH with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"PUB_WC_PERCENTAGE_CHANGE_2010_2012", NAME:"% change of HH with public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"PDAM_PERCENTAGE_CHANGE_2010_2012", NAME:"% change of HH with access to PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"POVERTY_PERCENTAGE_CHANGE_2010_2012", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"}
 	  ];
 	  dataFields["RT2010"] = [
 	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
@@ -1428,7 +1428,6 @@
 	 	aggregateDataLayer = L.mapbox.featureLayer().addTo(map);
 		this.max = aggregateDataDatabase[this.scope]().max(key);
 		this.min = aggregateDataDatabase[this.scope]().min(key);
-
 		for (var kelName in kelurahanShapes) {
 		  if (kelurahanShapes.hasOwnProperty(kelName)) {
 		  		var info = aggregateDataDatabase[this.scope]({KELURAHAN: kelName}).get()[0];
