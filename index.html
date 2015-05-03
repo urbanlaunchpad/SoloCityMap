@@ -1,108 +1,136 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Basic site structure buildout.">
-        <title>Solo City Map / Structure</title>
-        <!-- STYLE -->
-        <link href='https://fonts.googleapis.com/css?family=Raleway:300,400,500' rel='stylesheet' type='text/css'>
-        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="./src/css/normalize.css">
-        <link rel="stylesheet" href="./src/css/bootstrap.css">
-    </head>
-    <body>
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Basic site structure buildout.">
+<title>Solo City Map / Structure</title>
+<!-- STYLE -->
+<link href='https://fonts.googleapis.com/css?family=Raleway:300,400,500'
+	rel='stylesheet' type='text/css'>
+<link
+	href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic'
+	rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="./src/css/normalize.css">
+<link rel="stylesheet" href="./src/css/bootstrap.css">
+</head>
+<body>
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
   js.src = "https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.3&appId=1648943068662525";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-        <div class="container-fluid">
-            <div class="row">
-                <div id="nav-bar" class="hidden-md hidden-lg"> Solo City Map </div>
-                <div id="map-canvas" class="col-md-8 col-lg-9 col-md-push-4 col-lg-push-3">
-                    <div id="map-panel">
-                        <div id="tools_container">
-                            <button type="button" id="layers_button" title="Open this menu to show the possible data layers available."></button>
-                            <div id="year_selector" title="Here you can filter the projects by year selecting one or more from the bar.">
-                                <p>Tahun penyaring</p>
-                            </div>
-                            <div id="layer_tools" style="display:none">
-                            		<div id="data_layer_year_selector" title="Here you can select which year of the data layers to show">
-                            			<p>Data layer years</p>
-                            			<input type="radio" id="data_2010" name="data_layer_year" checked="checked"><label for="data_2010">2010</label>
-                            			<input type="radio" id="data_2012" name="data_layer_year"><label for="data_2012">2012</label>
-                        				</div>
-                            		<div id="data_layer_scope" title="Here you can select if you want to show RT or Kelurahan data">
-                            			<input type="radio" id="data_KEL" name="data_layer_scope" checked="checked"><label for="data_KEL">Kelurahan</label>
-                            			<input type="radio" id="data_RT" name="data_layer_scope"><label for="data_RT">RT</label>
-                        				</div>                        				
-                                <select id="aggregate_data_selector" title="Choose which data layer to show.">
-                                    <option value="" disabled="disabled" selected="selected">Select a data layer</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div id="key_bar_container"></div>
-                    </div>
-                    <div id="map"> </div>
-                </div>
-                <div class="clearfix visible-sm-block visible-xs-block"></div>
-                <div id="left-panel" class="col-md-4 col-lg-3 col-md-pull-8 col-lg-pull-9">
-                    <div class="row">
-                        <div id="nav-bar" class="hidden-xs hidden-sm"> Solo City Map </div>
-                        <div id="kelurahan_search">
-                            <h1 id="kelurahan_name">Solo City Map</h5>
+	<div class="container-fluid">
+		<div class="row">
+			<div id="nav-bar" class="hidden-md hidden-lg">Solo City Map</div>
+			<div id="map-canvas"
+				class="col-md-8 col-lg-9 col-md-push-4 col-lg-push-3">
+				<div id="map-panel">
+					<div id="tools_container">
+						<button type="button" id="layers_button"
+							title="Open this menu to show the possible data layers available."></button>
+						<div id="year_selector"
+							title="Here you can filter the projects by year selecting one or more from the bar.">
+							<p>Tahun penyaring</p>
 						</div>
-						<select id="kelurahan_selector" style="width: 98.75%;" class="hidden-xs hidden-sm" data-placeholder="Select a kelurahan" title="Select a Kelurahan to see its projects."></select>
-						<div id="filter_conditions" class="hidden-xs hidden-sm" style="display:none;">
-							<select id="subcategory_filter" data-placeholder="Select Subcategories..." style="width: 290px; margin-bottom: 10px;" title="Here you can toggle which categories you want to show."></select>
-							<div id="was_voted_filter" class="filter-buttons" title="Filter if you want to show the projects that went trough the complete musrenbang process and the projects that were executed without voting.">			
-								<input type="checkbox" id="was_voted_filter_ALL" value="ALL"></input>
-								<label for="was_voted_filter_ALL" title="Toggle to show all the categories.">All</label>
-								<input type="checkbox" id="was_voted_filter_VO" value="VO"></input>
-								<label for="was_voted_filter_VO">Voted</label>
-								<input type="checkbox" id="was_voted_filter_NV" value="NV"></input>
-								<label for="was_voted_filter_NV">Not voted</label>
+						<div id="layer_tools" style="display: none">
+							<div id="data_layer_year_selector"
+								title="Here you can select which year of the data layers to show">
+								<p>Data layer years</p>
+								<input type="radio" id="data_2010" name="data_layer_year"
+									checked="checked"><label for="data_2010">2010</label> <input
+									type="radio" id="data_2012" name="data_layer_year"><label
+									for="data_2012">2012</label>
 							</div>
-							<div id="is_it_executed_filter" class="filter-buttons" title="Filter if you want to show the projects that were executed and the projects that were proposed, but not executed.">
-								<input type="checkbox" id="is_it_executed_filter_ALL" value="ALL"></input>
-								<label for="is_it_executed_filter_ALL" title="Toggle to show all the categories.">All</label>
-								<input type="checkbox" id="is_it_executed_filter_YES" value="YES"></input>
-								<label for="is_it_executed_filter_YES">Implemented</label>
-								<input type="checkbox" id="is_it_executed_filter_NO" value="NO"></input>
-								<label for="is_it_executed_filter_NO">Not Implemented</label>
-							</div>		 
-						</div>
-						<div id="planned_budget_info"></div>
-						<div id="executed_budget_info"></div>
-						<div id="list">
+							<div id="data_layer_scope"
+								title="Here you can select if you want to show RT or Kelurahan data">
+								<input type="radio" id="data_KEL" name="data_layer_scope"
+									checked="checked"><label for="data_KEL">Kelurahan</label>
+								<input type="radio" id="data_RT" name="data_layer_scope"><label
+									for="data_RT">RT</label>
+							</div>
+							<select id="aggregate_data_selector"
+								title="Choose which data layer to show.">
+							</select>
 						</div>
 					</div>
+					<div id="key_bar_container"></div>
+				</div>
+				<div id="map"></div>
+			</div>
+			<div class="clearfix visible-sm-block visible-xs-block"></div>
+			<div id="left-panel"
+				class="col-md-4 col-lg-3 col-md-pull-8 col-lg-pull-9">
+				<div class="row">
+					<div id="nav-bar" class="hidden-xs hidden-sm">Solo City Map</div>
+					<div id="kelurahan_search">
+						<h1 id="kelurahan_name">
+							Solo City Map
+							</h5>
+					</div>
+					<select id="kelurahan_selector" style="width: 98.75%;"
+						class="hidden-xs hidden-sm" data-placeholder="Select a kelurahan"
+						title="Select a Kelurahan to see its projects."></select>
+					<div id="filter_conditions" class="hidden-xs hidden-sm"
+						style="display: none;">
+						<select id="subcategory_filter"
+							data-placeholder="Select Subcategories..."
+							style="width: 290px; margin-bottom: 10px;"
+							title="Here you can toggle which categories you want to show."></select>
+						<div id="was_voted_filter" class="filter-buttons"
+							title="Filter if you want to show the projects that went trough the complete musrenbang process and the projects that were executed without voting.">
+							<input type="checkbox" id="was_voted_filter_ALL" value="ALL"></input>
+							<label for="was_voted_filter_ALL"
+								title="Toggle to show all the categories.">All</label> <input
+								type="checkbox" id="was_voted_filter_VO" value="VO"></input> <label
+								for="was_voted_filter_VO">Voted</label> <input type="checkbox"
+								id="was_voted_filter_NV" value="NV"></input> <label
+								for="was_voted_filter_NV">Not voted</label>
+						</div>
+						<div id="is_it_executed_filter" class="filter-buttons"
+							title="Filter if you want to show the projects that were executed and the projects that were proposed, but not executed.">
+							<input type="checkbox" id="is_it_executed_filter_ALL" value="ALL"></input>
+							<label for="is_it_executed_filter_ALL"
+								title="Toggle to show all the categories.">All</label> <input
+								type="checkbox" id="is_it_executed_filter_YES" value="YES"></input>
+							<label for="is_it_executed_filter_YES">Implemented</label> <input
+								type="checkbox" id="is_it_executed_filter_NO" value="NO"></input>
+							<label for="is_it_executed_filter_NO">Not Implemented</label>
+						</div>
+					</div>
+					<div id="planned_budget_info"></div>
+					<div id="executed_budget_info"></div>
+					<div id="list"></div>
 				</div>
 			</div>
 		</div>
+	</div>
 	<!-- jquery and jquery UI -->
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<link rel="stylesheet"
+		href="https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+	<script type="text/javascript"
+		src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script type="text/javascript"
+		src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<!-- MAPBOX -->
 	<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
-	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
-    <!-- Taffy DB -->
-    <script type="text/javascript" src="src/js/taffy-min.js"></script>
-    <!-- Chosen -->
-    <script type="text/javascript" src="src/js/chosen.jquery.min.js"></script>
-    <link rel="stylesheet" href="src/css/chosen.min.css">    
-    <!-- D3 and SK's key -->
-    <script src="src/js/d3.v3.min.js" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="src/css/key-fonts.css" />
-    <link rel="stylesheet" type="text/css" href="src/css/key.css" />
+	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css'
+		rel='stylesheet' />
+	<!-- Taffy DB -->
+	<script type="text/javascript" src="src/js/taffy-min.js"></script>
+	<!-- Chosen -->
+	<script type="text/javascript" src="src/js/chosen.jquery.min.js"></script>
+	<link rel="stylesheet" href="src/css/chosen.min.css">
+	<!-- D3 and SK's key -->
+	<script src="src/js/d3.v3.min.js" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="src/css/key-fonts.css" />
+	<link rel="stylesheet" type="text/css" href="src/css/key.css" />
 
-    <link rel="stylesheet" href="./src/css/structure.css">
-    <link rel="stylesheet" href="./src/css/style.css">	
+	<link rel="stylesheet" href="./src/css/structure.css">
+	<link rel="stylesheet" href="./src/css/style.css">
 	<script type="text/javascript">
 	  //***********************************************************************
 	  //***********************Here goes the stuff for the map*****************
@@ -110,79 +138,101 @@
 	  var kelurahansFusionTableID = "1jdxsdPlAvCNRair4uv2pOwWTzMNtutDdhfXlp9QO";
 	  var subdivisionsFusionTableID = "158fKZygrAlgGKaYDkT4alniT5ZEeTqPdwtFtEoc-";
 	  var musrenbangFusionTableID = "1yHXZ3Z5yQXl8eEewPUgYSzOvd458RhW9pQ2smFIf";
-	  var data2010FusionTableID = "1oMln7GsJjbGJ9CQK41FP-aq3Xkz7fJPVZof2U5rY";
+	  var kel2010FusionTableID = "1oMln7GsJjbGJ9CQK41FP-aq3Xkz7fJPVZof2U5rY";
 	  var projectFields = [
-	  {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"TEXT"},
-	  {KEY:"YEAR", NAME:"Year", TYPE:"NUMBER"},
-	  {KEY:"VOTED", NAME:"Voted", TYPE:"TEXT"},
-	  {KEY:"CATEGORY", NAME:"Category", TYPE:"TEXT"},
-	  {KEY:"SUBCATEGORY", NAME:"Subcategory", TYPE:"TEXT"},
-	  {KEY:"UNIQUE_NUMBER", NAME:"Unique number", TYPE:"NUMBER"},
-	  {KEY:"LEVEL", NAME:"Level", TYPE:"TEXT"},
-	  {KEY:"PRIORITY", NAME:"Priority", TYPE:"NUMBER"},
-	  {KEY:"PROJECT_NAME", NAME:"Project name", TYPE:"TEXT"},
-	  {KEY:"LOCATION", NAME:"Location", TYPE:"TEXT"},
-	  {KEY:"AGENCY", NAME:"Agency", TYPE:"TEXT"},
-	  {KEY:"PLANNED_BUDGET", NAME:"Planned budget", TYPE:"NUMBER"},
-	  {KEY:"EXECUTED_BUDGET", NAME:"Executed budget", TYPE:"NUMBER"},
-	  {KEY:"IS_IT_EXECUTED", NAME:"Is it executed", TYPE:"TEXT"},
-	  {KEY:"NOTES", NAME:"Notes", TYPE:"TEXT"}
+	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"TEXT"},
+	  	{KEY:"YEAR", NAME:"Year", TYPE:"NUMBER"},
+	  	{KEY:"VOTED", NAME:"Voted", TYPE:"TEXT"},
+	  	{KEY:"CATEGORY", NAME:"Category", TYPE:"TEXT"},
+	  	{KEY:"SUBCATEGORY", NAME:"Subcategory", TYPE:"TEXT"},
+	  	{KEY:"UNIQUE_NUMBER", NAME:"Unique number", TYPE:"NUMBER"},
+	  	{KEY:"LEVEL", NAME:"Level", TYPE:"TEXT"},
+	  	{KEY:"PRIORITY", NAME:"Priority", TYPE:"NUMBER"},
+	  	{KEY:"PROJECT_NAME", NAME:"Project name", TYPE:"TEXT"},
+	  	{KEY:"LOCATION", NAME:"Location", TYPE:"TEXT"},
+	  	{KEY:"AGENCY", NAME:"Agency", TYPE:"TEXT"},
+	  	{KEY:"PLANNED_BUDGET", NAME:"Planned budget", TYPE:"NUMBER"},
+	  	{KEY:"EXECUTED_BUDGET", NAME:"Executed budget", TYPE:"NUMBER"},
+	  	{KEY:"IS_IT_EXECUTED", NAME:"Is it executed", TYPE:"TEXT"},
+	  	{KEY:"NOTES", NAME:"Notes", TYPE:"TEXT"}
 	  ];
-	/*  var dataFields = [
-	  {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT"},
-	  {KEY:"TOTAL_HH", NAME:"Total Households", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"TOTAL_CITIZENS", NAME:"Total Citizens", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"AVERAGE_HH_SIZE", NAME:"Average household size", TYPE:"TOTAL", KIND:"FLOAT"},
-	  {KEY:"TOTAL_7_18", NAME:"Total children between 7 and 18", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"NO_SCHOOL", NAME:"Total children not in school", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"TOTAL_HH_WC", NAME:"Total households with private WC", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"TOTAL_HH_WC_PUBLIC", NAME:"Total households with private WC", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"TOTAL_PDAM", NAME:"Total PDAM", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"TOTAL_HH_PUBLIC_WELLS", NAME:"Total households with public wells", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"TOTAL_HH_PRIVATE_WELLS", NAME:"Total household with private wells", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"TOTAL_HOUSES", NAME:"Total houses", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"TOTAL_LAND_TENURE", NAME:"Total land tenure", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"HOUSES_HH_RATIO", NAME:"Houses household ratio", TYPE:"TOTAL", KIND:"FLOAT"},
-	  {KEY:"TOTAL_POOR_HH", NAME:"Total poor households", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"}
-	  ];   */
-	  var kelDataFields2010 =  [
+	  var dataTableIDs = {};
+	  dataTableIDs["KEL2010"] = "1oMln7GsJjbGJ9CQK41FP-aq3Xkz7fJPVZof2U5rY";
+	  dataTableIDs["KEL2012"] = "1igNdyGwVkk8143BqEGVFeHrEqCoDs_PMDTlBot_m";
+	  dataTableIDs["RT2010"] = "1iVNXfoLPTK5m-v_ipp8THHMKdIq6jPCYbP91QYP9";
+	  dataTableIDs["RT2012"] = "17gTZPxPFgSxlHxPe7VSAQYBK-g4PsIa4XJsV5_rG";
+	  var dataFields = {};
+	  dataFields["KEL2010"] = [
 	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
 			{KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
 			{KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
 			{KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
 			{KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
-			{KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
+			{KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households using public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
 			{KEY:"POVERTY_PERCENTAGE", NAME:" % of households in Poverty", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Poverty"},
 			{KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
 			{KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Housing"}
 	  ];
-	  var kelDdataFields2012 = [
+	  dataFields["KEL2012"] = [
 	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
 			{KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
 			{KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
 			{KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
 			{KEY:"POVERTY_PERCENTAGE", NAME:" % of households in Poverty", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Poverty"},
 			{KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
-			{KEY:"2010_2012_HH_PERCENTAGE_CHANGE", NAME:"% change of household", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_POPULATION_PERCENTAGE_CHANGE", NAME:"% change of population", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_7_18_PERCENTAGE_CHANGE", NAME:"% change of ages 7 - 18 years", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_7_18_NO_SCHOOL_PERCENTAGE_CHANGE", NAME:" % change of 7-18 years old not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_PRIV_WC_PERCENTAGE_CHANGE", NAME:"% change of HH with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_PUB_WC_PERCENTAGE_CHANGE", NAME:"% change of HH with public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_PDAM_PERCENTAGE_CHANGE", NAME:"% change of HH with access to PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
-			{KEY:"2010_2012_POVERTY_PERCENTAGE_CHANGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"}
+			{KEY:"HH_PERCENTAGE_CHANGE_2010_2012", NAME:"% change of household", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"POPULATION_PERCENTAGE_CHANGE_2010_2012", NAME:"% change of population", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"CHILDREN_7_18_PERCENTAGE_CHANGE_2010_2012", NAME:"% change of ages 7 - 18 years", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"NO_SCHOOL_7_18_PERCENTAGE_CHANGE_2010_2012", NAME:" % change of 7-18 years old not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"PRIV_WC_PERCENTAGE_CHANGE_2010_2012", NAME:"% change of HH with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"PUB_WC_PERCENTAGE_CHANGE_2010_2012", NAME:"% change of HH with public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"PDAM_PERCENTAGE_CHANGE_2010_2012", NAME:"% change of HH with access to PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
+			{KEY:"POVERTY_PERCENTAGE_CHANGE_2010_2012", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"}
+	  ];
+	  dataFields["RT2010"] = [
+	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
+	  	{KEY:"RT", NAME:"RT", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
+	  	{KEY:"RW", NAME:"RW", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
+	  	{KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
+	  	{KEY:"PUBLIC_WELL_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
+	  	{KEY:"PRIVATE_WELL_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
+	  	{KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
+			{KEY:"PUBLIC_WC_PERCENTAGE", NAME:"Percentage of households using public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
+			{KEY:"POVERTY_PERCENTAGE", NAME:" % of households in Poverty", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Poverty"},
+			{KEY:"DEPENDENT_PEOPLE_PERCENTAGE", NAME:"Percentage of dependent people", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
+			{KEY:"NEAREST_SCHOOL_DISTANCE", NAME:"Distance to the nearest school (meters)", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
+			{KEY:"DEPENDENT_PEOPLE_PERCENTAGE", NAME:"Percentage of dependent people", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
+			{KEY:"CHILDREN_PERCENTAGE", NAME:"Percentage of 7 - 18 years old children", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
+			{KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of 7 - 18 years old children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
+			{KEY:"PARK_DISTANCE", NAME:"Distance to nearest park (meters)", TYPE:"TOTAL", KIND:"FLOAT", CLASS_NAME:"Health"},
+			{KEY:"CLINIC_DISTANCE", NAME:"Distance to nearest clinic or hospital (meters)", TYPE:"TOTAL", KIND:"FLOAT", CLASS_NAME:"Health"},
+			{KEY:"POP_DENSITY", NAME:"Population density (ppl/hectare)", TYPE:"TOTAL", KIND:"FLOAT", CLASS_NAME:"Housing"},
+			{KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Housing"}
+	  ];
+	  dataFields["RT2012"] = [
+	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
+	  	{KEY:"RT", NAME:"RT", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
+	  	{KEY:"RW", NAME:"RW", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
+	  	{KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
+	  	{KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
+	  	{KEY:"PUBLIC_WC_PERCENTAGE", NAME:"Percentage of households using public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
+	  	{KEY:"POVERTY_PERCENTAGE", NAME:" % of households in Poverty", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Poverty"},
+	  	{KEY:"DISABLED_PEOPLE_PERCENTAGE", NAME:"Percentage of disabled people", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
+	  	{KEY:"POP_DENSITY", NAME:"Population density (ppl/hectare)", TYPE:"TOTAL", KIND:"FLOAT", CLASS_NAME:"Housing"},
+	  	{KEY:"UNHABITABLE_HOUSES_PERCENTAGE", NAME:"% of uninhabitable Houses", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Housing"}	
 	  ];
 	  var drawDelay = 50;
 	  var projectDatabase =  TAFFY();
-	  var aggregateDataDatabase = TAFFY();
+	  var aggregateDataDatabase = {};
+	 	aggregateDataDatabase["KEL2010"] = {};
+	 	aggregateDataDatabase["KEL2012"] = {};
+	 	aggregateDataDatabase["RT2010"] = {};
+	 	aggregateDataDatabase["RT2012"] = {};	  
+	 	var aggregateTaffyDatabase = {};
+	 	aggregateTaffyDatabase["KEL2010"] = TAFFY();
+	 	aggregateTaffyDatabase["KEL2012"] = TAFFY();
+	 	aggregateTaffyDatabase["RT2010"] = TAFFY();
+	 	aggregateTaffyDatabase["RT2012"] = TAFFY();	  
 	  //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
 	  var colors = ['#BEC1C4']; // More neutral, similar to Kota Kita site
 	  var percentageColor = "#8A0707";
@@ -193,11 +243,18 @@
 	  	fillColor: "#FFFFFF",
 	  	fillOpacity: 0,
 	  };
+	  var originalDataLayerShapeOptions = {
+	  	color: "#000000",
+	  	opacity: 1,
+	  	weight: 0.2,
+	  	fillColor: percentageColor,
+	  	fillOpacity: 0,
+	  };
 	  var onHoverKelurahanShapeOptions = {
 	  	color: "#000000",
 	  	opacity: 1,
 	  	weight: 2,
-	  	fillColor: "#FFFFFF",
+	  	fillColor: "#8A0707",
 	  	fillOpacity: 0,
 	  };
 	  var activeKelurahanShapeOptions = {
@@ -220,11 +277,17 @@
 	  var map;
 	  var kelurahans = [];
 	  var subdivisions = {};
+	  var kelurahanShapes = {};
 	  var projectsArray = [];
 	  var subcategoryIcons;
 	  var mapSC;
 	  var kelurahanLayer;
 	  var projectLocationLayer;
+	  var aggregateDataLayer;
+	  var layer2010sel;
+	  var layer2012sel;
+	  var layerRTsel;
+	  var layerKELsel;
 	  document.addEventListener("DOMContentLoaded", initialize);
 	  var subcategories = {
 	  	JA : {name: "Jalan",
@@ -252,8 +315,65 @@
 	  	getSubdivisions();
 	  	getProjects();
 	  	getKelurahans();
-	  	get2010Data();
+	  	getAllData();
 	  	initializeLayerToolbar();
+	  }
+	  function clearDataLayerView(){
+
+	  }
+	  function updateLayerOptions(){
+	  	if(layer2010sel.checked){
+	  		this.year = "2010";
+	  	} else {
+	  		this.year = "2012";
+	  	}
+	  	if(layerRTsel.checked){
+	  		this.locScope = "RT";
+	  	} else {
+	  		this.locScope = "KEL";
+	  	}
+	  	var scope = this.locScope + this.year;
+	  	var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
+	  	for (var i = aggregateDataLayerSelector.options.length - 1; i >= 0; i--) {
+	  		aggregateDataLayerSelector.options[i] = null;
+	  	};
+			var defOpt = document.createElement("option");
+			defOpt.disabled = true;
+			defOpt.selected = true;
+			defOpt.innerHTML= "Select a data layer";
+			defOpt.value = "";
+			aggregateDataLayerSelector.appendChild(defOpt);
+	  	for (var i = 0; i < dataFields[scope].length; i++) {
+	  		if(!(dataFields[scope][i]["CLASS_NAME"] == "KEY")){
+	  			if((i == 0)&&(dataFields[scope][i]["CLASS_NAME"] != "KEY")){
+	  				var opDiv = document.createElement("option");
+	  				opDiv.innerHTML = dataFields[scope][i]["CLASS_NAME"];
+	  				opDiv.disabled = true;
+	  				opDiv.className = "data_divider";
+	  				aggregate_data_selector.appendChild(opDiv);
+	  			} else if ((i > 0)&&((dataFields[scope][i]["CLASS_NAME"] != "KEY")&&(dataFields[scope][i]["CLASS_NAME"] != dataFields[scope][i-1]["CLASS_NAME"]))) {
+	  				var opDiv = document.createElement("option");
+	  				opDiv.innerHTML = dataFields[scope][i]["CLASS_NAME"];
+	  				opDiv.disabled = true;
+	  				opDiv.className = "data_divider";
+	  				aggregate_data_selector.appendChild(opDiv);
+	  			}
+	  			var option = document.createElement("option");
+	  			option.value = dataFields[scope][i]["KEY"];
+	  			option.type = dataFields[scope][i]["TYPE"];
+	  			option.name = dataFields[scope][i]["NAME"];
+	  			option.innerHTML = dataFields[scope][i]["NAME"];
+	  			aggregate_data_selector.appendChild(option);
+	  		}
+	  	}
+	  	that = this;
+	  	aggregateDataLayerSelector.onchange = function(){
+	  		var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
+	  		var selectedLayer = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].value;
+	  		var selectedType = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].type;
+	  		var selectedLabel = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].name;
+	  		showDataLayer(selectedLayer, selectedType, selectedLabel, that.year, that.locScope);
+	  	}	
 	  }
 	  function initializeLayerToolbar(){
 	  	var layerButton = document.getElementById("layers_button");
@@ -262,37 +382,27 @@
 	  		$("#data_layer_year_selector").buttonset();
 	  		$("#data_layer_scope").buttonset();
 	  	}
-	  	var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
-	  	for (var i = 0; i < kelDataFields2010.length; i++) {
-	  		if(!(kelDataFields2010[i]["CLASS_NAME"] == "KEY")){
-	  			if((i == 0)&&(kelDataFields2010[i]["CLASS_NAME"] != "KEY")){
-	  				var opDiv = document.createElement("option");
-	  				opDiv.innerHTML = kelDataFields2010[i]["CLASS_NAME"];
-	  				opDiv.disabled = true;
-	  				opDiv.className = "data_divider";
-	  				aggregate_data_selector.appendChild(opDiv);
-	  			} else if ((i > 0)&&((kelDataFields2010[i]["CLASS_NAME"] != "KEY")&&(kelDataFields2010[i]["CLASS_NAME"] != kelDataFields2010[i-1]["CLASS_NAME"]))) {
-	  				var opDiv = document.createElement("option");
-	  				opDiv.innerHTML = kelDataFields2010[i]["CLASS_NAME"];
-	  				opDiv.disabled = true;
-	  				opDiv.className = "data_divider";
-	  				aggregate_data_selector.appendChild(opDiv);
-	  			}
-	  			var option = document.createElement("option");
-	  			option.value = kelDataFields2010[i]["KEY"];
-	  			option.type = kelDataFields2010[i]["TYPE"];
-	  			option.name = kelDataFields2010[i]["NAME"];
-	  			option.innerHTML = kelDataFields2010[i]["NAME"];
-	  			aggregate_data_selector.appendChild(option);
-	  		}
-	  	};
-	  	aggregateDataLayerSelector.onchange = function(){
-	  		var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
-	  		var selectedLayer = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].value;
-	  		var selectedType = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].type;
-	  		var selectedLabel = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].name;
-	  		showDataLayer(selectedLayer, selectedType, selectedLabel);
+	  	layer2010sel = document.getElementById("data_2010");
+	  	layer2010sel.onclick = function(){
+	  		clearDataLayerView();
+	  		updateLayerOptions();
 	  	}
+	  	layer2012sel = document.getElementById("data_2012");
+	  	layer2012sel.onclick = function(){
+	  		clearDataLayerView();
+	  		updateLayerOptions();
+	  	}	  	
+	  	layerRTsel = document.getElementById("data_RT");
+	  	layerRTsel.onclick = function(){
+	  		clearDataLayerView();
+	  		updateLayerOptions();
+	  	}	  	
+	  	layerKELsel = document.getElementById("data_KEL");
+	  	layerKELsel.onclick = function(){
+	  		clearDataLayerView();
+	  		updateLayerOptions();
+	  	}	  	
+	  	updateLayerOptions();
 	  }
 	  function toggleLayerToolbar(){
 	  	var layerTools = document.getElementById("layer_tools");
@@ -311,20 +421,23 @@
 	  	var query = 'SELECT KELURAHAN, geometry, geometry_pos, RW, RT FROM ' + subdivisionsFusionTableID;
 	  	getFusionTablesData(query, "parseSubdivisions");
 	  }
-	  function get2010Data(){
-	  	var columnNames = getWhatToGet(kelDataFields2010);
-	  	var query = 'SELECT ' + columnNames + '  FROM ' + data2010FusionTableID;
-	  	getFusionTablesData(query, "parseData");
+	  function getData(scope) {
+	  	var columnNames = getWhatToGet(dataFields[scope]);
+	  	var query = 'SELECT ' + columnNames + '  FROM ' + dataTableIDs[scope];
+	  	getFusionTablesData(query, "parseData" + scope);
 	  }
-	  function getData(tableID, fields, callbackName) {
-	  	var columnNames = getWhatToGet(fields);
-	  	var query = 'SELECT ' + columnNames + '  FROM ' + tableID;
-	  	getFusionTablesData(query, "parseData");
+	  function getAllData(){
+			for (var scope in dataFields) {
+			   if (dataFields.hasOwnProperty(scope)) {
+			       getData(scope);
+			   }
+			}
 	  }
 	  function mapStateController(){
 	  	L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
 	  	map = L.mapbox.map("map", 'stephenkennedy.ad4e43ac')
 	  	.setView([-7.566667, 110.866667], 13);
+	  	aggregateDataLayer = L.mapbox.featureLayer().addTo(map);
 	  	kelurahanLayer =  L.mapbox.featureLayer().addTo(map);
 	  	projectLocationLayer = L.mapbox.featureLayer().addTo(map);
 	  	var state;
@@ -511,6 +624,37 @@
 	  this.showLocationShapes = function(kelurahan, subcategory, locations){  
 	  	var shapeOptions = originalLocationShapeOptions;
 	  	shapeOptions.fillColor = subcategory.color;
+	  	for (var i=0; i<locations.length; i++){
+	  		if(locations[i].indexOf("-") !=-1){
+	  			var tempLoc = locations[i].split("-");
+	  			var geometry = subdivisions[kelurahan][tempLoc[0].substring(2, tempLoc[0].length)][tempLoc[1].substring(2, tempLoc[1].length)].GEOMETRIES;
+	  			var shape = L.polygon(geometry, shapeOptions);
+	  			shape.addTo(projectLocationLayer);
+	  		} else if(locations[i].indexOf("RW") !=-1){
+	  			var locationsToShow = subdivisions[kelurahan][locations[i].substring(2,locations[i].length)];
+	  			for(var key in locationsToShow){
+	  				var geometry = locationsToShow[key].GEOMETRIES;
+	  				var shape = L.polygon(geometry, shapeOptions);
+	  				shape.addTo(projectLocationLayer);
+	  			}
+	  		} else if(locations[i] == "KELURAHAN"){
+	  			var kelurahanLocations = subdivisions[kelurahan];
+	  			for(var key in kelurahanLocations){
+	  				var rwLocations = kelurahanLocations[key];
+	  				for(var key in rwLocations){
+	  					var rtLocations = rwLocations[key];
+	  					if(rtLocations.hasOwnProperty("GEOMETRIES")){
+	  						var geometry = rtLocations.GEOMETRIES;
+	  						var shape = L.polygon(geometry, shapeOptions);
+	  						shape.addTo(projectLocationLayer);       
+	  					}
+	  				}
+	  			}
+	  		}
+	  	}
+	  }
+	  this.addShape = function(locations, layer, style){  
+	  	var shapeOptions = style;
 	  	for (var i=0; i<locations.length; i++){
 	  		if(locations[i].indexOf("-") !=-1){
 	  			var tempLoc = locations[i].split("-");
@@ -798,6 +942,10 @@
 				newCoordinates = constructNewCoordinates(rows[i][1]['geometry']);
 			}
 			kelurahans[i] = new kelurahan(kelurahan_name, newCoordinates, center, i);
+			shape = new L.polygon(newCoordinates, originalDataLayerShapeOptions); 
+			kelurahanShapes[kelurahan_name] = {
+				SHAPE: shape
+			}
 		}
 		mapSC.onKelurahansParsed();
 	}
@@ -809,8 +957,8 @@
 			var kelurahan_name = rows[i][0];
 			var center = constructNewPointCoordinates(rows[i][2]['geometry']);
 			var geometries = rows[i][1]['geometries'];
-			var rw_name = rows[i][3];
-			var rt_name = rows[i][4];
+			var rw_name = isNaN(parseFloat(rows[i][3])) ? 0 : parseFloat(rows[i][3]);
+			var rt_name = isNaN(parseFloat(rows[i][4])) ? 0 : parseFloat(rows[i][4]);
 			if (geometries) {
 				for (var j in geometries) {
 					newCoordinates.push(constructNewCoordinates(geometries[j]));
@@ -826,10 +974,12 @@
 			}
 			if(!subdivisions[kelurahan_name][rw_name].hasOwnProperty(rt_name)){
 				subdivisions[kelurahan_name][rw_name][rt_name] = {};
-			}          
+			}
+			shape = new L.polygon(newCoordinates, originalDataLayerShapeOptions);          
 			subdivisions[kelurahan_name][rw_name][rt_name] = {
 				CENTER : center,
-				GEOMETRIES : newCoordinates
+				GEOMETRIES : newCoordinates,
+				SHAPE: shape
 			}
 		}
 	}
@@ -1090,16 +1240,10 @@
 	      // .style("margin-left", function(d) {
 	      //  return "-2px";
 	      //  });
-d3.select("body #plabel-container").selectAll("div.bar")
-.data(data_value)
-.enter()
-.append("div")
-.style("width", function(d) {
-	return d + "%";
-})
-.data(data_plabel)
-.append("h6").text(function(d) { return d; });
-}
+			d3.select("body #plabel-container").selectAll("div.bar").data(data_value).enter().append("div").style("width", function(d) {
+				return d + "%";
+			}).data(data_plabel).append("h6").text(function(d) { return d; });
+		}
 	  //***********************************************************************
 	  //***************Here goes the stuff for the  info***********************
 	  //***********************************************************************
@@ -1109,23 +1253,51 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	  	getFusionTablesData(query, "parseProjects");
 	  }
 
-	  function parseData(data){
+	  function parseData(data, fields, keyToSave){
 	  	var rows = data['rows'];
+	  	this.fields = fields;
 	    // Filling a TaffyDB with the information of the projects.
 	    for (var j in rows){
 	    	var tempObj = {};
 	    	tempObj["INDEX"] = j;
-	    	for (var i=0; i < kelDataFields2010.length; i++){
-	    		if(kelDataFields2010[i].KIND == "TEXT"){
-	    			tempObj[kelDataFields2010[i].KEY] = rows[j][i];
-	    		} else if(kelDataFields2010[i].KIND == "INTEGER") {
-	    			tempObj[kelDataFields2010[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
+	    	for (var i=0; i < this.fields.length; i++){
+	    		if(this.fields[i].KIND == "TEXT"){
+	    			tempObj[this.fields[i].KEY] = rows[j][i];
+	    		} else if(this.fields[i].KIND == "INTEGER") {
+	    			tempObj[this.fields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
 	    		} else {
-	    			tempObj[kelDataFields2010[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
+	    			tempObj[this.fields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
 	    		}
 	    	}
-	    	aggregateDataDatabase.insert(tempObj);
+	    	aggregateTaffyDatabase[keyToSave].insert(tempObj);
+	    	if(keyToSave.indexOf("KEL") > -1){
+					aggregateDataDatabase[keyToSave][tempObj.KELURAHAN] = tempObj;
+				} else {
+					if(!aggregateDataDatabase[keyToSave][tempObj.KELURAHAN]){
+						aggregateDataDatabase[keyToSave][tempObj.KELURAHAN] = {};
+					}
+					if(!aggregateDataDatabase[keyToSave][tempObj.KELURAHAN][tempObj.RW]){
+						aggregateDataDatabase[keyToSave][tempObj.KELURAHAN][tempObj.RW] = {};
+					}
+					aggregateDataDatabase[keyToSave][tempObj.KELURAHAN][tempObj.RW][tempObj.RT] = tempObj;
+				}
 	    }
+	}
+	function parseDataKEL2010(data){
+		this.data = data;
+		parseData(this.data, dataFields["KEL2010"], "KEL2010");
+	}
+	function parseDataKEL2012(data){
+		this.data = data;
+		parseData(this.data, dataFields["KEL2012"], "KEL2012");		
+	}
+	function parseDataRT2010(data){
+		this.data = data;
+		parseData(this.data, dataFields["RT2010"], "RT2010");
+	}
+	function parseDataRT2012(data){
+		this.data = data;
+		parseData(this.data, dataFields["RT2012"], "RT2012");
 	}
 	function parseProjects(data){
 		var rows = data['rows'];
@@ -1170,7 +1342,6 @@ d3.select("body #plabel-container").selectAll("div.bar")
 		h6.innerHTML = project.PROJECT_NAME;
 		div.appendChild(h6);
 		label.appendChild(div);
-
 		var commentIcon = projectStateIcons.getIcon("COMMENT");
 		commentIcon.onclick = function(){
 			var modal = document.createElement("div");
@@ -1263,27 +1434,59 @@ d3.select("body #plabel-container").selectAll("div.bar")
 			this.list.appendChild(kelurahanSummary);
 		}
 	}
-	function showDataLayer(key, type, label){
+	function showDataLayer(key, type, label, year, locScope){
 		this.label = label;
-		this.normalStyle = {};
-		this.onHoverStyle = {};
-		this.selectedStyle = {};
-		this.normalStyle = originalKelurahanShapeOptions;
-		this.onHoverStyle = onHoverKelurahanShapeOptions;
-		this.selectedStyle = activeKelurahanShapeOptions;
-		this.max = aggregateDataDatabase().max(key);
-		this.min = aggregateDataDatabase().min(key);
-		for (var i = kelurahans.length - 1; i >= 0; i--) {
-			var info = aggregateDataDatabase({KELURAHAN: kelurahans[i].getName()}).get()[0];
-			this.normalStyle.fillColor = percentageColor;
-			this.onHoverStyle.fillColor = percentageColor;
-			this.selectedStyle.fillColor = percentageColor;
-			this.normalStyle.fillOpacity = (info[key] - this.min)/(this.max - this.min);
-			this.onHoverStyle.fillOpacity = (info[key] - this.min)/(this.max - this.min);
-			this.selectedStyle.fillOpacity = (info[key] - this.min)/(this.max - this.min);
-			kelurahans[i].setStyles(this.normalStyle, this.selectedStyle, this.onHoverStyle);
-		};
+		this.year = year;
+		this.locScope = locScope;
+		this.scope = locScope + year;
+		map.removeLayer(aggregateDataLayer);
+		aggregateDataLayer = {};
+	 	aggregateDataLayer = L.mapbox.featureLayer().addTo(map);
+		this.max = aggregateTaffyDatabase[this.scope]().max(key);
+		this.min = aggregateTaffyDatabase[this.scope]().min(key);
 		mapKey(this.min, this.max, this.label); 
+		if(this.locScope == "KEL"){
+			for (var kelName in kelurahanShapes) {
+			  if (kelurahanShapes.hasOwnProperty(kelName)) {
+			  		var info = aggregateDataDatabase[this.scope][kelName];
+			      var shape = kelurahanShapes[kelName]["SHAPE"];
+			      var style = JSON.parse(JSON.stringify(originalDataLayerShapeOptions));
+			      style.fillOpacity = (info[key] - this.min)/(this.max - this.min);
+			      shape.setStyle(style);	
+			      shape.addTo(aggregateDataLayer);
+			      shape.bringToBack();
+			  }
+			}
+		} else {
+			for (var kelName in subdivisions) {
+				if (subdivisions.hasOwnProperty(kelName)) {
+					for (var rwName in subdivisions[kelName]) {
+						if (subdivisions[kelName].hasOwnProperty(rwName)) {
+							for (var rtName in subdivisions[kelName][rwName]) {
+								if (subdivisions[kelName][rwName].hasOwnProperty(rtName)) {
+									try {
+										var info = aggregateDataDatabase[this.scope][kelName][rtName][rwName];
+									} catch(err) {
+
+									}
+						      if (typeof info != 'undefined'){
+										var shape = subdivisions[kelName][rwName][rtName]["SHAPE"];
+						      	var style = JSON.parse(JSON.stringify(originalDataLayerShapeOptions));
+						      	style.fillOpacity = (info[key] - this.min)/(this.max - this.min);
+						      	shape.setStyle(style);
+						      	shape.addTo(aggregateDataLayer);
+						      	shape.bringToBack();
+									} else {
+										console.log(kelName + " " + rwName + " " + rtName + " not found.");
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		console.log("ima finishS")
 	}
 	function emptyProjectCards(){
 		var list = document.getElementById("list");
@@ -1313,5 +1516,5 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	  	return whatToGet;
 	  }
 	  </script>
-	</body>
-	</html>
+</body>
+</html>
