@@ -318,16 +318,16 @@
 	  }
 	  function updateLayerOptions(){
 	  	if(layer2010sel.checked){
-	  		var year = "2010";
+	  		this.year = "2010";
 	  	} else {
-	  		var year = "2012";
+	  		this.year = "2012";
 	  	}
 	  	if(layerRTsel.checked){
-	  		var location = "RT";
+	  		this.loc = "RT";
 	  	} else {
-	  		var location = "KEL";
+	  		this.loc = "KEL";
 	  	}
-	  	var scope = location + year;
+	  	var scope = this.loc + this.year;
 	  	var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
 	  	for (var i = aggregateDataLayerSelector.options.length - 1; i >= 0; i--) {
 	  		aggregateDataLayerSelector.options[i] = null;
@@ -361,12 +361,13 @@
 	  			aggregate_data_selector.appendChild(option);
 	  		}
 	  	}
+	  	that = this;
 	  	aggregateDataLayerSelector.onchange = function(){
 	  		var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
 	  		var selectedLayer = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].value;
 	  		var selectedType = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].type;
 	  		var selectedLabel = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].name;
-	  		showDataLayer(selectedLayer, selectedType, selectedLabel);
+	  		showDataLayer(selectedLayer, selectedType, selectedLabel, that.year, that.loc);
 	  	}	
 	  }
 	  function initializeLayerToolbar(){
@@ -969,7 +970,7 @@
 			if(!subdivisions[kelurahan_name][rw_name].hasOwnProperty(rt_name)){
 				subdivisions[kelurahan_name][rw_name][rt_name] = {};
 			}
-			shape = new L.polygon(geometry, originalDataLayerShapeOptions);          
+			shape = new L.polygon(newCoordinates, originalDataLayerShapeOptions);          
 			subdivisions[kelurahan_name][rw_name][rt_name] = {
 				CENTER : center,
 				GEOMETRIES : newCoordinates,
@@ -1418,18 +1419,21 @@
 			this.list.appendChild(kelurahanSummary);
 		}
 	}
-	function showDataLayer(key, type, label){
+	function showDataLayer(key, type, label, year, loc){
 		this.label = label;
+		this.year = year;
+		this.loc = loc;
+		this.scope = loc + year;
 		this.normalStyle = {};
 		this.onHoverStyle = {};
 		this.selectedStyle = {};
 		this.normalStyle = originalKelurahanShapeOptions;
 		this.onHoverStyle = onHoverKelurahanShapeOptions;
 		this.selectedStyle = activeKelurahanShapeOptions;
-		this.max = aggregateDataDatabase["KEL2010"]().max(key);
-		this.min = aggregateDataDatabase["KEL2010"]().min(key);
+		this.max = aggregateDataDatabase[this.scope]().max(key);
+		this.min = aggregateDataDatabase[this.scope]().min(key);
 		for (var i = kelurahans.length - 1; i >= 0; i--) {
-			var info = aggregateDataDatabase["KEL2010"]({KELURAHAN: kelurahans[i].getName()}).get()[0];
+			var info = aggregateDataDatabase[this.scope]({KELURAHAN: kelurahans[i].getName()}).get()[0];
 			this.normalStyle.fillColor = percentageColor;
 			this.onHoverStyle.fillColor = percentageColor;
 			this.selectedStyle.fillColor = percentageColor;
