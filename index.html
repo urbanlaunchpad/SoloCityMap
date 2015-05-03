@@ -142,48 +142,29 @@
 	  var musrenbangFusionTableID = "1yHXZ3Z5yQXl8eEewPUgYSzOvd458RhW9pQ2smFIf";
 	  var kel2010FusionTableID = "1oMln7GsJjbGJ9CQK41FP-aq3Xkz7fJPVZof2U5rY";
 	  var projectFields = [
-	  {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"TEXT"},
-	  {KEY:"YEAR", NAME:"Year", TYPE:"NUMBER"},
-	  {KEY:"VOTED", NAME:"Voted", TYPE:"TEXT"},
-	  {KEY:"CATEGORY", NAME:"Category", TYPE:"TEXT"},
-	  {KEY:"SUBCATEGORY", NAME:"Subcategory", TYPE:"TEXT"},
-	  {KEY:"UNIQUE_NUMBER", NAME:"Unique number", TYPE:"NUMBER"},
-	  {KEY:"LEVEL", NAME:"Level", TYPE:"TEXT"},
-	  {KEY:"PRIORITY", NAME:"Priority", TYPE:"NUMBER"},
-	  {KEY:"PROJECT_NAME", NAME:"Project name", TYPE:"TEXT"},
-	  {KEY:"LOCATION", NAME:"Location", TYPE:"TEXT"},
-	  {KEY:"AGENCY", NAME:"Agency", TYPE:"TEXT"},
-	  {KEY:"PLANNED_BUDGET", NAME:"Planned budget", TYPE:"NUMBER"},
-	  {KEY:"EXECUTED_BUDGET", NAME:"Executed budget", TYPE:"NUMBER"},
-	  {KEY:"IS_IT_EXECUTED", NAME:"Is it executed", TYPE:"TEXT"},
-	  {KEY:"NOTES", NAME:"Notes", TYPE:"TEXT"}
+	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"TEXT"},
+	  	{KEY:"YEAR", NAME:"Year", TYPE:"NUMBER"},
+	  	{KEY:"VOTED", NAME:"Voted", TYPE:"TEXT"},
+	  	{KEY:"CATEGORY", NAME:"Category", TYPE:"TEXT"},
+	  	{KEY:"SUBCATEGORY", NAME:"Subcategory", TYPE:"TEXT"},
+	  	{KEY:"UNIQUE_NUMBER", NAME:"Unique number", TYPE:"NUMBER"},
+	  	{KEY:"LEVEL", NAME:"Level", TYPE:"TEXT"},
+	  	{KEY:"PRIORITY", NAME:"Priority", TYPE:"NUMBER"},
+	  	{KEY:"PROJECT_NAME", NAME:"Project name", TYPE:"TEXT"},
+	  	{KEY:"LOCATION", NAME:"Location", TYPE:"TEXT"},
+	  	{KEY:"AGENCY", NAME:"Agency", TYPE:"TEXT"},
+	  	{KEY:"PLANNED_BUDGET", NAME:"Planned budget", TYPE:"NUMBER"},
+	  	{KEY:"EXECUTED_BUDGET", NAME:"Executed budget", TYPE:"NUMBER"},
+	  	{KEY:"IS_IT_EXECUTED", NAME:"Is it executed", TYPE:"TEXT"},
+	  	{KEY:"NOTES", NAME:"Notes", TYPE:"TEXT"}
 	  ];
-	/*  var dataFields = [
-	  {KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT"},
-	  {KEY:"TOTAL_HH", NAME:"Total Households", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"TOTAL_CITIZENS", NAME:"Total Citizens", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"AVERAGE_HH_SIZE", NAME:"Average household size", TYPE:"TOTAL", KIND:"FLOAT"},
-	  {KEY:"TOTAL_7_18", NAME:"Total children between 7 and 18", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"NO_SCHOOL", NAME:"Total children not in school", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"TOTAL_HH_WC", NAME:"Total households with private WC", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"TOTAL_HH_WC_PUBLIC", NAME:"Total households with private WC", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"TOTAL_PDAM", NAME:"Total PDAM", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"TOTAL_HH_PUBLIC_WELLS", NAME:"Total households with public wells", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"TOTAL_HH_PRIVATE_WELLS", NAME:"Total household with private wells", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"TOTAL_HOUSES", NAME:"Total houses", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"TOTAL_LAND_TENURE", NAME:"Total land tenure", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"},
-	  {KEY:"HOUSES_HH_RATIO", NAME:"Houses household ratio", TYPE:"TOTAL", KIND:"FLOAT"},
-	  {KEY:"TOTAL_POOR_HH", NAME:"Total poor households", TYPE:"TOTAL", KIND:"INTEGER"},
-	  {KEY:"POVERTY_PERCENTAGE", NAME:"Poverty percentage", TYPE:"PERCENTAGE", KIND:"FLOAT"}
-	  ];   */
-	  var kelDataFields2010 =  [
+	  var dataTableIDs = {};
+	  dataTableIDs["KEL2010"] = "1oMln7GsJjbGJ9CQK41FP-aq3Xkz7fJPVZof2U5rY";
+	  dataTableIDs["KEL2012"] = "";
+	  dataTableIDs["RT2010"] = "";
+	  dataTableIDs["RT2012"] = "";
+	  var dataFields = {};
+	  dataFields["KEL2010"] = [
 	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
 			{KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
 			{KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
@@ -194,7 +175,7 @@
 			{KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
 			{KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Housing"}
 	  ];
-	  var kelDdataFields2012 = [
+	  dataFields["KEL2012"] = [
 	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
 			{KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
 			{KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
@@ -210,7 +191,7 @@
 			{KEY:"2010_2012_PDAM_PERCENTAGE_CHANGE", NAME:"% change of HH with access to PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"},
 			{KEY:"2010_2012_POVERTY_PERCENTAGE_CHANGE", NAME:"Percentage of children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Change from 2010 data"}
 	  ];
-	  var rtDdataFields2010 = [
+	  dataFields["RT2010"] = [
 	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
 	  	{KEY:"RT", NAME:"RT", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
 	  	{KEY:"RW", NAME:"RW", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
@@ -230,7 +211,7 @@
 			{KEY:"POP_DENSITY", NAME:"Population density (ppl/hectare)", TYPE:"TOTAL", KIND:"FLOAT", CLASS_NAME:"Housing"},
 			{KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Housing"}
 	  ];
-	  var rtDdataFields2012 = [
+	  dataFields["RT2012"] = [
 	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
 	  	{KEY:"RT", NAME:"RT", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
 	  	{KEY:"RW", NAME:"RW", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
@@ -318,7 +299,7 @@
 	  	getSubdivisions();
 	  	getProjects();
 	  	getKelurahans();
-	  	get2010Data();
+	  	getData("KEL2010");
 	  	initializeLayerToolbar();
 	  }
 	  function initializeLayerToolbar(){
@@ -329,26 +310,26 @@
 	  		$("#data_layer_scope").buttonset();
 	  	}
 	  	var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
-	  	for (var i = 0; i < kelDataFields2010.length; i++) {
-	  		if(!(kelDataFields2010[i]["CLASS_NAME"] == "KEY")){
-	  			if((i == 0)&&(kelDataFields2010[i]["CLASS_NAME"] != "KEY")){
+	  	for (var i = 0; i < dataFields["KEL2010"].length; i++) {
+	  		if(!(dataFields["KEL2010"][i]["CLASS_NAME"] == "KEY")){
+	  			if((i == 0)&&(dataFields["KEL2010"][i]["CLASS_NAME"] != "KEY")){
 	  				var opDiv = document.createElement("option");
-	  				opDiv.innerHTML = kelDataFields2010[i]["CLASS_NAME"];
+	  				opDiv.innerHTML = dataFields["KEL2010"][i]["CLASS_NAME"];
 	  				opDiv.disabled = true;
 	  				opDiv.className = "data_divider";
 	  				aggregate_data_selector.appendChild(opDiv);
-	  			} else if ((i > 0)&&((kelDataFields2010[i]["CLASS_NAME"] != "KEY")&&(kelDataFields2010[i]["CLASS_NAME"] != kelDataFields2010[i-1]["CLASS_NAME"]))) {
+	  			} else if ((i > 0)&&((dataFields["KEL2010"][i]["CLASS_NAME"] != "KEY")&&(dataFields["KEL2010"][i]["CLASS_NAME"] != dataFields["KEL2010"][i-1]["CLASS_NAME"]))) {
 	  				var opDiv = document.createElement("option");
-	  				opDiv.innerHTML = kelDataFields2010[i]["CLASS_NAME"];
+	  				opDiv.innerHTML = dataFields["KEL2010"][i]["CLASS_NAME"];
 	  				opDiv.disabled = true;
 	  				opDiv.className = "data_divider";
 	  				aggregate_data_selector.appendChild(opDiv);
 	  			}
 	  			var option = document.createElement("option");
-	  			option.value = kelDataFields2010[i]["KEY"];
-	  			option.type = kelDataFields2010[i]["TYPE"];
-	  			option.name = kelDataFields2010[i]["NAME"];
-	  			option.innerHTML = kelDataFields2010[i]["NAME"];
+	  			option.value = dataFields["KEL2010"][i]["KEY"];
+	  			option.type = dataFields["KEL2010"][i]["TYPE"];
+	  			option.name = dataFields["KEL2010"][i]["NAME"];
+	  			option.innerHTML = dataFields["KEL2010"][i]["NAME"];
 	  			aggregate_data_selector.appendChild(option);
 	  		}
 	  	};
@@ -377,15 +358,10 @@
 	  	var query = 'SELECT KELURAHAN, geometry, geometry_pos, RW, RT FROM ' + subdivisionsFusionTableID;
 	  	getFusionTablesData(query, "parseSubdivisions");
 	  }
-	  function get2010Data(){
-	  	var columnNames = getWhatToGet(kelDataFields2010);
-	  	var query = 'SELECT ' + columnNames + '  FROM ' + kel2010FusionTableID;
-	  	getFusionTablesData(query, "parseKel2010Data");
-	  }
-	  function getData(tableID, fields, callbackName) {
-	  	var columnNames = getWhatToGet(fields);
-	  	var query = 'SELECT ' + columnNames + '  FROM ' + tableID;
-	  	getFusionTablesData(query, "parseData");
+	  function getData(scope) {
+	  	var columnNames = getWhatToGet(dataFields[scope]);
+	  	var query = 'SELECT ' + columnNames + '  FROM ' + dataTableIDs[scope];
+	  	getFusionTablesData(query, "parseData" + scope);
 	  }
 	  function mapStateController(){
 	  	L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
@@ -1225,18 +1201,21 @@ d3.select("body #plabel-container").selectAll("div.bar")
 	    	aggregateDataDatabase[keyToSave].insert(tempObj);
 	    }
 	}
-	function parseKel2010Data(data){
+	function parseDataKEL2010(data){
 		this.data = data;
-		parseData(this.data, kelDataFields2010, "KEL2010");
+		parseData(this.data, dataFields["KEL2010"], "KEL2010");
 	}
-	function parseKel2012Data(data){
-
+	function parseDataKEL2012(data){
+		this.data = data;
+		parseData(this.data, dataFields["KEL2012"], "KEL2012");		
 	}
-	function parsert2010Data(data){
-
+	function parseDataRT2010(data){
+		this.data = data;
+		parseData(this.data, dataFields["RT2010"], "RT2010");
 	}
-	function parsert2012Data(data){
-
+	function parseDataRT2012(data){
+		this.data = data;
+		parseData(this.data, dataFields["RT2012"], "RT2012");
 	}
 	function parseProjects(data){
 		var rows = data['rows'];
