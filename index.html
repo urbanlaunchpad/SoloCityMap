@@ -224,10 +224,15 @@
 	  var drawDelay = 50;
 	  var projectDatabase =  TAFFY();
 	  var aggregateDataDatabase = {};
-	 	aggregateDataDatabase["KEL2010"] = TAFFY();
-	 	aggregateDataDatabase["KEL2012"] = TAFFY();
-	 	aggregateDataDatabase["RT2010"] = TAFFY();
-	 	aggregateDataDatabase["RT2012"] = TAFFY();
+	 	aggregateDataDatabase["KEL2010"] = {};
+	 	aggregateDataDatabase["KEL2012"] = {};
+	 	aggregateDataDatabase["RT2010"] = {};
+	 	aggregateDataDatabase["RT2012"] = {};	  
+	 	var aggregateTaffyDatabase = {};
+	 	aggregateTaffyDatabase["KEL2010"] = TAFFY();
+	 	aggregateTaffyDatabase["KEL2012"] = TAFFY();
+	 	aggregateTaffyDatabase["RT2010"] = TAFFY();
+	 	aggregateTaffyDatabase["RT2012"] = TAFFY();	  
 	  //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
 	  var colors = ['#BEC1C4']; // More neutral, similar to Kota Kita site
 	  var percentageColor = "#8A0707";
@@ -952,8 +957,8 @@
 			var kelurahan_name = rows[i][0];
 			var center = constructNewPointCoordinates(rows[i][2]['geometry']);
 			var geometries = rows[i][1]['geometries'];
-			var rw_name = rows[i][3];
-			var rt_name = rows[i][4];
+			var rw_name = isNaN(parseFloat(rows[i][3])) ? 0 : parseFloat(rows[i][3]);
+			var rt_name = isNaN(parseFloat(rows[i][4])) ? 0 : parseFloat(rows[i][4]);
 			if (geometries) {
 				for (var j in geometries) {
 					newCoordinates.push(constructNewCoordinates(geometries[j]));
@@ -1264,7 +1269,18 @@
 	    			tempObj[this.fields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
 	    		}
 	    	}
-	    	aggregateDataDatabase[keyToSave].insert(tempObj);
+	    	aggregateTaffyDatabase[keyToSave].insert(tempObj);
+	    	if(keyToSave.indexOf("KEL") > -1){
+					aggregateDataDatabase[keyToSave][tempObj.KELURAHAN] = tempObj;
+				} else {
+					if(!aggregateDataDatabase[keyToSave][tempObj.KELURAHAN]){
+						aggregateDataDatabase[keyToSave][tempObj.KELURAHAN] = {};
+					}
+					if(!aggregateDataDatabase[keyToSave][tempObj.KELURAHAN][tempObj.RW]){
+						aggregateDataDatabase[keyToSave][tempObj.KELURAHAN][tempObj.RW] = {};
+					}
+					aggregateDataDatabase[keyToSave][tempObj.KELURAHAN][tempObj.RW][tempObj.RT] = tempObj;
+				}
 	    }
 	}
 	function parseDataKEL2010(data){
@@ -1426,20 +1442,51 @@
 		map.removeLayer(aggregateDataLayer);
 		aggregateDataLayer = {};
 	 	aggregateDataLayer = L.mapbox.featureLayer().addTo(map);
-		this.max = aggregateDataDatabase[this.scope]().max(key);
-		this.min = aggregateDataDatabase[this.scope]().min(key);
-		for (var kelName in kelurahanShapes) {
-		  if (kelurahanShapes.hasOwnProperty(kelName)) {
-		  		var info = aggregateDataDatabase[this.scope]({KELURAHAN: kelName}).get()[0];
-		      var shape = kelurahanShapes[kelName]["SHAPE"];
-		      var style = JSON.parse(JSON.stringify(originalDataLayerShapeOptions));
-		      style.fillOpacity = (info[key] - this.min)/(this.max - this.min);
-		      shape.setStyle(style);
-		      shape.addTo(aggregateDataLayer);
-		      shape.bringToBack();
-		  }
-		}
+		this.max = aggregateTaffyDatabase[this.scope]().max(key);
+		this.min = aggregateTaffyDatabase[this.scope]().min(key);
 		mapKey(this.min, this.max, this.label); 
+		if(this.locScope == "KEL"){
+			for (var kelName in kelurahanShapes) {
+			  if (kelurahanShapes.hasOwnProperty(kelName)) {
+			  		var info = aggregateDataDatabase[this.scope][kelName];
+			      var shape = kelurahanShapes[kelName]["SHAPE"];
+			      var style = JSON.parse(JSON.stringify(originalDataLayerShapeOptions));
+			      style.fillOpacity = (info[key] - this.min)/(this.max - this.min);
+			      shape.setStyle(style);	
+			      shape.addTo(aggregateDataLayer);
+			      shape.bringToBack();
+			  }
+			}
+		} else {
+			for (var kelName in subdivisions) {
+				if (subdivisions.hasOwnProperty(kelName)) {
+					for (var rwName in subdivisions[kelName]) {
+						if (subdivisions[kelName].hasOwnProperty(rwName)) {
+							for (var rtName in subdivisions[kelName][rwName]) {
+								if (subdivisions[kelName][rwName].hasOwnProperty(rtName)) {
+									try {
+										var info = aggregateDataDatabase[this.scope][kelName][rtName][rwName];
+									} catch(err) {
+
+									}
+						      if (typeof info != 'undefined'){
+										var shape = subdivisions[kelName][rwName][rtName]["SHAPE"];
+						      	var style = JSON.parse(JSON.stringify(originalDataLayerShapeOptions));
+						      	style.fillOpacity = (info[key] - this.min)/(this.max - this.min);
+						      	shape.setStyle(style);
+						      	shape.addTo(aggregateDataLayer);
+						      	shape.bringToBack();
+									} else {
+										console.log(kelName + " " + rwName + " " + rtName + " not found.");
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		console.log("ima finishS")
 	}
 	function emptyProjectCards(){
 		var list = document.getElementById("list");
