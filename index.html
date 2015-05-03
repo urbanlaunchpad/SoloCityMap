@@ -54,8 +54,6 @@
 							</div>
 							<select id="aggregate_data_selector"
 								title="Choose which data layer to show.">
-								<option value="" disabled="disabled" selected="selected">Select
-									a data layer</option>
 							</select>
 						</div>
 					</div>
@@ -167,7 +165,7 @@
 	  dataFields["KEL2010"] = [
 	  	{KEY:"KELURAHAN", NAME:"Kelurahan", TYPE:"text", KIND:"TEXT", CLASS_NAME:"KEY"},
 			{KEY:"PUBLIC_WELLS_PERCENTAGE", NAME:"Public wells percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
-			{KEY:"PRIVATE_WELLS_PERCENTAGE", nameE:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
+			{KEY:"PRIVATE_WELLS_PERCENTAGE", NAME:"Percentage of private wells", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
 			{KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
 			{KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
 			{KEY:"WC_PUBLIC_PERCENTAGE", NAME:"Percentage of households using public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
@@ -272,6 +270,10 @@
 	  var mapSC;
 	  var kelurahanLayer;
 	  var projectLocationLayer;
+	  var layer2010sel;
+	  var layer2012sel;
+	  var layerRTsel;
+	  var layerKELsel;
 	  document.addEventListener("DOMContentLoaded", initialize);
 	  var subcategories = {
 	  	JA : {name: "Jalan",
@@ -302,6 +304,62 @@
 	  	getAllData();
 	  	initializeLayerToolbar();
 	  }
+	  function clearDataLayerView(){
+
+	  }
+	  function updateLayerOptions(){
+	  	if(layer2010sel.checked){
+	  		var year = "2010";
+	  	} else {
+	  		var year = "2012";
+	  	}
+	  	if(layerRTsel.checked){
+	  		var location = "RT";
+	  	} else {
+	  		var location = "KEL";
+	  	}
+	  	var scope = location + year;
+	  	var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
+	  	for (var i = aggregateDataLayerSelector.options.length - 1; i >= 0; i--) {
+	  		aggregateDataLayerSelector.options[i] = null;
+	  	};
+			var defOpt = document.createElement("option");
+			defOpt.disabled = true;
+			defOpt.selected = true;
+			defOpt.innerHTML= "Select a data layer";
+			defOpt.value = "";
+			aggregateDataLayerSelector.appendChild(defOpt);
+	  	for (var i = 0; i < dataFields[scope].length; i++) {
+	  		if(!(dataFields[scope][i]["CLASS_NAME"] == "KEY")){
+	  			if((i == 0)&&(dataFields[scope][i]["CLASS_NAME"] != "KEY")){
+	  				var opDiv = document.createElement("option");
+	  				opDiv.innerHTML = dataFields[scope][i]["CLASS_NAME"];
+	  				opDiv.disabled = true;
+	  				opDiv.className = "data_divider";
+	  				aggregate_data_selector.appendChild(opDiv);
+	  			} else if ((i > 0)&&((dataFields[scope][i]["CLASS_NAME"] != "KEY")&&(dataFields[scope][i]["CLASS_NAME"] != dataFields[scope][i-1]["CLASS_NAME"]))) {
+	  				var opDiv = document.createElement("option");
+	  				opDiv.innerHTML = dataFields[scope][i]["CLASS_NAME"];
+	  				opDiv.disabled = true;
+	  				opDiv.className = "data_divider";
+	  				aggregate_data_selector.appendChild(opDiv);
+	  			}
+	  			var option = document.createElement("option");
+	  			option.value = dataFields[scope][i]["KEY"];
+	  			option.type = dataFields[scope][i]["TYPE"];
+	  			option.name = dataFields[scope][i]["NAME"];
+	  			option.innerHTML = dataFields[scope][i]["NAME"];
+	  			aggregate_data_selector.appendChild(option);
+	  		}
+	  	}
+	  	aggregateDataLayerSelector.onchange = function(){
+	  		var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
+	  		var selectedLayer = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].value;
+	  		var selectedType = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].type;
+	  		var selectedLabel = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].name;
+	  		showDataLayer(selectedLayer, selectedType, selectedLabel);
+	  	}	
+	  }
 	  function initializeLayerToolbar(){
 	  	var layerButton = document.getElementById("layers_button");
 	  	layerButton.onclick = function(){
@@ -309,37 +367,27 @@
 	  		$("#data_layer_year_selector").buttonset();
 	  		$("#data_layer_scope").buttonset();
 	  	}
-	  	var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
-	  	for (var i = 0; i < dataFields["KEL2010"].length; i++) {
-	  		if(!(dataFields["KEL2010"][i]["CLASS_NAME"] == "KEY")){
-	  			if((i == 0)&&(dataFields["KEL2010"][i]["CLASS_NAME"] != "KEY")){
-	  				var opDiv = document.createElement("option");
-	  				opDiv.innerHTML = dataFields["KEL2010"][i]["CLASS_NAME"];
-	  				opDiv.disabled = true;
-	  				opDiv.className = "data_divider";
-	  				aggregate_data_selector.appendChild(opDiv);
-	  			} else if ((i > 0)&&((dataFields["KEL2010"][i]["CLASS_NAME"] != "KEY")&&(dataFields["KEL2010"][i]["CLASS_NAME"] != dataFields["KEL2010"][i-1]["CLASS_NAME"]))) {
-	  				var opDiv = document.createElement("option");
-	  				opDiv.innerHTML = dataFields["KEL2010"][i]["CLASS_NAME"];
-	  				opDiv.disabled = true;
-	  				opDiv.className = "data_divider";
-	  				aggregate_data_selector.appendChild(opDiv);
-	  			}
-	  			var option = document.createElement("option");
-	  			option.value = dataFields["KEL2010"][i]["KEY"];
-	  			option.type = dataFields["KEL2010"][i]["TYPE"];
-	  			option.name = dataFields["KEL2010"][i]["NAME"];
-	  			option.innerHTML = dataFields["KEL2010"][i]["NAME"];
-	  			aggregate_data_selector.appendChild(option);
-	  		}
-	  	};
-	  	aggregateDataLayerSelector.onchange = function(){
-	  		var aggregateDataLayerSelector = document.getElementById("aggregate_data_selector");
-	  		var selectedLayer = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].value;
-	  		var selectedType = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].type;
-	  		var selectedLabel = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].name;
-	  		showDataLayer(selectedLayer, selectedType, selectedLabel);
+	  	layer2010sel = document.getElementById("data_2010");
+	  	layer2010sel.onclick = function(){
+	  		clearDataLayerView();
+	  		updateLayerOptions();
 	  	}
+	  	layer2012sel = document.getElementById("data_2012");
+	  	layer2012sel.onclick = function(){
+	  		clearDataLayerView();
+	  		updateLayerOptions();
+	  	}	  	
+	  	layerRTsel = document.getElementById("data_RT");
+	  	layerRTsel.onclick = function(){
+	  		clearDataLayerView();
+	  		updateLayerOptions();
+	  	}	  	
+	  	layerKELsel = document.getElementById("data_KEL");
+	  	layerKELsel.onclick = function(){
+	  		clearDataLayerView();
+	  		updateLayerOptions();
+	  	}	  	
+	  	updateLayerOptions();
 	  }
 	  function toggleLayerToolbar(){
 	  	var layerTools = document.getElementById("layer_tools");
