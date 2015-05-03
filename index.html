@@ -238,6 +238,13 @@
 	  	fillColor: "#FFFFFF",
 	  	fillOpacity: 0,
 	  };
+	  var originalDataLayerShapeOptions = {
+	  	color: "#000000",
+	  	opacity: 1,
+	  	weight: 0.2,
+	  	fillColor: "#FFFFFF",
+	  	fillOpacity: 0,
+	  };
 	  var onHoverKelurahanShapeOptions = {
 	  	color: "#000000",
 	  	opacity: 1,
@@ -265,11 +272,13 @@
 	  var map;
 	  var kelurahans = [];
 	  var subdivisions = {};
+	  var kelurahanShapes = {};
 	  var projectsArray = [];
 	  var subcategoryIcons;
 	  var mapSC;
 	  var kelurahanLayer;
 	  var projectLocationLayer;
+	  var aggregateDataLayer;
 	  var layer2010sel;
 	  var layer2012sel;
 	  var layerRTsel;
@@ -414,7 +423,6 @@
 	  function getAllData(){
 			for (var scope in dataFields) {
 			   if (dataFields.hasOwnProperty(scope)) {
-			   		console.log(scope);
 			       getData(scope);
 			   }
 			}
@@ -423,6 +431,7 @@
 	  	L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
 	  	map = L.mapbox.map("map", 'stephenkennedy.ad4e43ac')
 	  	.setView([-7.566667, 110.866667], 13);
+	  	aggregateDataLayer = L.mapbox.featureLayer().addTo(map);
 	  	kelurahanLayer =  L.mapbox.featureLayer().addTo(map);
 	  	projectLocationLayer = L.mapbox.featureLayer().addTo(map);
 	  	var state;
@@ -927,6 +936,10 @@
 				newCoordinates = constructNewCoordinates(rows[i][1]['geometry']);
 			}
 			kelurahans[i] = new kelurahan(kelurahan_name, newCoordinates, center, i);
+			shape = new L.polygon(newCoordinates, originalDataLayerShapeOptions); 
+			kelurahanShapes[kelurahan_name] = {
+				SHAPE: shape
+			}
 		}
 		mapSC.onKelurahansParsed();
 	}
@@ -955,10 +968,12 @@
 			}
 			if(!subdivisions[kelurahan_name][rw_name].hasOwnProperty(rt_name)){
 				subdivisions[kelurahan_name][rw_name][rt_name] = {};
-			}          
+			}
+			shape = new L.polygon(geometry, originalDataLayerShapeOptions);          
 			subdivisions[kelurahan_name][rw_name][rt_name] = {
 				CENTER : center,
-				GEOMETRIES : newCoordinates
+				GEOMETRIES : newCoordinates,
+				SHAPE: shape
 			}
 		}
 	}
@@ -1219,16 +1234,10 @@
 	      // .style("margin-left", function(d) {
 	      //  return "-2px";
 	      //  });
-d3.select("body #plabel-container").selectAll("div.bar")
-.data(data_value)
-.enter()
-.append("div")
-.style("width", function(d) {
-	return d + "%";
-})
-.data(data_plabel)
-.append("h6").text(function(d) { return d; });
-}
+			d3.select("body #plabel-container").selectAll("div.bar").data(data_value).enter().append("div").style("width", function(d) {
+				return d + "%";
+			}).data(data_plabel).append("h6").text(function(d) { return d; });
+		}
 	  //***********************************************************************
 	  //***************Here goes the stuff for the  info***********************
 	  //***********************************************************************
@@ -1427,6 +1436,7 @@ d3.select("body #plabel-container").selectAll("div.bar")
 			this.normalStyle.fillOpacity = (info[key] - this.min)/(this.max - this.min);
 			this.onHoverStyle.fillOpacity = (info[key] - this.min)/(this.max - this.min);
 			this.selectedStyle.fillOpacity = (info[key] - this.min)/(this.max - this.min);
+			aggregateDataLayer.
 			kelurahans[i].setStyles(this.normalStyle, this.selectedStyle, this.onHoverStyle);
 		};
 		mapKey(this.min, this.max, this.label); 
