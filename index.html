@@ -47,9 +47,8 @@
 							</div>
 							<div id="data_layer_scope"
 								title="Here you can select if you want to show RT or Kelurahan data">
-								<input type="radio" id="data_KEL" name="data_layer_scope"
-									checked="checked"><label for="data_KEL">Kelurahan</label>
-								<input type="radio" id="data_RT" name="data_layer_scope"><label
+								<input type="radio" id="data_KEL" name="data_layer_scope"><label for="data_KEL">Kelurahan</label>
+								<input type="radio" id="data_RT" name="data_layer_scope" checked="checked"><label
 									for="data_RT">RT</label>
 							</div>
 							<select id="aggregate_data_selector"
@@ -233,13 +232,13 @@
 	  var originalKelurahanShapeOptions = {
 	  	color: "#000000",
 	  	opacity: 1,
-	  	weight: 1,
+	  	weight: 0.5,
 	  	fillColor: "#FFFFFF",
 	  	fillOpacity: 0,
 	  };
 	  var originalDataLayerShapeOptions = {
 	  	color: "#000000",
-	  	opacity: 1,
+	  	opacity: 0,
 	  	weight: 0.2,
 	  	fillColor: percentageColor,
 	  	fillOpacity: 0,
@@ -302,7 +301,7 @@
 	  	color: "#C0B58F"}        
 	  };   
 	  function initialize() {
-	  	sounds = new getSounds("pop");
+	  	sounds = new getSounds("gamelan");
 	  	subcategoryIcons = new getSubcategoryIcons();
 	  	projectStateIcons = new getProjectStateIcons();
 	  	mapSC = new mapStateController();
