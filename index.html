@@ -47,9 +47,8 @@
 							</div>
 							<div id="data_layer_scope"
 								title="Here you can select if you want to show RT or Kelurahan data">
-								<input type="radio" id="data_KEL" name="data_layer_scope"
-									checked="checked"><label for="data_KEL">Kelurahan</label>
-								<input type="radio" id="data_RT" name="data_layer_scope"><label
+								<input type="radio" id="data_KEL" name="data_layer_scope"><label for="data_KEL">Kelurahan</label>
+								<input type="radio" id="data_RT" name="data_layer_scope" checked="checked"><label
 									for="data_RT">RT</label>
 							</div>
 							<select id="aggregate_data_selector"
@@ -159,7 +158,7 @@
 	  var dataTableIDs = {};
 	  dataTableIDs["KEL2010"] = "1oMln7GsJjbGJ9CQK41FP-aq3Xkz7fJPVZof2U5rY";
 	  dataTableIDs["KEL2012"] = "1igNdyGwVkk8143BqEGVFeHrEqCoDs_PMDTlBot_m";
-	  dataTableIDs["RT2010"] = "1iVNXfoLPTK5m-v_ipp8THHMKdIq6jPCYbP91QYP9";
+	  dataTableIDs["RT2010"] = "1amOHPP434XnwMJVMJB5AtjD1iQvfyRboyPgLniPE";
 	  dataTableIDs["RT2012"] = "17gTZPxPFgSxlHxPe7VSAQYBK-g4PsIa4XJsV5_rG";
 	  var dataFields = {};
 	  dataFields["KEL2010"] = [
@@ -199,14 +198,8 @@
 	  	{KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
 			{KEY:"PUBLIC_WC_PERCENTAGE", NAME:"Percentage of households using public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
 			{KEY:"POVERTY_PERCENTAGE", NAME:" % of households in Poverty", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Poverty"},
-			{KEY:"DEPENDENT_PEOPLE_PERCENTAGE", NAME:"Percentage of dependent people", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
-			{KEY:"NEAREST_SCHOOL_DISTANCE", NAME:"Distance to the nearest school (meters)", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
-			{KEY:"DEPENDENT_PEOPLE_PERCENTAGE", NAME:"Percentage of dependent people", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
 			{KEY:"CHILDREN_PERCENTAGE", NAME:"Percentage of 7 - 18 years old children", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
 			{KEY:"NO_SCHOOL_PERCENTAGE", NAME:"Percentage of 7 - 18 years old children not in school", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
-			{KEY:"PARK_DISTANCE", NAME:"Distance to nearest park (meters)", TYPE:"TOTAL", KIND:"FLOAT", CLASS_NAME:"Health"},
-			{KEY:"CLINIC_DISTANCE", NAME:"Distance to nearest clinic or hospital (meters)", TYPE:"TOTAL", KIND:"FLOAT", CLASS_NAME:"Health"},
-			{KEY:"POP_DENSITY", NAME:"Population density (ppl/hectare)", TYPE:"TOTAL", KIND:"FLOAT", CLASS_NAME:"Housing"},
 			{KEY:"LAND_TENURE_PERCENTAGE", NAME:"Land tenure percentage", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Housing"}
 	  ];
 	  dataFields["RT2012"] = [
@@ -239,13 +232,13 @@
 	  var originalKelurahanShapeOptions = {
 	  	color: "#000000",
 	  	opacity: 1,
-	  	weight: 1,
+	  	weight: 0.5,
 	  	fillColor: "#FFFFFF",
 	  	fillOpacity: 0,
 	  };
 	  var originalDataLayerShapeOptions = {
 	  	color: "#000000",
-	  	opacity: 1,
+	  	opacity: 0,
 	  	weight: 0.2,
 	  	fillColor: percentageColor,
 	  	fillOpacity: 0,
@@ -308,7 +301,7 @@
 	  	color: "#C0B58F"}        
 	  };   
 	  function initialize() {
-	  	sounds = new getSounds("pop");
+	  	sounds = new getSounds("gamelan");
 	  	subcategoryIcons = new getSubcategoryIcons();
 	  	projectStateIcons = new getProjectStateIcons();
 	  	mapSC = new mapStateController();
@@ -1465,19 +1458,18 @@
 							for (var rtName in subdivisions[kelName][rwName]) {
 								if (subdivisions[kelName][rwName].hasOwnProperty(rtName)) {
 									try {
-										var info = aggregateDataDatabase[this.scope][kelName][rtName][rwName];
+										var info = aggregateDataDatabase[this.scope][kelName][rwName][rtName];
 									} catch(err) {
 
-									}
-						      if (typeof info != 'undefined'){
-										var shape = subdivisions[kelName][rwName][rtName]["SHAPE"];
-						      	var style = JSON.parse(JSON.stringify(originalDataLayerShapeOptions));
-						      	style.fillOpacity = (info[key] - this.min)/(this.max - this.min);
-						      	shape.setStyle(style);
-						      	shape.addTo(aggregateDataLayer);
-						      	shape.bringToBack();
-									} else {
-										console.log(kelName + " " + rwName + " " + rtName + " not found.");
+								}
+						      	if (typeof info != 'undefined'){
+									var shape = subdivisions[kelName][rwName][rtName]["SHAPE"];
+						      		var style = JSON.parse(JSON.stringify(originalDataLayerShapeOptions));
+						      		style.fillOpacity = (info[key] - this.min)/(this.max - this.min);
+						      		shape.setStyle(style);
+						      		shape.addTo(aggregateDataLayer);
+						      		shape.bringToBack();
+								} else {
 									}
 								}
 							}
