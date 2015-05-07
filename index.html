@@ -229,6 +229,14 @@
 	  //var colors = ['#BEC1C4', '#AB8A71', '#F0BC6E', '#F7DE8C']; // More neutral, similar to Kota Kita site
 	  var colors = ['#BEC1C4']; // More neutral, similar to Kota Kita site
 	  var percentageColor = "#8A0707";
+	  var noDataColor = ["#000000"];
+	  var colorKeys = [
+	  	"#fc8d59",
+		"#fee090",
+		"#ffffbf",
+		"#e0f3f8",
+		"#91bfdb",
+	  ];
 	  var originalKelurahanShapeOptions = {
 	  	color: "#000000",
 	  	opacity: 1,
@@ -241,7 +249,7 @@
 	  	opacity: 0,
 	  	weight: 0.2,
 	  	fillColor: percentageColor,
-	  	fillOpacity: 0,
+	  	fillOpacity: 1,
 	  };
 	  var onHoverKelurahanShapeOptions = {
 	  	color: "#000000",
@@ -1161,6 +1169,19 @@
 	  }
 	  return array;
 	}
+	function getIntervals(min, max, stepNum){
+		this.min = min;
+		this.max = max;
+		this.stepNum = stepNum;
+		this.step = (this.max - this.min)/this.stepNum;
+		this.intervals = [];
+		this.intervals[0] = this.min;
+		for (var i = 1; i < stepNum; i++) {
+			this.intervals[i] = this.intervals[i - 1] + this.step;
+		};
+		this.intervals[stepNum] = this.max;
+		return this.intervals;
+	}
 	function mapKey(min, max, label){
 		var color = percentageColor.substring(1);
 		document.getElementById("key_bar_container").innerHTML = "";
@@ -1437,6 +1458,7 @@
 	 	aggregateDataLayer = L.mapbox.featureLayer().addTo(map);
 		this.max = aggregateTaffyDatabase[this.scope]().max(key);
 		this.min = aggregateTaffyDatabase[this.scope]().min(key);
+		this.intervals = getIntervals(this.min, this.max, colorKeys.length);
 		mapKey(this.min, this.max, this.label); 
 		if(this.locScope == "KEL"){
 			for (var kelName in kelurahanShapes) {
@@ -1444,7 +1466,21 @@
 			  		var info = aggregateDataDatabase[this.scope][kelName];
 			      var shape = kelurahanShapes[kelName]["SHAPE"];
 			      var style = JSON.parse(JSON.stringify(originalDataLayerShapeOptions));
-			      style.fillOpacity = (info[key] - this.min)/(this.max - this.min);
+			      style.fillColor = noDataColor;
+			      if(info[key] == this.min){
+			      	style.fillColor = colorKeys[0];
+			      } else if (info[key] == this.max){
+			      	style.fillColor = colorKeys[colorKeys.length -1];
+			      } else {
+					for (var i = intervals.length - 1; i >= 0; i--) {
+			      		style.fillColor = noDataColor;
+			      		if (info[key] >= this.intervals[i]){
+			      			style.fillColor = colorKeys[i];
+			      			console.log(info[key] + " > " + this.intervals[i] + " color: " + colorKeys[i]);
+			      			break;
+			      		}
+			      	};
+			      }
 			      shape.setStyle(style);	
 			      shape.addTo(aggregateDataLayer);
 			      shape.bringToBack();
@@ -1465,7 +1501,21 @@
 						      	if (typeof info != 'undefined'){
 									var shape = subdivisions[kelName][rwName][rtName]["SHAPE"];
 						      		var style = JSON.parse(JSON.stringify(originalDataLayerShapeOptions));
-						      		style.fillOpacity = (info[key] - this.min)/(this.max - this.min);
+						      		style.fillColor = noDataColor;
+								      if(info[key] == this.min){
+								      	style.fillColor = colorKeys[0];
+								      } else if (info[key] == this.max){
+								      	style.fillColor = colorKeys[colorKeys.length -1];
+								      } else {
+										for (var i = intervals.length - 1; i >= 0; i--) {
+								      		style.fillColor = noDataColor;
+								      		if (info[key] >= this.intervals[i]){
+								      			style.fillColor = colorKeys[i];
+								      			console.log(info[key] + " > " + this.intervals[i] + " color: " + colorKeys[i]);
+								      			break;
+								      		}
+								      	};
+								      }
 						      		shape.setStyle(style);
 						      		shape.addTo(aggregateDataLayer);
 						      		shape.bringToBack();
