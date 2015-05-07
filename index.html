@@ -1182,19 +1182,19 @@
 		this.intervals[stepNum] = this.max;
 		return this.intervals;
 	}
-	function mapKey(min, max, label){
+	function mapKey(min, max, intervals, colorK, label){
 		var color = percentageColor.substring(1);
+		this.colorK = colorK;
 		document.getElementById("key_bar_container").innerHTML = "";
-		var interval = (max - min)/5;
 		var data_value = [];
 		var data_opacity = [];
 		var data_color = [];
 		var data_plabel = [];
-		for (var i = 0; i < 5; i++) {
-			data_value.push(20);
-			data_opacity.push((interval*i)/(max - min));
-			data_color.push(color);
-			data_plabel.push(Math.round(min + (interval * i)));
+		for (var i = 0; i < (intervals.length - 1); i++) {
+			data_value.push(parseInt(100/(intervals.length - 1)));
+			data_opacity.push(1);
+			data_color.push(this.colorK[i]);
+			data_plabel.push(parseInt(intervals[i]));
 		};
 		data_plabel.push(Math.round(max));
 		data_value.push(0);
@@ -1236,7 +1236,7 @@
 	    d3.select("body").selectAll("div.bar")
 	    .data(data_color)
 	    .style("background-color", function(d) {
-	    	return "#" + d;
+	    	return d;
 	    });
 	    d3.select("body").selectAll("div.bar")
 	    .data(data_opacity) 
@@ -1459,7 +1459,7 @@
 		this.max = aggregateTaffyDatabase[this.scope]().max(key);
 		this.min = aggregateTaffyDatabase[this.scope]().min(key);
 		this.intervals = getIntervals(this.min, this.max, colorKeys.length);
-		mapKey(this.min, this.max, this.label); 
+		mapKey(this.min, this.max, this.intervals, colorKeys, this.label); 
 		if(this.locScope == "KEL"){
 			for (var kelName in kelurahanShapes) {
 			  if (kelurahanShapes.hasOwnProperty(kelName)) {
@@ -1476,10 +1476,12 @@
 			      		style.fillColor = noDataColor;
 			      		if (info[key] >= this.intervals[i]){
 			      			style.fillColor = colorKeys[i];
-			      			console.log(info[key] + " > " + this.intervals[i] + " color: " + colorKeys[i]);
 			      			break;
 			      		}
 			      	};
+			      }
+			      if (style.fillColor == noDataColor){
+			      	console.log(this.locscope + " " + kelName + " " + info[key] + " > " + this.intervals[i] + " color: " + colorKeys[i]);
 			      }
 			      shape.setStyle(style);	
 			      shape.addTo(aggregateDataLayer);
@@ -1511,16 +1513,17 @@
 								      		style.fillColor = noDataColor;
 								      		if (info[key] >= this.intervals[i]){
 								      			style.fillColor = colorKeys[i];
-								      			console.log(info[key] + " > " + this.intervals[i] + " color: " + colorKeys[i]);
 								      			break;
 								      		}
 								      	};
 								      }
+								    if (style.fillColor == noDataColor){
+			      						console.log(this.locscope + " " + kelName + " RW " + rwName + " RT " + rtName + info[key] + " > " + this.intervals[i] + " color: " + colorKeys[i]);
+			      					}
 						      		shape.setStyle(style);
 						      		shape.addTo(aggregateDataLayer);
 						      		shape.bringToBack();
 								} else {
-									}
 								}
 							}
 						}
@@ -1528,6 +1531,7 @@
 				}
 			}
 		}
+	}
 		console.log("ima finishS")
 	}
 	function emptyProjectCards(){
