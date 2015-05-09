@@ -858,16 +858,18 @@
 		this.allLabel = document.createElement("label");
 		this.allLabel.htmlFor = "sub_all";
 		this.allLabel.className = "sub_filt_label";
+		this.allLabel.name = "subcategories";
 		this.allLabel.id = "sub_label_all";
 		this.scFilters.appendChild(this.all);
 		this.scFilters.appendChild(this.allLabel);
 		this.scOptions = [];
-		var i = 0;
+		var i = 0;	
 		for (var key in subcategories){
 			this.scOptions[i] = document.createElement("input");
 			this.scOptions[i].type = "radio";
 			this.scOptions[i].name = "subcategories";
 			this.scOptions[i].value = key;
+			this.scOptions[i].id = "sub_" + key;
 			this.scOptions[i].className = "sub_filt_select";
 			var label = document.createElement("label");
 			label.htmlFor = "sub_" + key;
@@ -901,6 +903,7 @@
 					}
 				}
 			}
+			console.log(selectedSubcategories)
 			return selectedSubcategories;
 		}
 	}

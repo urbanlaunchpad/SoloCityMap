@@ -16,7 +16,7 @@
 #sub_label_SA {background-image:url(../img/png/solo_SA.png);}
 #sub_label_SR {background-image:url(../img/png/solo_SR.png);}
 
-#subcategory_filter input:active +.sub_filt_label{opacity: .9;}
+#subcategory_filter input:active +.sub_filt_label{opacity: 1;}
 #subcategory_filter input:checked +.sub_filt_label{
     -webkit-filter: none;
        -moz-filter: none;
@@ -32,9 +32,9 @@
     -webkit-transition: all 100ms ease-in;
        -moz-transition: all 100ms ease-in;
             transition: all 100ms ease-in;
-    -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
-       -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
-            filter: brightness(1.8) grayscale(1) opacity(.7);
+    -webkit-filter: brightness(1.8) grayscale(1) opacity(.2);
+       -moz-filter: brightness(1.8) grayscale(1) opacity(.2);
+            filter: brightness(1.8) grayscale(1) opacity(.2);
 }
 .sub_filt_label:hover{
     -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
