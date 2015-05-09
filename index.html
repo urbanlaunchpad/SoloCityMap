@@ -873,6 +873,7 @@
 			this.scOptions[i].className = "sub_filt_select";
 			var label = document.createElement("label");
 			label.htmlFor = "sub_" + key;
+			label.title = "Show projects for " + subcategories[key].name;
 			label.className = "sub_filt_label"
 			label.id = "sub_label_" + key;
 			var that = this;
