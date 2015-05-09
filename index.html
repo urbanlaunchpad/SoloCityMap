@@ -848,13 +848,17 @@
 		this.all = document.createElement("input");
 		this.all.type = "radio";
 		this.all.name = "subcategories";
-		this.all.id = "sub_all";
+		this.all.checked = true;
+		this.all.value = "sub_all";
+		this.all.className = "sub_filt_select";
 		var that = this;
 		this.all.onclick = function(){
 			that.parent.filteringChanged();
 		}
 		this.allLabel = document.createElement("label");
 		this.allLabel.htmlFor = "sub_all";
+		this.allLabel.className = "sub_filt_label";
+		this.allLabel.id = "sub_label_all";
 		this.scFilters.appendChild(this.all);
 		this.scFilters.appendChild(this.allLabel);
 		this.scOptions = [];
@@ -863,9 +867,12 @@
 			this.scOptions[i] = document.createElement("input");
 			this.scOptions[i].type = "radio";
 			this.scOptions[i].name = "subcategories";
-			this.scOptions[i].id = "sub_" + key;
+			this.scOptions[i].value = key;
+			this.scOptions[i].className = "sub_filt_select";
 			var label = document.createElement("label");
-			label.htmlFor = "sub_all";
+			label.htmlFor = "sub_" + key;
+			label.className = "sub_filt_label"
+			label.id = "sub_label_" + key;
 			var that = this;
 			this.scOptions[i].onclick = function(){
 				that.parent.filteringChanged();
@@ -890,7 +897,7 @@
 			} else {
 				for (var i = 0; i < this.scOptions.length; i++){
 					if (this.scOptions[i].checked){
-						selectedSubcategories.push((this.scOptions[i].id).slice(4, this.scOptions[i].id.length));
+						selectedSubcategories.push(this.scOptions[i].value);
 					}
 				}
 			}
