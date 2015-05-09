@@ -75,10 +75,8 @@
 						title="Select a Kelurahan to see its projects."></select>
 					<div id="filter_conditions" class="hidden-xs hidden-sm"
 						style="display: none;">
-						<select id="subcategory_filter"
-							data-placeholder="Select Subcategories..."
-							style="width: 290px; margin-bottom: 10px;"
-							title="Here you can toggle which categories you want to show."></select>
+						<div id="subcategory_filter"
+							title="Here you can toggle which categories you want to show."></div>
 						<div id="was_voted_filter" class="filter-buttons"
 							title="Filter if you want to show the projects that went trough the complete musrenbang process and the projects that were executed without voting.">
 							<input type="checkbox" id="was_voted_filter_ALL" value="ALL"></input>
@@ -845,33 +843,46 @@
 	function subcategoryFilters(parent) {
 		this.parent = parent;
 		this.scFilters = document.getElementById("subcategory_filter");
-		this.scFilters.multiple = true;
 		this.scOptions =[];
 		this.isActive = false;
+		this.all = document.createElement("input");
+		this.all.type = "radio";
+		this.all.name = "subcategories";
+		this.all.id = "sub_all";
+		this.allLabel = document.createElement("label");
+		this.allLabel.htmlFor = "sub_all";
+		this.scFilters.appendChild(this.all);
+		this.scFilters.appendChild(this.allLabel);
+		this.scOptions = [];
+		var i = 0;
 		for (var key in subcategories){
-			var option = document.createElement("option");
-			option.selected = "selected";
-			option.innerHTML = subcategories[key].name;
-			option.id = "filter_" + key;
-			this.scFilters.appendChild(option);
-			this.scOptions.push(option);
+			this.scOptions[i] = document.createElement("input");
+			this.scOptions[i].type = "radio";
+			this.scOptions[i].name = "subcategories";
+			this.scOptions[i].id = "sub_" + key;
+			var label = document.createElement("label");
+			label.htmlFor = "sub_all";
+			var that = this;
+			this.scOptions[i].onclick = function(){
+				that.parent.filteringChanged();
+			}
+			this.scFilters.appendChild(this.scOptions[i]);
+			this.scFilters.appendChild(label);
+			i++;
 		}
-		var that = this;
-		this.scFilters.onchange = function(){
-			that.parent.filteringChanged();
-		}
+		
 		this.show = function(){
 			if(this.isActive == false){
 				this.scFilters.style.display = "inherit";
-				$(this.scFilters).attr('data-placeholder', "Select Subcategories...").chosen();
+				//$(this.scFilters).attr('data-placeholder', "Select Subcategories...").chosen();
 				this.isActive = true;
 			}
 		}
 		this.getSelected = function(){
 			var selectedSubcategories = [];
 			for (var i = 0; i < this.scOptions.length; i++){
-				if (this.scOptions[i].selected){
-					selectedSubcategories.push(this.scOptions[i].id.slice(7,this.scOptions[i].id.length));
+				if (this.scOptions[i].checked){
+					selectedSubcategories.push((this.scOptions[i].id).slice(4, this.scOptions[i].id.length));
 				}
 			}
 			return selectedSubcategories;
@@ -1395,15 +1406,16 @@
 		};
 	}
 	function fillProjectCards(kelurahan, years, subcategories, ghostOrNot, executedOrNot, parent){
+		this.subcategories = subcategories;
 		var list = document.getElementById("list");
 		var ul = document.createElement("ul");
 		var projectTAFFY = TAFFY();
 		var projectCardArray = [];
 		for (var j=0; j < years.length; j++){
-			for (var k=0; k < subcategories.length; k++){
+			for (var k=0; k < this.subcategories.length; k++){
 				for (var l = 0; l < ghostOrNot.length; l++) {
 					for (var m = 0; m < executedOrNot.length; m++){
-						var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : subcategories[k], VOTED : ghostOrNot[l], IS_IT_EXECUTED : executedOrNot[m]}).get();
+						var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : this.subcategories[k], VOTED : ghostOrNot[l], IS_IT_EXECUTED : executedOrNot[m]}).get();
 						for (var i=0; i < projectsToShow.length; i++){
 							projectCardArray[i] = new projectCard(projectsToShow[i], parent);
 							ul.appendChild(projectCardArray[i].getView());
