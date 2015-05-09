@@ -849,6 +849,10 @@
 		this.all.type = "radio";
 		this.all.name = "subcategories";
 		this.all.id = "sub_all";
+		var that = this;
+		this.all.onclick = function(){
+			that.parent.filteringChanged();
+		}
 		this.allLabel = document.createElement("label");
 		this.allLabel.htmlFor = "sub_all";
 		this.scFilters.appendChild(this.all);
@@ -874,15 +878,20 @@
 		this.show = function(){
 			if(this.isActive == false){
 				this.scFilters.style.display = "inherit";
-				//$(this.scFilters).attr('data-placeholder', "Select Subcategories...").chosen();
 				this.isActive = true;
 			}
 		}
 		this.getSelected = function(){
 			var selectedSubcategories = [];
-			for (var i = 0; i < this.scOptions.length; i++){
-				if (this.scOptions[i].checked){
-					selectedSubcategories.push((this.scOptions[i].id).slice(4, this.scOptions[i].id.length));
+			if(this.all.checked){
+				for (var key in subcategories){
+					selectedSubcategories.push(key);
+				}
+			} else {
+				for (var i = 0; i < this.scOptions.length; i++){
+					if (this.scOptions[i].checked){
+						selectedSubcategories.push((this.scOptions[i].id).slice(4, this.scOptions[i].id.length));
+					}
 				}
 			}
 			return selectedSubcategories;
@@ -1405,17 +1414,17 @@
 			return li;
 		};
 	}
-	function fillProjectCards(kelurahan, years, subcategories, ghostOrNot, executedOrNot, parent){
-		this.subcategories = subcategories;
+	function fillProjectCards(kelurahan, years, sC, ghostOrNot, executedOrNot, parent){
+		this.sC = sC;
 		var list = document.getElementById("list");
 		var ul = document.createElement("ul");
 		var projectTAFFY = TAFFY();
 		var projectCardArray = [];
 		for (var j=0; j < years.length; j++){
-			for (var k=0; k < this.subcategories.length; k++){
+			for (var k=0; k < this.sC.length; k++){
 				for (var l = 0; l < ghostOrNot.length; l++) {
 					for (var m = 0; m < executedOrNot.length; m++){
-						var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : this.subcategories[k], VOTED : ghostOrNot[l], IS_IT_EXECUTED : executedOrNot[m]}).get();
+						var projectsToShow = projectDatabase({KELURAHAN : kelurahan, YEAR : ("" + years[j]), SUBCATEGORY : this.sC[k], VOTED : ghostOrNot[l], IS_IT_EXECUTED : executedOrNot[m]}).get();
 						for (var i=0; i < projectsToShow.length; i++){
 							projectCardArray[i] = new projectCard(projectsToShow[i], parent);
 							ul.appendChild(projectCardArray[i].getView());
