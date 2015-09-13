@@ -1311,6 +1311,9 @@
 	    			tempObj[this.fields[i].KEY] = rows[j][i];
 	    		} else if(this.fields[i].KIND == "INTEGER") {
 	    			tempObj[this.fields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
+	    		} else if(this.fields[i].TYPE == "PERCENTAGE"){
+	    			tempObj[this.fields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
+	    			tempObj[this.fields[i].KEY] = (tempObj[this.fields[i].KEY] > 100) ? 100 : tempObj[this.fields[i].KEY];
 	    		} else {
 	    			tempObj[this.fields[i].KEY] = isNaN(parseFloat(rows[j][i])) ? 0 : parseFloat(rows[j][i]);
 	    		}
