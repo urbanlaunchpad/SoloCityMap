@@ -491,7 +491,8 @@
 	    this.deselectKelurahans = function(){
 	    	selectedKelurahan.setDeselected();
 	    	selectedKelurahan = null;
-	    	map.setView([mainState.lat, mainState.lng], mainState.zoom);
+	    	state = possibleStates.Main;
+	    	this.filteringChanged();
 	    }
 	    this.selectKelurahanByName = function(kelurahanName){
 	    	this.kelurahanName = kelurahanName;
@@ -596,6 +597,7 @@
 	  	}
 	  }	
 	  this.goToMainView = function(){
+	  	map.setView([mainState.lat, mainState.lng], mainState.zoom);
 	  	this.state = possibleStates.Main;
 	  	emptyProjectCards();
 	  	var projectsToSummarize = TAFFY();
