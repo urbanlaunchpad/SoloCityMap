@@ -433,9 +433,14 @@
 			}
 	  }
 	  function mapStateController(){
+	  	var mainState = {
+	  		lat:-7.566667,
+	  		lng:110.866667,
+	  		zoom:13
+	  	}
 	  	L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlcGhlbmtlbm5lZHkiLCJhIjoidjE2aTktdyJ9.gpYsw_JQAEuHlK5rAq0rsw';
 	  	map = L.mapbox.map("map", 'stephenkennedy.ad4e43ac')
-	  	.setView([-7.566667, 110.866667], 13);
+	  	.setView([mainState.lat, mainState.lng], mainState.zoom);
 	  	aggregateDataLayer = L.mapbox.featureLayer().addTo(map);
 	  	kelurahanLayer =  L.mapbox.featureLayer().addTo(map);
 	  	projectLocationLayer = L.mapbox.featureLayer().addTo(map);
@@ -482,6 +487,11 @@
 	        emptyProjectCards();
 	        this.filteringChanged();
 	        this.kelSelect.selectKelurahan(kelurahanToSelect.name);
+	    }
+	    this.deselectKelurahans = function(){
+	    	selectedKelurahan.setDeselected();
+	    	selectedKelurahan = null;
+	    	map.setView([mainState.lat, mainState.lng], mainState.zoom);
 	    }
 	    this.selectKelurahanByName = function(kelurahanName){
 	    	this.kelurahanName = kelurahanName;
@@ -609,11 +619,11 @@
 	  		this.emptyProjectLocationLayer();
 	  	}
 	  	selectedProjectID = projectID;
-	      var project = projectDatabase({ID: selectedProjectID}).get()[0];
-	      var location = project.LOCATION.split(',');
-	      var kelurahan = project.KELURAHAN;
-	      var subcategory = subcategories[project.SUBCATEGORY];
-	      this.showLocationShapes(kelurahan, subcategory, location);
+	    var project = projectDatabase({ID: selectedProjectID}).get()[0];
+	    var location = project.LOCATION.split(',');
+	    var kelurahan = project.KELURAHAN;
+	    var subcategory = subcategories[project.SUBCATEGORY];
+	    this.showLocationShapes(kelurahan, subcategory, location);
 	  }
 	  this.emptyProjectLocationLayer = function(){
 	  	map.removeLayer(projectLocationLayer);
@@ -714,7 +724,12 @@
 		this.kelOptions = [];
 		var that = this;
 		this.kelSelector.onchange = function(){
-			that.parent.selectKelurahanByName(this.options[this.selectedIndex].value);
+			var kelName = this.options[this.selectedIndex].value
+			if(kelName != ""){
+				that.parent.selectKelurahanByName(kelName);
+			} else {
+				that.parent.deselectKelurahans();
+			}
 		}
 		this.initialize = function(){
 	        //Adding blank text option
