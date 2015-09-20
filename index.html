@@ -651,6 +651,13 @@
 	  			}
 	  		}
 	  	}
+	  	console.log(JSON.stringify(projectLocationLayer.getBounds()))
+	  	var bounds = projectLocationLayer.getBounds();
+	  	bounds._southWest.lat = bounds._southWest.lat - 0.002;
+		bounds._southWest.lng = bounds._southWest.lng - 0.002;
+		bounds._northEast.lat = bounds._northEast.lat + 0.002;
+		bounds._northEast.lng = bounds._northEast.lng + 0.002;
+	  	map.fitBounds(bounds);
 	  }
 	  this.addShape = function(locations, layer, style){  
 	  	var shapeOptions = style;
