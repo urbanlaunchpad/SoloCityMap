@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Basic site structure buildout.">
-<title>Solo City Map / Structure</title>
+<title>Solo City Map / Structure</title>	
 <!-- STYLE -->
 <link href='https://fonts.googleapis.com/css?family=Raleway:300,400,500'
 	rel='stylesheet' type='text/css'>
@@ -51,9 +51,9 @@
 								<input type="radio" id="data_RT" name="data_layer_scope" checked="checked"><label
 									for="data_RT">RT</label>
 							</div>
-							<select id="aggregate_data_selector"
-								title="Choose which data layer to show.">
-							</select>
+								<select id="aggregate_data_selector"
+								title="Choose which data layer to show."></select>
+								<button type="button" id="clear_data_layer_button">X</button>
 						</div>
 					</div>
 					<div id="key_bar_container"></div>
@@ -318,7 +318,8 @@
 	  	initializeLayerToolbar();
 	  }
 	  function clearDataLayerView(){
-
+	  	map.removeLayer(aggregateDataLayer);
+	  	document.getElementById("key_bar_container").innerHTML = "";
 	  }
 	  function updateLayerOptions(){
 	  	if(layer2010sel.checked){
@@ -400,6 +401,10 @@
 	  	layerKELsel.onclick = function(){
 	  		clearDataLayerView();
 	  		updateLayerOptions();
+	  	}
+	  	clearLayerButton = document.getElementById("clear_data_layer_button");
+	  	clearLayerButton.onclick = function(){
+	  		clearDataLayerView();
 	  	}	  	
 	  	updateLayerOptions();
 	  }
@@ -1123,7 +1128,7 @@
 			if (i < kelurahans.length){
 				kelurahans[shuffleArray[i]].setStyles(originalKelurahanShapeOptions, activeKelurahanShapeOptions, onHoverKelurahanShapeOptions);
 				kelurahans[shuffleArray[i]].initializeShape();
-				sounds.getRandomPop().play();
+					sounds.playRandomPop();
 				i++;
 			} else{
 				clearInterval(interval);
@@ -1158,10 +1163,10 @@
 			this.sounds[i] = new Audio('src/audio/'+ this.key + '/' + this.key + i +'.wav');
 			this.sounds[i].volume = 0;
 		};
-		this.getRandomPop = function(){
+		this.playRandomPop = function(){
 			var sound = this.sounds[Math.floor(Math.random() * this.sounds.length)].cloneNode();
 			sound.volume = 0.01;
-			return sound;
+			//sound.play();
 		}
 	}
 	function getSubcategoryIcons(){
@@ -1277,15 +1282,6 @@
 	    d3.select("body #key-container")
 	    .append("div")
 	    .attr("id","plabel-container");
-	    // d3.select("body #label-container").selectAll("div.bar")
-	    //   .data(data_value)
-	    //   .enter()
-	    //   .append("div")
-	    //   .style("width", function(d) {
-	    //     return d + "%";
-	    //     })
-	    //   .data(data_label)
-	    //   .append("h5").text(function(d) { return d; });
 	    d3.select("body #bar-container").selectAll("div.bar")
 	    .data(data_value)
 	    .enter()
@@ -1312,13 +1308,10 @@
 	    .style("padding-left", function(d) {
 	    	return d + "%";
 	    });
-	      // .style("margin-left", function(d) {
-	      //  return "-2px";
-	      //  });
-			d3.select("body #plabel-container").selectAll("div.bar").data(data_value).enter().append("div").style("width", function(d) {
+		d3.select("body #plabel-container").selectAll("div.bar").data(data_value).enter().append("div").style("width", function(d) {
 				return d + "%";
-			}).data(data_plabel).append("h6").text(function(d) { return d; });
-		}
+		}).data(data_plabel).append("h6").text(function(d) { return d; });
+	}
 	  //***********************************************************************
 	  //***************Here goes the stuff for the  info***********************
 	  //***********************************************************************
