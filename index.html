@@ -51,9 +51,9 @@
 								<input type="radio" id="data_RT" name="data_layer_scope" checked="checked"><label
 									for="data_RT">RT</label>
 							</div>
-							<select id="aggregate_data_selector"
-								title="Choose which data layer to show.">
-							</select>
+								<select id="aggregate_data_selector"
+								title="Choose which data layer to show."></select>
+								<button type="button" id="clear_data_layer_button">X</button>
 						</div>
 					</div>
 					<div id="key_bar_container"></div>
@@ -400,6 +400,10 @@
 	  	layerKELsel.onclick = function(){
 	  		clearDataLayerView();
 	  		updateLayerOptions();
+	  	}
+	  	clearLayerButton = document.getElementById("clear_data_layer_button");
+	  	clearLayerButton.onclick = function(){
+	  		clearDataLayerView();
 	  	}	  	
 	  	updateLayerOptions();
 	  }
