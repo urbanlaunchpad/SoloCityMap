@@ -319,6 +319,7 @@
 	  }
 	  function clearDataLayerView(){
 	  	map.removeLayer(aggregateDataLayer);
+	  	document.getElementById("aggregate_data_selector").selectedIndex = 0;
 	  	document.getElementById("key_bar_container").innerHTML = "";
 	  }
 	  function updateLayerOptions(){
