@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Basic site structure buildout.">
-<title>Solo City Map / Structure</title>
+<title>Solo City Map / Structure</title>	
 <!-- STYLE -->
 <link href='https://fonts.googleapis.com/css?family=Raleway:300,400,500'
 	rel='stylesheet' type='text/css'>
@@ -318,7 +318,7 @@
 	  	initializeLayerToolbar();
 	  }
 	  function clearDataLayerView(){
-
+	  	map.removeLayer(aggregateDataLayer);
 	  }
 	  function updateLayerOptions(){
 	  	if(layer2010sel.checked){
