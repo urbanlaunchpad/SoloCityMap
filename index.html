@@ -319,6 +319,7 @@
 	  }
 	  function clearDataLayerView(){
 	  	map.removeLayer(aggregateDataLayer);
+	  	document.getElementById("key_bar_container").innerHTML = "";
 	  }
 	  function updateLayerOptions(){
 	  	if(layer2010sel.checked){
@@ -1281,15 +1282,6 @@
 	    d3.select("body #key-container")
 	    .append("div")
 	    .attr("id","plabel-container");
-	    // d3.select("body #label-container").selectAll("div.bar")
-	    //   .data(data_value)
-	    //   .enter()
-	    //   .append("div")
-	    //   .style("width", function(d) {
-	    //     return d + "%";
-	    //     })
-	    //   .data(data_label)
-	    //   .append("h5").text(function(d) { return d; });
 	    d3.select("body #bar-container").selectAll("div.bar")
 	    .data(data_value)
 	    .enter()
@@ -1316,13 +1308,10 @@
 	    .style("padding-left", function(d) {
 	    	return d + "%";
 	    });
-	      // .style("margin-left", function(d) {
-	      //  return "-2px";
-	      //  });
-			d3.select("body #plabel-container").selectAll("div.bar").data(data_value).enter().append("div").style("width", function(d) {
+		d3.select("body #plabel-container").selectAll("div.bar").data(data_value).enter().append("div").style("width", function(d) {
 				return d + "%";
-			}).data(data_plabel).append("h6").text(function(d) { return d; });
-		}
+		}).data(data_plabel).append("h6").text(function(d) { return d; });
+	}
 	  //***********************************************************************
 	  //***************Here goes the stuff for the  info***********************
 	  //***********************************************************************
