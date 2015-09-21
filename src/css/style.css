@@ -27,8 +27,8 @@
     background-size:contain;
     background-repeat:no-repeat;
     display:inline-block;
-    width:34px;
-    height:34px;
+    width:32px;
+    height:32px;
     -webkit-transition: all 100ms ease-in;
        -moz-transition: all 100ms ease-in;
             transition: all 100ms ease-in;
@@ -103,7 +103,7 @@ p {
     font-family: 'Lora', Georgia, serif;
     font-weight: 400;
     font-size: 1em;
-    line-height: 1.5em;
+    line-height: 0.9em;
     color: #808080;
 }
 
