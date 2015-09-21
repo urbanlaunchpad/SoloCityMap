@@ -1128,7 +1128,7 @@
 			if (i < kelurahans.length){
 				kelurahans[shuffleArray[i]].setStyles(originalKelurahanShapeOptions, activeKelurahanShapeOptions, onHoverKelurahanShapeOptions);
 				kelurahans[shuffleArray[i]].initializeShape();
-				sounds.getRandomPop().play();
+					sounds.playRandomPop();
 				i++;
 			} else{
 				clearInterval(interval);
@@ -1163,10 +1163,10 @@
 			this.sounds[i] = new Audio('src/audio/'+ this.key + '/' + this.key + i +'.wav');
 			this.sounds[i].volume = 0;
 		};
-		this.getRandomPop = function(){
+		this.playRandomPop = function(){
 			var sound = this.sounds[Math.floor(Math.random() * this.sounds.length)].cloneNode();
 			sound.volume = 0.01;
-			return sound;
+			//sound.play();
 		}
 	}
 	function getSubcategoryIcons(){
