@@ -207,7 +207,7 @@
 	  	{KEY:"PDAM_PERCENTAGE", NAME:"Percentage of PDAM", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Water"},
 	  	{KEY:"PRIVATE_WC_PERCENTAGE", NAME:"Percentage of households with private WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
 	  	{KEY:"PUBLIC_WC_PERCENTAGE", NAME:"Percentage of households using public WC", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Sanitation"},
-	  	{KEY:"POVERTY_PERCENTAGE", NAME:" % of households in Poverty", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Poverty"},
+	  	{KEY:"POVERTY_PERCENTAGE", NAME:"% of households in Poverty", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Poverty"},
 	  	{KEY:"DISABLED_PEOPLE_PERCENTAGE", NAME:"Percentage of disabled people", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Vulnerability"},
 	  	{KEY:"POP_DENSITY", NAME:"Population density (ppl/hectare)", TYPE:"TOTAL", KIND:"FLOAT", CLASS_NAME:"Housing"},
 	  	{KEY:"UNHABITABLE_HOUSES_PERCENTAGE", NAME:"% of uninhabitable Houses", TYPE:"PERCENTAGE", KIND:"FLOAT", CLASS_NAME:"Housing"}	
@@ -1443,7 +1443,10 @@
 		article.appendChild(plannedBudget);
 		var executedBudget = document.createElement("p");
 		executedBudget.innerHTML = "Executed budget: " + numberWithCommas(project.EXECUTED_BUDGET) + " IDR";
-		article.appendChild(executedBudget);        
+		article.appendChild(executedBudget);     
+		var location = document.createElement("p");
+		location.innerHTML = "Location: " + project.LOCATION;
+		article.appendChild(location);       
 		li.appendChild(article);  
 		label.onclick = function(){
 			parent.setSelectedProject(project.ID);
