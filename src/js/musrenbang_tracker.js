@@ -861,6 +861,7 @@ function mapStateController() {
     this.setSelectedProject = function(projectID) {
         if (selectedProjectID != null) {
             this.emptyProjectLocationLayer();
+            clearURL();
         }
         selectedProjectID = projectID;
         var project = projectDatabase({
@@ -870,8 +871,8 @@ function mapStateController() {
         var kelurahan = project.KELURAHAN;
         var subcategory = subcategories[project.SUBCATEGORY];
         this.showLocationShapes(kelurahan, subcategory, location);
-
-
+        console.log(JSON.stringify(project));
+        updateQueryStringParameter(window.location.pathname.substring(1), "projectid", project.ID);
     }
     this.emptyProjectLocationLayer = function() {
         map.removeLayer(projectLocationLayer);
@@ -1911,18 +1912,20 @@ function checkURL(){
 }
 
 function updateQueryStringParameter(uri, key, value) {
-  var re = new RegExp("([?|&])" + key + "=.*?(&|#|$)", "i");
-  if (uri.match(re)) {
-    return uri.replace(re, '$1' + key + "=" + value + '$2');
-  } else {
-    var hash =  '';
-    if( uri.indexOf('#') !== -1 ){
-        hash = uri.replace(/.*#/, '#');
-        uri = uri.replace(/#.*/, '');
-    }
-    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-    history.replaceState(null,null, uri + separator + key + "=" + value + hash);    
-  }
+	key = key.toLowerCase();
+	value = value.toLowerCase();
+	var re = new RegExp("([?|&])" + key + "=.*?(&|#|$)", "i");
+	if (uri.match(re)) {
+		return uri.replace(re, '$1' + key + "=" + value + '$2');
+	} else {
+	    var hash =  '';
+	    if( uri.indexOf('#') !== -1 ){
+	        hash = uri.replace(/.*#/, '#');
+	        uri = uri.replace(/#.*/, '');
+	    }
+	    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+	    history.replaceState(null,null, uri + separator + key + "=" + value + hash);    
+	}
 }
 
 
