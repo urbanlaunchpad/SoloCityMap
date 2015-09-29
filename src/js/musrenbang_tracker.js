@@ -1,4 +1,5 @@
-checkURL();
+var projectIDfromURL = getProjectIDfromURL();
+clearURL();
 //***********************************************************************
 //***********************Here goes the stuff for the map*****************
 //***********************************************************************
@@ -1906,9 +1907,13 @@ function getParams(url){
      console.log(JSON.stringify(params));
      return params;
 }
-function checkURL(){
-	getParams(window.location);
-	clearURL();
+function getProjectIDfromURL(){
+	var params = getParams(window.location);
+	if(params.projectid != null){
+		return (params.projectid).toUpperCase();
+	} else {
+		return null;
+	}
 }
 
 function updateQueryStringParameter(uri, key, value) {
