@@ -23,7 +23,7 @@
   js.src = "https://connect.facebook.net/id_ID/sdk.js#xfbml=1&version=v2.3&appId=1648943068662525";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-	<div class="container-fluid">
+	<div class="container-fluid">	
 		<div class="row">
 			<div id="nav-bar" class="hidden-md hidden-lg">Solo City Map</div>
 			<div id="map-canvas"
@@ -64,7 +64,7 @@
 			<div id="left-panel"
 				class="col-md-4 col-lg-3 col-md-pull-8 col-lg-pull-9">
 				<div class="row">
-					<div id="nav-bar" class="hidden-xs hidden-sm">Solo City Map</div>
+					<div id="nav-bar" class="hidden-xs hidden-sm">Solo City Map - Musrenbang tracker</div>
 					<div id="kelurahan_search">
 						<h1 id="kelurahan_name">
 							Solo City Map
@@ -311,10 +311,10 @@
 	  	subcategoryIcons = new getSubcategoryIcons();
 	  	projectStateIcons = new getProjectStateIcons();
 	  	mapSC = new mapStateController();
-	  	getSubdivisions();
+	  	getKelurahans();	
 	  	getProjects();
-	  	getKelurahans();
 	  	getAllData();
+	  	getSubdivisions();
 	  	initializeLayerToolbar();
 	  }
 	  function clearDataLayerView(){
@@ -1148,7 +1148,7 @@
 		this.YES.title = "Executed";
 		this.NO = new Image();
 		this.NO.src = "src/img/png/executed_NO.png";
-		this.NO.title = "Not xecuted";
+		this.NO.title = "Not executed";
 		this.COMMENT = new Image();
 		this.COMMENT.src = "src/img/png/comment.png";
 		this.COMMENT.title = "Comment";
@@ -1419,7 +1419,7 @@
 			var modal = document.createElement("div");
 			modal.className = "modal";
 			modal.title = "Comments for " + project.PROJECT_NAME;
-			modal.innerHTML = '<fb:comments class="fb-comments" data-href="https://github.com/urbanlaunchpad/SoloCityMap#' + project.ID + '" data-width="550" data-numposts="5" data-colorscheme="light"></fb:comments>'
+			modal.innerHTML = '<fb:comments class="fb-comments" data-href="http://solokotakita.org/musrenbangtracker/#' + project.ID + '" data-width="550" data-numposts="5" data-colorscheme="light"></fb:comments>'
 			FB.XFBML.parse(modal);
 			$(modal).dialog({
   			minWidth: 600,
