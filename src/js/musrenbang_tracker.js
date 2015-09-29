@@ -1890,11 +1890,8 @@ function getWhatToGet(columnNames) {
 // Functions related to managing the urls of the page
 function clearURL(){
 	var url = window.location.pathname;
-	console.log(url);
-	console.log(window.location);
 	url = url.substring(0, url.lastIndexOf("/"));
 	history.replaceState(null,null, url + "/");
-	console.log(url);
 }
 function getParams(url){ 
     var regex = /[?&]([^=#]+)=([^&#]*)/g,
@@ -1908,4 +1905,27 @@ function getParams(url){
 function checkURL(){
 	getParams(window.location);
 	clearURL();
+	updateQueryStringParameter(window.location.pathname.substring(1), "pedro", "vilma");
+	updateQueryStringParameter(window.location.pathname.substring(1), "ssssss", "vilma");
 }
+
+function updateQueryStringParameter(uri, key, value) {
+  var re = new RegExp("([?|&])" + key + "=.*?(&|#|$)", "i");
+  if (uri.match(re)) {
+    return uri.replace(re, '$1' + key + "=" + value + '$2');
+  } else {
+    var hash =  '';
+    if( uri.indexOf('#') !== -1 ){
+        hash = uri.replace(/.*#/, '#');
+        uri = uri.replace(/#.*/, '');
+    }
+    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+    history.replaceState(null,null, uri + separator + key + "=" + value + hash);    
+  }
+}
+
+
+
+//*************************************************************************
+// Functions related to managing the urls of the page
+
