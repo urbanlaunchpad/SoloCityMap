@@ -1,7 +1,10 @@
+// var params = getParams(window.location);
+// console.log(JSON.stringify(params));
+// console.log(params.projectID)
+clearURL();
 //***********************************************************************
 //***********************Here goes the stuff for the map*****************
 //***********************************************************************
-history.replaceState(null,null, window.location.pathname + "seeeeeeeee");
 var kelurahansFusionTableID = "1jdxsdPlAvCNRair4uv2pOwWTzMNtutDdhfXlp9QO";
 var subdivisionsFusionTableID = "158fKZygrAlgGKaYDkT4alniT5ZEeTqPdwtFtEoc-";
 var musrenbangFusionTableID = "1yHXZ3Z5yQXl8eEewPUgYSzOvd458RhW9pQ2smFIf";
@@ -1885,3 +1888,23 @@ function getWhatToGet(columnNames) {
     whatToGet = whatToGet.substring(0, whatToGet.length - 2);
     return whatToGet;
 }	  
+
+//*************************************************************************
+// Functions related to managing the urls of the page
+function clearURL(){
+	var url = window.location.pathname;
+	console.log(url);
+	console.log(window.location);
+	url = url.substring(0, url.lastIndexOf("/"));
+	history.replaceState(null,null, url + "/");
+	console.log(url);
+}
+// function getParams(url){
+//     var regex = /[?&]([^=#]+)=([^&#]*)/g,
+//         params = {},
+//         match;
+//     while(match = regex.exec(url)) {
+//         params[match[1]] = match[2];
+//     }
+//     return params;
+// }
