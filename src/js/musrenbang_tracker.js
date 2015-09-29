@@ -1,7 +1,4 @@
-// var params = getParams(window.location);
-// console.log(JSON.stringify(params));
-// console.log(params.projectID)
-clearURL();
+checkURL();
 //***********************************************************************
 //***********************Here goes the stuff for the map*****************
 //***********************************************************************
@@ -1899,12 +1896,16 @@ function clearURL(){
 	history.replaceState(null,null, url + "/");
 	console.log(url);
 }
-// function getParams(url){
-//     var regex = /[?&]([^=#]+)=([^&#]*)/g,
-//         params = {},
-//         match;
-//     while(match = regex.exec(url)) {
-//         params[match[1]] = match[2];
-//     }
-//     return params;
-// }
+function getParams(url){ 
+    var regex = /[?&]([^=#]+)=([^&#]*)/g,
+         params = {},
+         match;
+     while(match = regex.exec(url)) {
+         params[match[1]] = match[2];
+     }
+     return params;
+}
+function checkURL(){
+	getParams(window.location);
+	clearURL();
+}
