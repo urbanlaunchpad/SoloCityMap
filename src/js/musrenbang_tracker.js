@@ -1663,10 +1663,12 @@ function projectCard(project, parent) {
     label.appendChild(div);
     var commentIcon = projectStateIcons.getIcon("COMMENT");
     commentIcon.onclick = function() {
+    	updateQueryStringParameter(window.location.pathname.substring(1), "projectid", project.ID);
         var modal = document.createElement("div");
         modal.className = "modal";
         modal.title = "Comments for " + project.PROJECT_NAME;
-        modal.innerHTML = '<fb:comments class="fb-comments" data-href="http://solokotakita.org/musrenbangtracker/#' + project.ID + '" data-width="550" data-numposts="5" data-colorscheme="light"></fb:comments>'
+        console.log("location " + window.location );
+        modal.innerHTML = '<fb:comments class="fb-comments" data-href="' + window.location + '" data-width="550" data-numposts="5" data-colorscheme="light"></fb:comments>'
         FB.XFBML.parse(modal);
         $(modal).dialog({
             minWidth: 600,
@@ -1900,13 +1902,12 @@ function getParams(url){
      while(match = regex.exec(url)) {
          params[match[1]] = match[2];
      }
+     console.log(JSON.stringify(params));
      return params;
 }
 function checkURL(){
 	getParams(window.location);
 	clearURL();
-	updateQueryStringParameter(window.location.pathname.substring(1), "pedro", "vilma");
-	updateQueryStringParameter(window.location.pathname.substring(1), "ssssss", "vilma");
 }
 
 function updateQueryStringParameter(uri, key, value) {
