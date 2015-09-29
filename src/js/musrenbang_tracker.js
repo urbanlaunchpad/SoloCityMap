@@ -1,6 +1,7 @@
 //***********************************************************************
 //***********************Here goes the stuff for the map*****************
 //***********************************************************************
+history.replaceState(null,null, window.location.pathname + "seeeeeeeee");
 var kelurahansFusionTableID = "1jdxsdPlAvCNRair4uv2pOwWTzMNtutDdhfXlp9QO";
 var subdivisionsFusionTableID = "158fKZygrAlgGKaYDkT4alniT5ZEeTqPdwtFtEoc-";
 var musrenbangFusionTableID = "1yHXZ3Z5yQXl8eEewPUgYSzOvd458RhW9pQ2smFIf";
@@ -869,6 +870,8 @@ function mapStateController() {
         var kelurahan = project.KELURAHAN;
         var subcategory = subcategories[project.SUBCATEGORY];
         this.showLocationShapes(kelurahan, subcategory, location);
+
+
     }
     this.emptyProjectLocationLayer = function() {
         map.removeLayer(projectLocationLayer);
