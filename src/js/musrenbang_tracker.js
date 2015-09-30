@@ -494,6 +494,7 @@ var layer2010sel;
 var layer2012sel;
 var layerRTsel;
 var layerKELsel;
+var projectCards = {};
 document.addEventListener("DOMContentLoaded", initialize);
 var subcategories = {
     JA: {
@@ -1724,7 +1725,7 @@ function fillProjectCards(kelurahan, years, sC, ghostOrNot, executedOrNot, paren
     var list = document.getElementById("list");
     var ul = document.createElement("ul");
     var projectTAFFY = TAFFY();
-    var projectCardArray = [];
+    projectCards = {};
     for (var j = 0; j < years.length; j++) {
         for (var k = 0; k < this.sC.length; k++) {
             for (var l = 0; l < ghostOrNot.length; l++) {
@@ -1737,8 +1738,8 @@ function fillProjectCards(kelurahan, years, sC, ghostOrNot, executedOrNot, paren
                         IS_IT_EXECUTED: executedOrNot[m]
                     }).get();
                     for (var i = 0; i < projectsToShow.length; i++) {
-                        projectCardArray[i] = new projectCard(projectsToShow[i], parent);
-                        ul.appendChild(projectCardArray[i].getView());
+                        projectCards[projectsToShow[i].ID] = new projectCard(projectsToShow[i], parent);
+                        ul.appendChild(projectCards[projectsToShow[i].ID].getView());
                         projectTAFFY.insert(projectsToShow[i]);
                     }
                     list.appendChild(ul);
@@ -1873,6 +1874,7 @@ function showDataLayer(key, type, label, year, locScope) {
 }
 
 function emptyProjectCards() {
+        projectCards = {};
         var list = document.getElementById("list");
         list.innerHTML = "";
     }
