@@ -532,7 +532,6 @@ var subcategories = {
 };
 
 function initialize() {
-    sounds = new getSounds("gamelan");
     subcategoryIcons = new getSubcategoryIcons();
     projectStateIcons = new getProjectStateIcons();
     mapSC = new mapStateController();
@@ -1397,7 +1396,6 @@ function drawKelurahans(kelurahans) {
         if (i < kelurahans.length) {
             kelurahans[shuffleArray[i]].setStyles(originalKelurahanShapeOptions, activeKelurahanShapeOptions, onHoverKelurahanShapeOptions);
             kelurahans[shuffleArray[i]].initializeShape();
-            sounds.playRandomPop();
             i++;
         } else {
             mapSC.onKelurahansDrawn();
@@ -1424,21 +1422,6 @@ function getProjectStateIcons() {
     this.COMMENT.title = "Comment";
     this.getIcon = function(code) {
         return this[code].cloneNode();
-    }
-}
-
-function getSounds(key) {
-    this.key = key;
-    this.sounds = [];
-    var popTotal = 4;
-    for (var i = popTotal; i >= 0; i--) {
-        this.sounds[i] = new Audio('src/audio/' + this.key + '/' + this.key + i + '.wav');
-        this.sounds[i].volume = 0;
-    };
-    this.playRandomPop = function() {
-        var sound = this.sounds[Math.floor(Math.random() * this.sounds.length)].cloneNode();
-        sound.volume = 0.01;
-        //sound.play();
     }
 }
 
@@ -1676,8 +1659,8 @@ function projectCard(project, parent) {
     h6.innerHTML = project.PROJECT_NAME;
     div.appendChild(h6);
     this.label.appendChild(div);
-    var commentIcon = projectStateIcons.getIcon("COMMENT");
-    commentIcon.onclick = function() {
+    this.commentIcon = projectStateIcons.getIcon("COMMENT");
+    this.commentIcon.onclick = function() {
     	updateQueryStringParameter(window.location.pathname.substring(1), "projectid", project.ID);
         var modal = document.createElement("div");
         modal.className = "modal";
@@ -1694,7 +1677,7 @@ function projectCard(project, parent) {
     stateIconsContainer.className = "state_icons_container";
     stateIconsContainer.appendChild(projectStateIcons.getIcon(project.VOTED));
     stateIconsContainer.appendChild(projectStateIcons.getIcon(project.IS_IT_EXECUTED));
-    stateIconsContainer.appendChild(commentIcon);
+    stateIconsContainer.appendChild(this.commentIcon);
     this.label.appendChild(stateIconsContainer);
     li.appendChild(this.label);
     var article = document.createElement("article");
@@ -1714,6 +1697,7 @@ function projectCard(project, parent) {
     li.appendChild(article);
     this.select = function(){
         this.label.onclick();
+        this.commentIcon.onclick();
     }
     this.label.onclick = function() {
         parent.setSelectedProject(project.ID);
@@ -1946,7 +1930,7 @@ function updateQueryStringParameter(uri, key, value) {
 	        uri = uri.replace(/#.*/, '');
 	    }
 	    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-	    history.replaceState(null,null, uri + separator + key + "=" + value + hash);    
+	    history.replaceState(null,null, separator + key + "=" + value + hash);    
 	}
 }
 
