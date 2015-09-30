@@ -1,4 +1,7 @@
 var projectIDfromURL = getProjectIDfromURL();
+if(projectIDfromURL != null) {
+	console.log(projectIDfromURL.substr(0, projectIDfromURL.indexOf('-')));
+}
 clearURL();
 //***********************************************************************
 //***********************Here goes the stuff for the map*****************
@@ -414,6 +417,9 @@ dataFields["RT2012"] = [
     }
 ];
 var drawDelay = 50;
+if(projectIDfromURL != null){
+    drawDelay = 1;
+}
 var projectDatabase = TAFFY();
 var aggregateDataDatabase = {};
 aggregateDataDatabase["KEL2010"] = {};
@@ -774,8 +780,13 @@ function mapStateController() {
         this.addKelurahanSelector();
         this.isKelurahanParsed = true;
         if (this.isProjectParsed) {
-            state = possibleStates.Main;
+        	state = possibleStates.Main;
             this.filteringChanged();
+        }
+    }
+    this.onKelurahansDrawn = function(){
+        if(projectIDfromURL != null){
+            this.selectKelurahanByName(getKelurahanNameByProjectID(projectIDfromURL));
         }
     }
     this.initializeYearSelector = function() {
@@ -1388,6 +1399,7 @@ function drawKelurahans(kelurahans) {
             sounds.playRandomPop();
             i++;
         } else {
+            mapSC.onKelurahansDrawn();
             clearInterval(interval);
         }
     }, drawDelay)
@@ -1936,5 +1948,11 @@ function updateQueryStringParameter(uri, key, value) {
 
 
 //*************************************************************************
-// Functions related to managing the urls of the page
+// Functions helpers
 
+function getKelurahanNameByProjectID(projectID) {
+    kelName = projectID.substr(0, projectID.indexOf('-'));
+    kelName = kelName.replace(/_/g, ' ');
+    console.log(kelName)
+    return kelName;
+}
