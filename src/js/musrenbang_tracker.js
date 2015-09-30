@@ -788,6 +788,7 @@ function mapStateController() {
     this.onKelurahansDrawn = function(){
         if(projectIDfromURL != null){
             this.selectKelurahanByName(getKelurahanNameByProjectID(projectIDfromURL));
+            projectCards[projectIDfromURL].select();
         }
     }
     this.initializeYearSelector = function() {
@@ -1194,7 +1195,6 @@ function subcategoryFilters(parent) {
                 }
             }
         }
-        console.log(selectedSubcategories)
         return selectedSubcategories;
     }
 }
@@ -1665,17 +1665,17 @@ function projectCard(project, parent) {
     input.name = "accordion-1";
     input.type = "radio"
     li.appendChild(input);
-    var label = document.createElement("label");
-    label.htmlFor = project.ID;
-    label.className = "pc-" + project.SUBCATEGORY;
+    this.label = document.createElement("label");
+    this.label.htmlFor = project.ID;
+    this.label.className = "pc-" + project.SUBCATEGORY;
     var icon = subcategoryIcons.getIcon(project.SUBCATEGORY);
-    label.appendChild(icon);
+    this.label.appendChild(icon);
     var div = document.createElement("div");
     div.className = "text-block";
     var h6 = document.createElement("h6");
     h6.innerHTML = project.PROJECT_NAME;
     div.appendChild(h6);
-    label.appendChild(div);
+    this.label.appendChild(div);
     var commentIcon = projectStateIcons.getIcon("COMMENT");
     commentIcon.onclick = function() {
     	updateQueryStringParameter(window.location.pathname.substring(1), "projectid", project.ID);
@@ -1695,8 +1695,8 @@ function projectCard(project, parent) {
     stateIconsContainer.appendChild(projectStateIcons.getIcon(project.VOTED));
     stateIconsContainer.appendChild(projectStateIcons.getIcon(project.IS_IT_EXECUTED));
     stateIconsContainer.appendChild(commentIcon);
-    label.appendChild(stateIconsContainer);
-    li.appendChild(label);
+    this.label.appendChild(stateIconsContainer);
+    li.appendChild(this.label);
     var article = document.createElement("article");
     article.className = "ac-small";
     var processPriority = document.createElement("p");
@@ -1712,7 +1712,10 @@ function projectCard(project, parent) {
     location.innerHTML = "Location: " + project.LOCATION;
     article.appendChild(location);
     li.appendChild(article);
-    label.onclick = function() {
+    this.select = function(){
+        this.label.onclick();
+    }
+    this.label.onclick = function() {
         parent.setSelectedProject(project.ID);
     };
     this.getView = function() {
