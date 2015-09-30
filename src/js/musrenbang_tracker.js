@@ -1,4 +1,8 @@
-checkURL();
+var projectIDfromURL = getProjectIDfromURL();
+if(projectIDfromURL != null) {
+	console.log(projectIDfromURL.substr(0, projectIDfromURL.indexOf('-')));
+}
+clearURL();
 //***********************************************************************
 //***********************Here goes the stuff for the map*****************
 //***********************************************************************
@@ -413,6 +417,9 @@ dataFields["RT2012"] = [
     }
 ];
 var drawDelay = 50;
+if(projectIDfromURL != null){
+    drawDelay = 1;
+}
 var projectDatabase = TAFFY();
 var aggregateDataDatabase = {};
 aggregateDataDatabase["KEL2010"] = {};
@@ -487,6 +494,7 @@ var layer2010sel;
 var layer2012sel;
 var layerRTsel;
 var layerKELsel;
+var projectCards = {};
 document.addEventListener("DOMContentLoaded", initialize);
 var subcategories = {
     JA: {
@@ -524,7 +532,6 @@ var subcategories = {
 };
 
 function initialize() {
-    sounds = new getSounds("gamelan");
     subcategoryIcons = new getSubcategoryIcons();
     projectStateIcons = new getProjectStateIcons();
     mapSC = new mapStateController();
@@ -773,8 +780,14 @@ function mapStateController() {
         this.addKelurahanSelector();
         this.isKelurahanParsed = true;
         if (this.isProjectParsed) {
-            state = possibleStates.Main;
+        	state = possibleStates.Main;
             this.filteringChanged();
+        }
+    }
+    this.onKelurahansDrawn = function(){
+        if(projectIDfromURL != null){
+            this.selectKelurahanByName(getKelurahanNameByProjectID(projectIDfromURL));
+            projectCards[projectIDfromURL].select();
         }
     }
     this.initializeYearSelector = function() {
@@ -861,6 +874,7 @@ function mapStateController() {
     this.setSelectedProject = function(projectID) {
         if (selectedProjectID != null) {
             this.emptyProjectLocationLayer();
+            clearURL();
         }
         selectedProjectID = projectID;
         var project = projectDatabase({
@@ -870,8 +884,8 @@ function mapStateController() {
         var kelurahan = project.KELURAHAN;
         var subcategory = subcategories[project.SUBCATEGORY];
         this.showLocationShapes(kelurahan, subcategory, location);
-
-
+        console.log(JSON.stringify(project));
+        updateQueryStringParameter(window.location.pathname.substring(1), "projectid", project.ID);
     }
     this.emptyProjectLocationLayer = function() {
         map.removeLayer(projectLocationLayer);
@@ -1180,7 +1194,6 @@ function subcategoryFilters(parent) {
                 }
             }
         }
-        console.log(selectedSubcategories)
         return selectedSubcategories;
     }
 }
@@ -1383,9 +1396,9 @@ function drawKelurahans(kelurahans) {
         if (i < kelurahans.length) {
             kelurahans[shuffleArray[i]].setStyles(originalKelurahanShapeOptions, activeKelurahanShapeOptions, onHoverKelurahanShapeOptions);
             kelurahans[shuffleArray[i]].initializeShape();
-            sounds.playRandomPop();
             i++;
         } else {
+            mapSC.onKelurahansDrawn();
             clearInterval(interval);
         }
     }, drawDelay)
@@ -1409,21 +1422,6 @@ function getProjectStateIcons() {
     this.COMMENT.title = "Comment";
     this.getIcon = function(code) {
         return this[code].cloneNode();
-    }
-}
-
-function getSounds(key) {
-    this.key = key;
-    this.sounds = [];
-    var popTotal = 4;
-    for (var i = popTotal; i >= 0; i--) {
-        this.sounds[i] = new Audio('src/audio/' + this.key + '/' + this.key + i + '.wav');
-        this.sounds[i].volume = 0;
-    };
-    this.playRandomPop = function() {
-        var sound = this.sounds[Math.floor(Math.random() * this.sounds.length)].cloneNode();
-        sound.volume = 0.01;
-        //sound.play();
     }
 }
 
@@ -1650,23 +1648,25 @@ function projectCard(project, parent) {
     input.name = "accordion-1";
     input.type = "radio"
     li.appendChild(input);
-    var label = document.createElement("label");
-    label.htmlFor = project.ID;
-    label.className = "pc-" + project.SUBCATEGORY;
+    this.label = document.createElement("label");
+    this.label.htmlFor = project.ID;
+    this.label.className = "pc-" + project.SUBCATEGORY;
     var icon = subcategoryIcons.getIcon(project.SUBCATEGORY);
-    label.appendChild(icon);
+    this.label.appendChild(icon);
     var div = document.createElement("div");
     div.className = "text-block";
     var h6 = document.createElement("h6");
     h6.innerHTML = project.PROJECT_NAME;
     div.appendChild(h6);
-    label.appendChild(div);
-    var commentIcon = projectStateIcons.getIcon("COMMENT");
-    commentIcon.onclick = function() {
+    this.label.appendChild(div);
+    this.commentIcon = projectStateIcons.getIcon("COMMENT");
+    this.commentIcon.onclick = function() {
+    	updateQueryStringParameter(window.location.pathname.substring(1), "projectid", project.ID);
         var modal = document.createElement("div");
         modal.className = "modal";
         modal.title = "Comments for " + project.PROJECT_NAME;
-        modal.innerHTML = '<fb:comments class="fb-comments" data-href="http://solokotakita.org/musrenbangtracker/#' + project.ID + '" data-width="550" data-numposts="5" data-colorscheme="light"></fb:comments>'
+        console.log("location " + window.location );
+        modal.innerHTML = '<fb:comments class="fb-comments" data-href="' + window.location + '" data-width="550" data-numposts="5" data-colorscheme="light"></fb:comments>'
         FB.XFBML.parse(modal);
         $(modal).dialog({
             minWidth: 600,
@@ -1677,9 +1677,9 @@ function projectCard(project, parent) {
     stateIconsContainer.className = "state_icons_container";
     stateIconsContainer.appendChild(projectStateIcons.getIcon(project.VOTED));
     stateIconsContainer.appendChild(projectStateIcons.getIcon(project.IS_IT_EXECUTED));
-    stateIconsContainer.appendChild(commentIcon);
-    label.appendChild(stateIconsContainer);
-    li.appendChild(label);
+    stateIconsContainer.appendChild(this.commentIcon);
+    this.label.appendChild(stateIconsContainer);
+    li.appendChild(this.label);
     var article = document.createElement("article");
     article.className = "ac-small";
     var processPriority = document.createElement("p");
@@ -1695,7 +1695,11 @@ function projectCard(project, parent) {
     location.innerHTML = "Location: " + project.LOCATION;
     article.appendChild(location);
     li.appendChild(article);
-    label.onclick = function() {
+    this.select = function(){
+        this.label.onclick();
+        this.commentIcon.onclick();
+    }
+    this.label.onclick = function() {
         parent.setSelectedProject(project.ID);
     };
     this.getView = function() {
@@ -1708,7 +1712,7 @@ function fillProjectCards(kelurahan, years, sC, ghostOrNot, executedOrNot, paren
     var list = document.getElementById("list");
     var ul = document.createElement("ul");
     var projectTAFFY = TAFFY();
-    var projectCardArray = [];
+    projectCards = {};
     for (var j = 0; j < years.length; j++) {
         for (var k = 0; k < this.sC.length; k++) {
             for (var l = 0; l < ghostOrNot.length; l++) {
@@ -1721,8 +1725,8 @@ function fillProjectCards(kelurahan, years, sC, ghostOrNot, executedOrNot, paren
                         IS_IT_EXECUTED: executedOrNot[m]
                     }).get();
                     for (var i = 0; i < projectsToShow.length; i++) {
-                        projectCardArray[i] = new projectCard(projectsToShow[i], parent);
-                        ul.appendChild(projectCardArray[i].getView());
+                        projectCards[projectsToShow[i].ID] = new projectCard(projectsToShow[i], parent);
+                        ul.appendChild(projectCards[projectsToShow[i].ID].getView());
                         projectTAFFY.insert(projectsToShow[i]);
                     }
                     list.appendChild(ul);
@@ -1857,6 +1861,7 @@ function showDataLayer(key, type, label, year, locScope) {
 }
 
 function emptyProjectCards() {
+        projectCards = {};
         var list = document.getElementById("list");
         list.innerHTML = "";
     }
@@ -1890,11 +1895,8 @@ function getWhatToGet(columnNames) {
 // Functions related to managing the urls of the page
 function clearURL(){
 	var url = window.location.pathname;
-	console.log(url);
-	console.log(window.location);
 	url = url.substring(0, url.lastIndexOf("/"));
 	history.replaceState(null,null, url + "/");
-	console.log(url);
 }
 function getParams(url){ 
     var regex = /[?&]([^=#]+)=([^&#]*)/g,
@@ -1903,9 +1905,43 @@ function getParams(url){
      while(match = regex.exec(url)) {
          params[match[1]] = match[2];
      }
+     console.log(JSON.stringify(params));
      return params;
 }
-function checkURL(){
-	getParams(window.location);
-	clearURL();
+function getProjectIDfromURL(){
+	var params = getParams(window.location);
+	if(params.projectid != null){
+		return (params.projectid).toUpperCase();
+	} else {
+		return null;
+	}
+}
+
+function updateQueryStringParameter(uri, key, value) {
+	key = key.toLowerCase();
+	value = value.toLowerCase();
+	var re = new RegExp("([?|&])" + key + "=.*?(&|#|$)", "i");
+	if (uri.match(re)) {
+		return uri.replace(re, '$1' + key + "=" + value + '$2');
+	} else {
+	    var hash =  '';
+	    if( uri.indexOf('#') !== -1 ){
+	        hash = uri.replace(/.*#/, '#');
+	        uri = uri.replace(/#.*/, '');
+	    }
+	    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+	    history.replaceState(null,null, separator + key + "=" + value + hash);    
+	}
+}
+
+
+
+//*************************************************************************
+// Functions helpers
+
+function getKelurahanNameByProjectID(projectID) {
+    kelName = projectID.substr(0, projectID.indexOf('-'));
+    kelName = kelName.replace(/_/g, ' ');
+    console.log(kelName)
+    return kelName;
 }
