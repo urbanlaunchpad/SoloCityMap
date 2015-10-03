@@ -506,7 +506,7 @@ var subcategories = {
         color: "#573649"
     },
     SM: {
-        name: "Mannakemen sampah",
+        name: "Manajemen sampah ",
         color: "#601D00"
     },
     LS: {
@@ -518,7 +518,7 @@ var subcategories = {
         color: "#003951"
     },
     IC: {
-        name: "Informasi dan komunicasi",
+        name: "Informasi dan komunikasi",
         color: "#B65B46"
     },
     DR: {
@@ -526,7 +526,7 @@ var subcategories = {
         color: "#7FA6B2"
     },
     SR: {
-        name: "Saran lainnyn",
+        name: "Sarana lainnya",
         color: "#C0B58F"
     }
 };
@@ -1202,7 +1202,7 @@ function budgetBar(key_name, name, div) {
     this.div = div;
     this.key_name = key_name;
     this.name = name;
-    this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>' + this.name + ': <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="Jalan"></div><div class="bar_element SA" title="Sanitasi"></div><div class="bar_element SM" title="Mannakemen sampah"></div><div class="bar_element LS" title="Listrik"></div><div class="bar_element AR" title="Air Bersih"></div><div class="bar_element IC" title="Informasi dan komunicasi"></div><div class="bar_element DR" title="Drainase"></div><div class="bar_element SR" title="Saran lainnyn"></div></div>'
+    this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>' + this.name + ': <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="' + subcategories.JA.name + '"></div><div class="bar_element SA" title="' + subcategories.SA.name + '"></div><div class="bar_element SM" title="' + subcategories.SM.name + '"></div><div class="bar_element LS" title="' + subcategories.LS.name + '"></div><div class="bar_element AR" title="' + subcategories.AR.name + '"></div><div class="bar_element IC" title="' + subcategories.IC.name + '"></div><div class="bar_element DR" title="' + subcategories.DR.name + '"></div><div class="bar_element SR" title="' + subcategories.SR.name + '"></div></div>'
     this.budgetView = this.div.getElementsByClassName("total_budget")[0];
     this.budgetBar = this.div.getElementsByClassName("budget_bar")[0];
     this.projectNumber = this.div.getElementsByClassName("total_projects")[0];
