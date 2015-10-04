@@ -1,3 +1,4 @@
+$("#language_selector").buttonset();
 var projectIDfromURL = getProjectIDfromURL();
 if(projectIDfromURL != null) {
 	console.log(projectIDfromURL.substr(0, projectIDfromURL.indexOf('-')));
