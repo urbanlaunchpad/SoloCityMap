@@ -1,4 +1,3 @@
-$("#language_selector").buttonset();
 var projectIDfromURL = getProjectIDfromURL();
 if(projectIDfromURL != null) {
 	console.log(projectIDfromURL.substr(0, projectIDfromURL.indexOf('-')));
@@ -561,6 +560,7 @@ function initialize() {
     getAllData();
     getSubdivisions();
     initializeLayerToolbar();
+    initializeLanguageSelector();
 }
 
 function clearDataLayerView() {
@@ -622,6 +622,23 @@ function updateLayerOptions() {
         var selectedLabel = aggregateDataLayerSelector.options[aggregateDataLayerSelector.selectedIndex].name;
         showDataLayer(selectedLayer, selectedType, selectedLabel, that.year, that.locScope);
     }
+}
+
+function initializeLanguageSelector(){
+    $("#language_selector").buttonset();
+    var translator = $('body').translate({lang: "en", t: dict});
+    var that = this;
+    englishSel = document.getElementById("language_english");
+    bahasaSel = document.getElementById("language_bahasa");
+    englishSel.translator = translator;
+    bahasaSel.translator = translator;
+    englishSel.onclick = function() {
+        translate("en", this.translator);
+    }
+    bahasaSel.onclick = function(){
+        translate("id", this.translator);
+    }
+
 }
 
 function initializeLayerToolbar() {
@@ -1965,4 +1982,9 @@ function getKelurahanNameByProjectID(projectID) {
     kelName = kelName.replace(/_/g, ' ');
     console.log(kelName)
     return kelName;
+}
+
+function translate(lang, translator){
+    console.log(lang);
+    translator.lang(lang);
 }
