@@ -5,6 +5,26 @@ if(projectIDfromURL != null) {
 }
 clearURL();
 //***********************************************************************
+//***********************trings!*****************************************
+//***********************************************************************
+var dict = {
+  "Year filter": {
+    en: "Year filter",
+    id: "Tahun penyaring"
+  },
+  "Select a kelurahan": {
+    en: "Select a kelurahan",
+    id: "Pilih Kelurahan"
+  },
+  "Select a data layer": {
+    en: "Select a data layer",
+    id: "Pilih Jenis Data"
+  },
+}
+
+
+
+//***********************************************************************
 //***********************Here goes the stuff for the map*****************
 //***********************************************************************
 var kelurahansFusionTableID = "1jdxsdPlAvCNRair4uv2pOwWTzMNtutDdhfXlp9QO";
