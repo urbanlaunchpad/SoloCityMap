@@ -32,15 +32,16 @@
                 <div id="map-canvas" class="col-md-8 col-lg-9 col-md-push-4 col-lg-push-3">
                     <div id="map-panel">
                         <div id="tools_container">
+							<div id="language_selector" title="Here you can select which language to show.">		
+                                <input type="radio" id="language_bahasa" name="language_selector">
+                                <label for="language_bahasa">Bahasa</label>
+                                <input type="radio" id="language_english" name="language_selector" checked="checked">
+                            	<label for="language_english">English</label>
+                            </div>                        	
                             <button type="button" id="layers_button" title="Open this menu to show the possible data layers available."></button>
                             <div id="year_selector" title="Here you can filter the projects by year selecting one or more from the bar.">
                                 <p class="trn">Year filter</p>
-                                    <div id="language_selector" title="Here you can select which language to show.">		
-                                    <input type="radio" id="language_bahasa" name="language_selector" checked="checked">
-                                    <label for="language_bahasa">Bahasa</label>
-                                    <input type="radio" id="language_english" name="language_selector">
-                                    <label for="language_english">English</label>
-                                </div>
+                                
                             </div>
                             <div id="layer_tools" style="display: none">
                                 <div id="data_layer_year_selector" title="Here you can select which year of the data layers to show">
