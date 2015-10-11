@@ -19,6 +19,22 @@ var dict = {
     en: "Select a data layer",
     id: "Pilih Jenis Data"
   },
+   "projects": {
+    en: "projects",
+    id: "proyek"
+  },
+   "Planned budget": {
+    en: "Planned budget",
+    id: "Usul Anggaran"
+  },
+   "Executed budget": {
+    en: "Executed budget",
+    id: "Anggaran Terlaksana"
+  },
+   "Project priority": {
+    en: "Project priority",
+    id: "Prioritas Proyek"
+  }    
 }
 
 
@@ -1240,7 +1256,7 @@ function budgetBar(key_name, name, div) {
     this.div = div;
     this.key_name = key_name;
     this.name = name;
-    this.div.innerHTML = '<p><span class="total_projects">0</span> projects</p><p>' + this.name + ': <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="' + subcategories.JA.name + '"></div><div class="bar_element SA" title="' + subcategories.SA.name + '"></div><div class="bar_element SM" title="' + subcategories.SM.name + '"></div><div class="bar_element LS" title="' + subcategories.LS.name + '"></div><div class="bar_element AR" title="' + subcategories.AR.name + '"></div><div class="bar_element IC" title="' + subcategories.IC.name + '"></div><div class="bar_element DR" title="' + subcategories.DR.name + '"></div><div class="bar_element SR" title="' + subcategories.SR.name + '"></div></div>'
+    this.div.innerHTML = '<p><span class="total_projects">0</span> <span class="trn">projects</span></p><p><span class="trn">' + this.name + '</span>: <span class="total_budget">0.00</span> IDR</p><div class="budget_bar" title="The size of each color bar is proportional to the budget percentage spent on that category."><div class="bar_element JA" title="' + subcategories.JA.name + '"></div><div class="bar_element SA" title="' + subcategories.SA.name + '"></div><div class="bar_element SM" title="' + subcategories.SM.name + '"></div><div class="bar_element LS" title="' + subcategories.LS.name + '"></div><div class="bar_element AR" title="' + subcategories.AR.name + '"></div><div class="bar_element IC" title="' + subcategories.IC.name + '"></div><div class="bar_element DR" title="' + subcategories.DR.name + '"></div><div class="bar_element SR" title="' + subcategories.SR.name + '"></div></div>'
     this.budgetView = this.div.getElementsByClassName("total_budget")[0];
     this.budgetBar = this.div.getElementsByClassName("budget_bar")[0];
     this.projectNumber = this.div.getElementsByClassName("total_projects")[0];
@@ -1721,13 +1737,13 @@ function projectCard(project, parent) {
     var article = document.createElement("article");
     article.className = "ac-small";
     var processPriority = document.createElement("p");
-    processPriority.innerHTML = "Project priority: " + project.PRIORITY;
+    processPriority.innerHTML = "<span class='trn'>Project priority</span>: " + project.PRIORITY;
     article.appendChild(processPriority);
     var plannedBudget = document.createElement("p");
-    plannedBudget.innerHTML = "Planned budget: " + numberWithCommas(project.PLANNED_BUDGET) + " IDR";
+    plannedBudget.innerHTML = "<span class='trn'>Planned budget</span>: " + numberWithCommas(project.PLANNED_BUDGET) + " IDR";
     article.appendChild(plannedBudget);
     var executedBudget = document.createElement("p");
-    executedBudget.innerHTML = "Executed budget: " + numberWithCommas(project.EXECUTED_BUDGET) + " IDR";
+    executedBudget.innerHTML = "<span class='trn'>Executed budget</span>: " + numberWithCommas(project.EXECUTED_BUDGET) + " IDR";
     article.appendChild(executedBudget);
     var location = document.createElement("p");
     location.innerHTML = "Location: " + project.LOCATION;
