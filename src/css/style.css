@@ -6,7 +6,6 @@
             appearance:none;
 }
 
-#sub_label_all {background-image:url(../img/png/solo_AR.png);}
 #sub_label_AR {background-image:url(../img/png/solo_AR.png);}
 #sub_label_DR {background-image:url(../img/png/solo_DR.png);}
 #sub_label_IC {background-image:url(../img/png/solo_IC.png);}
@@ -29,6 +28,7 @@
     display:inline-block;
     width:32px;
     height:32px;
+    line-height: 32px;
     -webkit-transition: all 100ms ease-in;
        -moz-transition: all 100ms ease-in;
             transition: all 100ms ease-in;

@@ -1204,7 +1204,8 @@ function subcategoryFilters(parent) {
     this.allLabel.htmlFor = "sub_all";
     this.allLabel.className = "sub_filt_label";
     this.allLabel.name = "subcategories";
-    this.allLabel.id = "sub_label_all";
+    this.allLabel.id = "sub_label_all"; 
+    this.allLabel.innerHTML = "all";   
     this.scFilters.appendChild(this.all);
     this.scFilters.appendChild(this.allLabel);
     this.scOptions = [];
@@ -1221,6 +1222,7 @@ function subcategoryFilters(parent) {
         label.title = "Show projects for " + subcategories[key].name;
         label.className = "sub_filt_label"
         label.id = "sub_label_" + key;
+        label.innerHTML = '&#8232;';  
         var that = this;
         this.scOptions[i].onclick = function() {
             that.parent.filteringChanged();
